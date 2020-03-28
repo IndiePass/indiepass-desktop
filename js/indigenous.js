@@ -117,5 +117,13 @@ function renderPost(item) {
         post += '<div class="image"><img src="' + item.photo[0] + '" /></div>';
     }
 
+    if (item.video !== undefined) {
+        post += '<div class="video"> <video controls> <source src="' + item.video[0] + '"> </video> </div>';
+    }
+
+    if (item.audio !== undefined) {
+        post += '<div class="audio"> <audio controls> <source src="' + item.audio[0] + '"> </audio> </div>';
+    }
+
     return post;
 }

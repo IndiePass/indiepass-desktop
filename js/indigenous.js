@@ -231,7 +231,8 @@ function markRead() {
         headers: headers,
     })
     .done(function(data) {
-        // TODO success message.
+        // TODO change number in channel too
+        $('.new').hide();
     })
     .fail(function() {
         // TODO fail message.
@@ -299,6 +300,11 @@ function renderPost(item) {
             post += '<div class="author-avatar"><img class="avatar" src="./images/avatar_small.png" width="80" height="80" /></div>';
         }
     }
+
+    if (item._is_read === false) {
+        post += '<div class="new">New</div>'
+    }
+
     post += '</div>';
 
     // Content wrapper.

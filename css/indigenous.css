@@ -62,6 +62,11 @@ body {
     border-bottom: 1px solid var(--list-divider-color);
 }
 
+.new {
+    font-size: 14px;
+    color: #666666;
+}
+
 .channel:hover {
     color: var(--primary-color-accent);
     background-color: var(--list-background-color);
@@ -111,6 +116,10 @@ body {
     display: inline-block;
     margin-left: 10px;
     flex-grow: 1;
+}
+
+.post-content-wrapper img {
+    max-width: 100%;
 }
 
 .author-name {

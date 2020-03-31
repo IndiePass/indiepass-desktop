@@ -1,5 +1,6 @@
-// All of the Node.js APIs are available in the preload process.
-// It has the same sandbox as a Chrome extension.
 window.addEventListener('DOMContentLoaded', () => {
-
+    if (!!window && !(!!window.$)) {
+        window.$ = window.jQuery = require('./js/jquery-3.4.1.min.js');
+        require('./js/indigenous.js')
+    }
 });

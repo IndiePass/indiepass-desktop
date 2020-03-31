@@ -27,10 +27,14 @@ body {
     border-radius: 5px;
 }
 
-#header .name {
+#header .menu {
     line-height: 94px;
     margin-left: 20px;
     font-size: 20px;
+}
+
+.reader, .accounts, .post {
+    cursor: pointer;
 }
 
 .float-left {
@@ -42,7 +46,7 @@ body {
     background-color: var(--list-background-color);
 }
 
-#timeline-container {
+#timeline-container, #accounts-container, #posts-container {
     display: none;
 }
 
@@ -59,6 +63,13 @@ body {
 .channel:hover {
     color: var(--primary-color-accent);
     background-color: var(--list-background-color);
+}
+
+.indicator {
+    float: right;
+    text-decoration: none;
+    color: #000;
+    font-size: 14px;
 }
 
 .back-to-channels {

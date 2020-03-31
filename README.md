@@ -5,12 +5,20 @@ from microsub endpoints.
 
 ## Functionality
 
+- Accounts: configure endpoints and token
+- Starts with default anonymous account with the reader connected to 
+https://indigenous.realize.be
+- Microsub
+  - Read channels and posts per timeline
+- Micropub
+  - post types: note
+
 ## Other Micropub and Microsub clients
 
 There are ton of other (mobile) clients, see https://indieweb.org/Micropub/Clients and
 https://indieweb.org/Microsub
 
-## To Use
+## Development
 
 To clone and run this repository you'll need [Git](https://git-scm.com) and 
 [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) 

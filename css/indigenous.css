@@ -19,7 +19,7 @@ body {
     font-size: 18px;
 }
 
-#header {
+#header, .actions {
     display: inline-block;
 }
 
@@ -74,11 +74,15 @@ body {
     font-size: 14px;
 }
 
-.back-to-channels {
+.back-to-channels, .mark-read {
     font-size: 20px;
     display: block;
     color: var(--text-color);
     cursor: pointer;
+}
+
+.mark-read {
+    margin-left: 20px;
 }
 
 .timeline-item {
@@ -107,10 +111,6 @@ body {
     display: inline-block;
     margin-left: 10px;
     flex-grow: 1;
-}
-
-.mark-read {
-    display: inline-block;
 }
 
 .author-name {

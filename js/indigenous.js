@@ -1,6 +1,8 @@
 const Store = require('electron-store');
 const store = new Store();
 
+let currentChannel = 0;
+
 function getElement(element) {
     return store.get(element);
 }
@@ -12,6 +14,10 @@ function setElement(name, value) {
 $(document).ready(function() {
 
     loadChannels();
+
+    $('.mark-read').on('click', function() {
+        markRead();
+    });
 
     $('.back-to-channels').on('click', function() {
        hideContainer('#timeline-container');
@@ -89,7 +95,7 @@ $(document).ready(function() {
                    alert('Post created!');
                })
                .fail(function() {
-                    alert('crap');
+                   // TODO error message.
                });
            }
            else {
@@ -181,12 +187,13 @@ function loadChannels() {
                 }
             }
             let timeline_url = baseUrl + '?action=timeline&channel=' + item.uid;
-            let channel = '<div class="channel" data-link="' + timeline_url + '">' + item.name + indicator + '</div>';
+            let channel = '<div class="channel" data-channel="' + item.uid + '" data-link="' + timeline_url + '">' + item.name + indicator + '</div>';
             channels.append(channel);
         });
 
-        $('.channel').click(function(e) {
+        $('.channel').click(function() {
             loadTimeline($(this).data('link'));
+            currentChannel = $(this).data('channel');
         });
 
     })
@@ -194,6 +201,41 @@ function loadChannels() {
 
     });
 
+}
+
+/**
+ * Mark read.
+ */
+function markRead() {
+    let baseUrl = getMicrosubBaseUrl();
+    let token = getElement('token');
+    let headers = {
+        'Accept': 'application/json'
+    };
+    if (token !== undefined) {
+        headers.Authorization = 'Bearer ' + token;
+    }
+
+    let data = {
+        'action': 'timeline',
+        'method': 'mark_read',
+        // TODO fix this, although this works for Drupal, I guess other microsub servers behave differently.
+        'last_read_entry': 'everything',
+        'channel': currentChannel,
+    };
+
+    $.ajax({
+        type: 'POST',
+        url: baseUrl,
+        data: data,
+        headers: headers,
+    })
+    .done(function(data) {
+        // TODO success message.
+    })
+    .fail(function() {
+        // TODO fail message.
+    });
 }
 
 /**

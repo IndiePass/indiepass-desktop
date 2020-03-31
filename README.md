@@ -10,6 +10,7 @@ from microsub endpoints.
 https://indigenous.realize.be
 - Microsub
   - Read channels and posts per timeline
+  - Listen to audio or watch video
 - Micropub
   - post types: note
 

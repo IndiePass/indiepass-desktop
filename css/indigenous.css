@@ -12,11 +12,21 @@
     --list-divider-color: #e2e6e9;
 }
 
+html {
+    color: #333;
+    font-size: 112.5%;
+}
+
 body {
     margin: 0;
     padding: 10px;
-    line-height: 25px;
     font-size: 18px;
+    font-family: Signa,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 28px;
+}
+
+p {
+    margin: 0 0 1em 0;
 }
 
 #header, .actions {
@@ -37,6 +47,11 @@ body {
 
 .reader, .accounts, .post {
     cursor: pointer;
+}
+
+.selected {
+    text-decoration: underline;
+    font-weight: 400;
 }
 
 .float-left {
@@ -130,4 +145,31 @@ body {
 
 .avatar {
     border-radius: 5px;
+}
+
+.button {
+    display: inline-block;
+    *zoom: 1;
+    *display: inline;
+    background-color: rgb(221, 100, 94);
+    color: #fff;
+    padding: 10px 25px;
+    border: 0 none;
+    border-radius: 30px;
+    font-weight: normal;
+    text-decoration: none;
+    -webkit-transition: all 0.2s ease;
+    -moz-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+}
+
+input:not(.button) {
+    width: 450px;
+    max-width: 100%;
+    border: 1px solid #333;
+    padding: 12px;
+}
+
+text, textarea {
+    padding: 10px 0;
 }

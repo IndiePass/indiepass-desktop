@@ -13,7 +13,7 @@
         <div class="logo-wrapper float-left">
             <img alt="Indigenous" src="images/logo.png" class="logo">
         </div>
-        <div class="reader float-left menu">Reader</div>
+        <div class="reader float-left menu selected">Reader</div>
         <div class="post float-left menu">Post</div>
         <div class="accounts float-left menu">Accounts</div>
     </div>
@@ -29,19 +29,36 @@
     </div>
 
     <div id="accounts-container">
-        <p>Enter the micropub endpoint</p>
-        <input type="text" name="micropub_endpoint" id="micropub-endpoint" />
-        <p>Enter the microsub endpoint</p>
-        <input type="text" name="microsub_endpoint" id="microsub-endpoint" />
-        <p>Enter the token for your account</p>
-        <p><textarea name="token" id="token" cols="80" rows="10"></textarea></p>
-        <input type="submit" id="edit-submit" name="op" value="Save" class="save-account">
+        <div>
+            <label for="micropub-endpoint">Micropub endpoint</label><br />
+            <input type="text" name="micropub_endpoint" id="micropub-endpoint" />
+        </div>
+        <div>
+            <label for="microsub-endpoint">Microsub endpoint</label><br />
+            <input type="text" name="microsub_endpoint" id="microsub-endpoint" />
+        </div>
+        <div>
+            <label for="token">The token for you account</label>
+            <div>
+                <textarea name="token" id="token" cols="80" rows="10"></textarea>
+            </div>
+        </div>
+        <input type="submit" id="edit-submit" name="op" value="Save" class="save-account button">
     </div>
 
     <div id="posts-container">
-        <p>Create a note</p>
-        <p><textarea name="post_content" id="post-content" cols="80" rows="10"></textarea></p>
-        <input type="submit" id="send-post" name="op" value="Send post" class="send-post">
+        <h3>Create a <span class="post-type">note</span></h3>
+        <div>
+            <label for="post-content">Content</label>
+            <div>
+                <textarea name="post_content" id="post-content" cols="80" rows="10"></textarea>
+            </div>
+        </div>
+        <div>
+            <label for="photo">Select a file:</label>
+            <input type="file" id="photo" name="photo">
+        </div>
+        <input type="submit" id="send-post" name="op" value="Send post" class="send-post button">
     </div>
 
   </body>

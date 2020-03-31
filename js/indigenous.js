@@ -27,6 +27,8 @@ $(document).ready(function() {
     });
 
     $('.reader').on('click', function() {
+        $('.menu').removeClass('selected');
+        $('.reader').addClass('selected');
         hideContainer('#accounts-container');
         hideContainer('#timeline-container');
         hideContainer('#posts-container');
@@ -34,6 +36,8 @@ $(document).ready(function() {
     });
 
     $('.accounts').on('click', function() {
+        $('.menu').removeClass('selected');
+        $('.accounts').addClass('selected');
         hideContainer('#channels-container');
         hideContainer('#timeline-container');
         hideContainer('#posts-container');
@@ -41,6 +45,8 @@ $(document).ready(function() {
     });
 
     $('.post').on('click', function() {
+        $('.menu').removeClass('selected');
+        $('.post').addClass('selected');
         hideContainer('#channels-container');
         hideContainer('#timeline-container');
         hideContainer('#accounts-container');
@@ -77,18 +83,24 @@ $(document).ready(function() {
                    headers.Authorization = 'Bearer ' + token;
                }
 
-               let data = {
-                 'h': 'entry',
-                 'post-status': 'draft',
-                 'content': $('#post-content').val(),
-               };
+               let formData = new FormData();
+               formData.append('h', 'entry');
+               formData.append('post-status', 'draft');
+               formData.append('content', $('#post-content').val());
+               let photo = $('#photo')[0].files[0];
+               if (undefined !== photo) {
+                   formData.append('photo', photo);
+               }
 
                $.ajax({
                    type: 'POST',
                    url: micropubEndpoint,
                    headers: headers,
-                   data: data,
-                   contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                   data: formData,
+                   mimeType: 'multipart/form-data',
+                   processData: false,
+                   contentType: false,
+                   //contentType: 'multipart/form-data; charset=UTF-8',
                })
                .done(function(data) {
                    $('#post-content').val("");

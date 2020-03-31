@@ -224,14 +224,13 @@ function loadTimeline(timelineUrl) {
         let timeline = $('#timeline-container');
 
         $.each(data.items, function(i, item) {
-           console.log(item);
+           //console.log(item);
            let post = '<div class="timeline-item">' + renderPost(item) + '</div>';
            timeline.append(post);
         });
 
     })
     .fail(function() {
-        console.log('oops')
     });
 
 }
@@ -246,8 +245,29 @@ function loadTimeline(timelineUrl) {
 function renderPost(item) {
     let post = "";
 
+    // Author.
+    let authorName = "";
+    post += '<div class="author-wrapper">';
+    if (item.author && item.author.name && item.author.name.length > 0) {
+        authorName = item.author.name;
+        if (item.author.photo) {
+            post += '<div class="author-avatar"><img class="avatar" src="' + item.author.photo + '" width="80" height="80" /></div>';
+        }
+        else {
+            post += '<div class="author-avatar"><img class="avatar" src="./images/avatar_small.png" width="80" height="80" /></div>';
+        }
+    }
+    post += '</div>';
+
+    // Content wrapper.
+    post += '<div class="post-content-wrapper">';
+
     if (item.name) {
         post += '<div class="title">' + item.name + '</div>';
+    }
+
+    if (authorName.length > 0) {
+        post += '<div class="author-name">' + authorName + '</div>';
     }
 
     let hasContent = false;
@@ -277,6 +297,9 @@ function renderPost(item) {
     if (item.audio !== undefined) {
         post += '<div class="audio"> <audio controls> <source src="' + item.audio[0] + '"> </audio> </div>';
     }
+
+    // Closing wrapper.
+    post += '</div>';
 
     return post;
 }

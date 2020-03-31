@@ -284,6 +284,13 @@ function loadTimeline(timelineUrl) {
            timeline.append(post);
         });
 
+        $('.action').on('click', function() {
+            let url = $(this).parent().data('url');
+            if (url.length > 0) {
+                alert('coming soon');
+            }
+        });
+
     })
     .fail(function() {
     });
@@ -293,7 +300,7 @@ function loadTimeline(timelineUrl) {
 /**
  * Render a post.
  *
- * @param item
+ * @param {Object} item
  *
  * return {string}
  */
@@ -357,6 +364,17 @@ function renderPost(item) {
     if (item.audio !== undefined) {
         post += '<div class="audio"> <audio controls> <source src="' + item.audio[0] + '"> </audio> </div>';
     }
+
+    // Actions.
+    let url = "";
+    if (item.url.length > 0) {
+        url = item.url;
+    }
+    post += '<div class="actions" data-url="' + url + '">';
+    post += '<div class="action" data-action="reply"><img src="./images/button_reply_idle.png" width="30" /></div>';
+    post += '<div class="action" data-action="like"><img src="./images/button_like_idle.png" width="30" /></div>';
+    post += '<div class="action" data-action="repost"><img src="./images/button_repost_idle.png" width="30" /></div>';
+    post += '</div>';
 
     // Closing wrapper.
     post += '</div>';

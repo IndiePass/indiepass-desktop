@@ -171,5 +171,20 @@ input:not(.button) {
 }
 
 text, textarea {
-    padding: 10px 0;
+    padding: 12px;
+    margin: 10px 0;
+}
+
+.actions {
+    margin-top: 10px;
+}
+
+.action {
+    display: inline-block;
+    margin-right: 15px;
+    cursor: pointer;
+}
+
+.reply {
+    display: none;
 }

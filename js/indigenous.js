@@ -1,5 +1,6 @@
 const Store = require('electron-store');
 const store = new Store();
+const shell = require('electron').shell;
 
 let currentChannel = 0;
 let tokenInfoAdded = false;
@@ -314,7 +315,6 @@ function loadTimeline(timelineUrl, after) {
         let postsContainer = $('#timeline-container .posts');
         let pagerContainer = $('#timeline-container .pager');
         $.each(data.items, function(i, item) {
-           //console.log(item);
            let post = '<div class="timeline-item">' + renderPost(item) + '</div>';
             postsContainer.append(post);
         });
@@ -339,6 +339,11 @@ function loadTimeline(timelineUrl, after) {
             }
         });
 
+        // Catch all links in timeline-item.
+        $('.timeline-item a').on('click', function(e) {
+            e.preventDefault();
+            shell.openExternal(this.href);
+        });
     })
     .fail(function() {
     });
@@ -402,6 +407,20 @@ function renderPost(item) {
         post += '<div class="published-on">' + item.published + '</div>';
     }
 
+    // Define a reference to check after content.
+    let checkReference = "";
+
+    // Post context, e. reply, repost or quotation.
+    let types = {'like-of': 'Liked', 'repost-of': 'Reposted', 'quotation-of': 'Quoted', 'in-reply-to': 'Replied to'};
+    $.each(types , function(index, val) {
+        if (item[index]) {
+            if (index === 'quotation-of' || index === 'in-reply-to') {
+                checkReference = item[index];
+            }
+            post += '<div class="post-type">' + val + ' <a href="' + item[index] + '">' + item[index] + '</a></div>';
+        }
+    });
+
     let hasContent = false;
     if (item.content !== undefined) {
         if (item.content.html !== undefined) {
@@ -416,6 +435,16 @@ function renderPost(item) {
 
     if (!hasContent && item.summary !== undefined) {
         post += '<div class="content">' + item.summary + '</div>';
+    }
+
+    if (checkReference.length > 0 && undefined !== item.refs[checkReference]) {
+        console.log('nie?');
+        let ref = item.refs[checkReference];
+        if (undefined !== ref.content) {
+            if (ref.content.text) {
+                post += '<div class="reference">' + ref.content.text + '</div>';
+            }
+        }
     }
 
     if (item.photo !== undefined) {

@@ -196,3 +196,14 @@ input {
 .next {
     margin: 10px 0;
 }
+
+.post-type {
+    font-size: 15px;
+}
+
+.reference {
+    margin: 10px 0;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    padding: 10px;
+}

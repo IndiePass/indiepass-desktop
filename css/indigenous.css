@@ -163,16 +163,15 @@ p {
     transition: all 0.2s ease;
 }
 
-input:not(.button) {
+input {
+    margin: 10px 0;
+}
+
+.text {
     width: 450px;
     max-width: 100%;
     border: 1px solid #333;
     padding: 12px;
-}
-
-text, textarea {
-    padding: 12px;
-    margin: 10px 0;
 }
 
 .actions {

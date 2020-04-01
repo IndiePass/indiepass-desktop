@@ -31,38 +31,43 @@
     <div id="accounts-container">
         <div>
             <label for="micropub-endpoint">Micropub endpoint</label><br />
-            <input type="text" name="micropub_endpoint" id="micropub-endpoint" />
+            <input type="text" name="micropub_endpoint" id="micropub-endpoint" class="text" />
         </div>
         <div>
             <label for="microsub-endpoint">Microsub endpoint</label><br />
-            <input type="text" name="microsub_endpoint" id="microsub-endpoint" />
+            <input type="text" name="microsub_endpoint" id="microsub-endpoint" class="text" />
         </div>
         <div>
             <label for="token">The token for you account</label>
             <div>
-                <textarea name="token" id="token" cols="80" rows="10"></textarea>
+                <textarea name="token" id="token" cols="80" rows="10" class="text"></textarea>
             </div>
         </div>
         <input type="submit" id="edit-submit" name="op" value="Save" class="save-account button">
     </div>
 
     <div id="posts-container">
-        <h3>Create a <span class="post-type">note</span></h3>
         <div class="reply">
             <label for="url">Reply to</label><br />
-            <input type="text" name="url" id="url" />
+            <input type="text" name="url" id="url" class="text" />
         </div>
         <div>
             <label for="post-content">Content</label>
             <div>
-                <textarea name="post_content" id="post-content" cols="80" rows="10"></textarea>
+                <textarea name="post_content" id="post-content" cols="80" rows="10" class="text"></textarea>
             </div>
         </div>
         <div>
             <label for="photo">Select a file:</label>
             <input type="file" id="photo" name="photo">
         </div>
-        <input type="submit" id="send-post" name="op" value="Send post" class="send-post button">
+        <div>
+            <label for="published">Published</label>
+            <input type="checkbox" id="published" name="published">
+        </div>
+        <div>
+            <input type="submit" id="send-post" name="op" value="Send post" class="send-post button">
+        </div>
     </div>
 
   </body>

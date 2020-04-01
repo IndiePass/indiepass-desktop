@@ -83,9 +83,14 @@ $(document).ready(function() {
                    headers.Authorization = 'Bearer ' + token;
                }
 
+               let postStatus = 'draft';
+               if ($('#published').is(':checked')) {
+                   postStatus = 'published';
+               }
+
                let formData = new FormData();
                formData.append('h', 'entry');
-               formData.append('post-status', 'draft');
+               formData.append('post-status', postStatus);
                formData.append('content', $('#post-content').val());
                let photo = $('#photo')[0].files[0];
                if (undefined !== photo) {

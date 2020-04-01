@@ -7,11 +7,23 @@ let tokenInfoAdded = false;
 let anonymousMicrosubEndpoint = 'https://indigenous.realize.be/indieweb/microsub';
 let defaultAuthor = '<div class="author-avatar"><img class="avatar" src="./images/avatar_small.png" width="80" height="80" /></div>';
 
-function getElement(element) {
+/**
+ * Get a value from storage.
+ *
+ * @param element
+ * @returns {*}
+ */
+function configGet(element) {
     return store.get(element);
 }
 
-function setElement(name, value) {
+/**
+ * Set a value in storage.
+ *
+ * @param name
+ * @param value
+ */
+function configSet(name, value) {
     store.set(name, value);
 }
 
@@ -49,7 +61,7 @@ $(document).ready(function() {
 
         if (!tokenInfoAdded) {
             tokenInfoAdded = true;
-            let token = getElement('token');
+            let token = configGet('token');
             if (token !== undefined) {
                 $(".token-description").append('<br />').append("A token has been saved. Enter a new one to replace it.");
             }
@@ -57,10 +69,10 @@ $(document).ready(function() {
         $('#micropub-endpoint').val(getMicropubEndpoint());
         $('#microsub-endpoint').val(getMicrosubEndpoint());
 
-        if (getElement('like_no_confirm')) {
+        if (configGet('like_no_confirm')) {
             $('#like-direct').prop('checked', true);
         }
-        if (getElement('repost_no_confirm')) {
+        if (configGet('repost_no_confirm')) {
             $('#repost-direct').prop('checked', true);
         }
 
@@ -77,23 +89,23 @@ $(document).ready(function() {
 
     $('.save-settings').on('click', function() {
 
-        setElement('like_no_confirm', $('#like-direct').is(':checked'));
-        setElement('repost_no_confirm', $('#repost-direct').is(':checked'));
+        configSet('like_no_confirm', $('#like-direct').is(':checked'));
+        configSet('repost_no_confirm', $('#repost-direct').is(':checked'));
 
         let micropub = $('#micropub-endpoint').val();
         if (micropub !== undefined && micropub.length > 0) {
-            setElement('micropub_endpoint', micropub);
+            configSet('micropub_endpoint', micropub);
         }
 
         let microsub = $('#microsub-endpoint').val();
         if (microsub !== undefined && microsub.length > 0) {
-            setElement('microsub_endpoint', microsub);
+            configSet('microsub_endpoint', microsub);
         }
 
         let token = $('#token').val();
         if (token !== undefined && token.length > 0) {
             tokenInfoAdded = false;
-            setElement('token', token);
+            configSet('token', token);
         }
     });
 
@@ -102,7 +114,7 @@ $(document).ready(function() {
        if (micropubEndpoint.length > 0) {
            if ($('#post-content').val().length > 0) {
 
-               let token = getElement('token');
+               let token = configGet('token');
                let headers = {
                    'Accept': 'application/json'
                };
@@ -167,7 +179,7 @@ $(document).ready(function() {
  * @returns {string}
  */
 function getMicrosubEndpoint() {
-    let microsub_endpoint = getElement('microsub_endpoint');
+    let microsub_endpoint = configGet('microsub_endpoint');
     if (microsub_endpoint !== undefined) {
         return microsub_endpoint;
     }
@@ -191,7 +203,7 @@ function isDefaultMicrosubEndpoint() {
  * @returns {string}
  */
 function getMicropubEndpoint() {
-    let micropub_endpoint = getElement('micropub_endpoint');
+    let micropub_endpoint = configGet('micropub_endpoint');
     if (micropub_endpoint !== undefined) {
         return micropub_endpoint;
     }
@@ -220,7 +232,7 @@ function clearContainer(selector) {
  */
 function doInlinePost(properties, type, element) {
 
-    let token = getElement('token');
+    let token = configGet('token');
     let headers = {
         'Accept': 'application/json'
     };
@@ -252,7 +264,7 @@ function doInlinePost(properties, type, element) {
 function loadChannels() {
 
     let baseUrl = getMicrosubEndpoint();
-    let token = getElement('token');
+    let token = configGet('token');
     let headers = {
         'Accept': 'application/json'
     };
@@ -305,7 +317,7 @@ function loadChannels() {
  */
 function markRead() {
     let baseUrl = getMicrosubEndpoint();
-    let token = getElement('token');
+    let token = configGet('token');
     let headers = {
         'Accept': 'application/json'
     };
@@ -346,7 +358,7 @@ function markRead() {
  */
 function loadTimeline(timelineUrl, after) {
 
-    let token = getElement('token');
+    let token = configGet('token');
     let headers = {
         'Accept': 'application/json'
     };
@@ -394,10 +406,10 @@ function loadTimeline(timelineUrl, after) {
             if (url.length > 0) {
                 let type = $(this).data('action');
                 if (type === 'like' || type === 'repost') {
-                    if (getElement(type + '_no_confirm')) {
-                        let prop = type + '-of';
-                        let properties = {};
-                        properties[prop] = url;
+                    let prop = type + '-of';
+                    let properties = {};
+                    properties[prop] = url;
+                    if (configGet(type + '_no_confirm')) {
                         doInlinePost(properties, type, $(this));
                     }
                     else {

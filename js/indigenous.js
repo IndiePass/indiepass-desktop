@@ -189,12 +189,12 @@ function loadChannels() {
             if (undefined !== item.unread) {
                 if (typeof(item.unread) === "boolean") {
                     if (item.unread) {
-                        indicator = '<span class="indicator">New</span>'
+                        indicator = '<span class="indicator channel-indicator-' + item.uid + '">New</span>'
                     }
                 }
                 else {
                     if (item.unread > 0) {
-                        indicator = '<span class="indicator">' + item.unread +  '</span>'
+                        indicator = '<span class="indicator channel-indicator-' + item.uid + '">' + item.unread +  '</span>'
                     }
                 }
             }
@@ -243,8 +243,8 @@ function markRead() {
         headers: headers,
     })
     .done(function(data) {
-        // TODO change number in channel too
         $('.new').hide();
+        $('.channel-indicator-' + currentChannel).html("");
     })
     .fail(function() {
         // TODO fail message.

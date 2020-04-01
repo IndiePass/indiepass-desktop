@@ -3,6 +3,7 @@ const store = new Store();
 
 let currentChannel = 0;
 let tokenInfoAdded = false;
+let defaultAuthor = '<div class="author-avatar"><img class="avatar" src="./images/avatar_small.png" width="80" height="80" /></div>';
 
 function getElement(element) {
     return store.get(element);
@@ -229,7 +230,8 @@ function loadChannels() {
         });
 
         $('.channel').click(function() {
-            loadTimeline($(this).data('link'));
+            clearContainer(".timeline-item");
+            loadTimeline($(this).data('link'), "");
             currentChannel = $(this).data('channel');
         });
 
@@ -281,8 +283,10 @@ function markRead() {
  *
  * @param timelineUrl
  *   The timeline URL.
+ * @param after
+ *   The after value
  */
-function loadTimeline(timelineUrl) {
+function loadTimeline(timelineUrl, after) {
 
     let token = getElement('token');
     let headers = {
@@ -291,24 +295,43 @@ function loadTimeline(timelineUrl) {
     if (token !== undefined) {
         headers.Authorization = 'Bearer ' + token;
     }
+
+    let finalTimelineUrl = timelineUrl;
+    if (after.length > 0) {
+        finalTimelineUrl += '&after=' + after;
+    }
+
     $.ajax({
         type: 'GET',
-        url: timelineUrl,
+        url: finalTimelineUrl,
         headers: headers,
     })
     .done(function(data) {
         hideContainer('#channels-container');
-        clearContainer(".timeline-item");
         showContainer('#timeline-container');
 
-        let timeline = $('#timeline-container');
-
+        // Posts.
+        let postsContainer = $('#timeline-container .posts');
+        let pagerContainer = $('#timeline-container .pager');
         $.each(data.items, function(i, item) {
            //console.log(item);
            let post = '<div class="timeline-item">' + renderPost(item) + '</div>';
-           timeline.append(post);
+            postsContainer.append(post);
         });
 
+        // Pager.
+        if (undefined !== data.paging && undefined !== data.paging.after) {
+            let next = '<span class="next">More posts</span>';
+            pagerContainer.html(next);
+            $('.next').on('click', function() {
+                loadTimeline(timelineUrl, data.paging.after.toString());
+            });
+        }
+        else {
+            pagerContainer.remove();
+        }
+
+        // Inline actions.
         $('.action').on('click', function() {
             let url = $(this).parent().data('url');
             if (url.length > 0) {
@@ -335,31 +358,48 @@ function renderPost(item) {
     // Author.
     let authorName = "";
     post += '<div class="author-wrapper">';
-    if (item.author && item.author.name && item.author.name.length > 0) {
-        authorName = item.author.name;
+    if (item.author) {
+        if (item.author.name && item.author.name.length > 0) {
+            authorName = item.author.name;
+        }
+        else if (item.author.url && item.author.url.length > 0) {
+            authorName = item.author.url;
+        }
+
         if (item.author.photo) {
             post += '<div class="author-avatar"><img class="avatar" src="' + item.author.photo + '" width="80" height="80" /></div>';
         }
         else {
-            post += '<div class="author-avatar"><img class="avatar" src="./images/avatar_small.png" width="80" height="80" /></div>';
+            post += defaultAuthor;
         }
+    }
+    else {
+        post += defaultAuthor;
     }
 
     if (item._is_read === false) {
         post += '<div class="new">New</div>'
     }
 
+    // End author wrapper.
     post += '</div>';
 
     // Content wrapper.
     post += '<div class="post-content-wrapper">';
 
+    // Title.
     if (item.name) {
         post += '<div class="title">' + item.name + '</div>';
     }
 
+    // Author name.
     if (authorName.length > 0) {
         post += '<div class="author-name">' + authorName + '</div>';
+    }
+
+    // Published time.
+    if (item.published) {
+        post += '<div class="published-on">' + item.published + '</div>';
     }
 
     let hasContent = false;

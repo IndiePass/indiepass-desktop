@@ -45,7 +45,7 @@ p {
     font-size: 20px;
 }
 
-.reader, .accounts, .post {
+.reader, .settings, .post {
     cursor: pointer;
 }
 
@@ -63,7 +63,7 @@ p {
     background-color: var(--list-background-color);
 }
 
-#timeline-container, #accounts-container, #posts-container {
+#timeline-container, #settings-container, #posts-container {
     display: none;
 }
 
@@ -206,4 +206,23 @@ input {
     border: 1px solid #cccccc;
     border-radius: 5px;
     padding: 10px;
+}
+
+.action {
+    width: 30px;
+    height: 30px;
+    background-size: 30px;
+    background-repeat: no-repeat;
+}
+
+.action-reply {
+    background-image: url('../images/button_reply_idle.png');
+}
+
+.action-like {
+    background-image: url('../images/button_like_idle.png');
+}
+
+.action-repost {
+    background-image: url('../images/button_repost_idle.png');
 }

@@ -4,6 +4,7 @@ const shell = require('electron').shell;
 
 let currentChannel = 0;
 let tokenInfoAdded = false;
+let anonymousMicrosubEndpoint = 'https://indigenous.realize.be/indieweb/microsub';
 let defaultAuthor = '<div class="author-avatar"><img class="avatar" src="./images/avatar_small.png" width="80" height="80" /></div>';
 
 function getElement(element) {
@@ -25,26 +26,26 @@ $(document).ready(function() {
     $('.back-to-channels').on('click', function() {
        hideContainer('#timeline-container');
        hideContainer('#posts-container');
-       hideContainer('#accounts-container');
+       hideContainer('#settings-container');
        showContainer('#channels-container');
     });
 
     $('.reader').on('click', function() {
         $('.menu').removeClass('selected');
         $('.reader').addClass('selected');
-        hideContainer('#accounts-container');
+        hideContainer('#settings-container');
         hideContainer('#timeline-container');
         hideContainer('#posts-container');
         showContainer('#channels-container');
     });
 
-    $('.accounts').on('click', function() {
+    $('.settings').on('click', function() {
         $('.menu').removeClass('selected');
-        $('.accounts').addClass('selected');
+        $('.settings').addClass('selected');
         hideContainer('#channels-container');
         hideContainer('#timeline-container');
         hideContainer('#posts-container');
-        showContainer('#accounts-container');
+        showContainer('#settings-container');
 
         if (!tokenInfoAdded) {
             tokenInfoAdded = true;
@@ -53,8 +54,16 @@ $(document).ready(function() {
                 $(".token-description").append('<br />').append("A token has been saved. Enter a new one to replace it.");
             }
         }
-        $('#micropub-endpoint').val(getMicrosubBaseUrl());
-        $('#microsub-endpoint').val(getMicrosubBaseUrl());
+        $('#micropub-endpoint').val(getMicropubEndpoint());
+        $('#microsub-endpoint').val(getMicrosubEndpoint());
+
+        if (getElement('like_no_confirm')) {
+            $('#like-direct').prop('checked', true);
+        }
+        if (getElement('repost_no_confirm')) {
+            $('#repost-direct').prop('checked', true);
+        }
+
     });
 
     $('.post').on('click', function() {
@@ -62,11 +71,15 @@ $(document).ready(function() {
         $('.post').addClass('selected');
         hideContainer('#channels-container');
         hideContainer('#timeline-container');
-        hideContainer('#accounts-container');
+        hideContainer('#settings-container');
         showContainer('#posts-container');
     });
 
-    $('.save-account').on('click', function() {
+    $('.save-settings').on('click', function() {
+
+        setElement('like_no_confirm', $('#like-direct').is(':checked'));
+        setElement('repost_no_confirm', $('#repost-direct').is(':checked'));
+
         let micropub = $('#micropub-endpoint').val();
         if (micropub !== undefined && micropub.length > 0) {
             setElement('micropub_endpoint', micropub);
@@ -85,7 +98,7 @@ $(document).ready(function() {
     });
 
     $('.send-post').on('click', function() {
-       let micropubEndpoint = getMicropubBaseUrl();
+       let micropubEndpoint = getMicropubEndpoint();
        if (micropubEndpoint.length > 0) {
            if ($('#post-content').val().length > 0) {
 
@@ -142,25 +155,34 @@ $(document).ready(function() {
            }
        }
        else {
-           alert('Please configure a micropub endpoint in Accounts');
+           alert('Please configure a micropub endpoint in Settings');
        }
     });
 
 });
 
 /**
- * Return the microsub base url.
+ * Return the Microsub endpoint.
  *
  * @returns {string}
  */
-function getMicrosubBaseUrl() {
+function getMicrosubEndpoint() {
     let microsub_endpoint = getElement('microsub_endpoint');
     if (microsub_endpoint !== undefined) {
         return microsub_endpoint;
     }
     else {
-        return "https://indigenous.realize.be/indieweb/microsub";
+        return anonymousMicrosubEndpoint;
     }
+}
+
+/**
+ * Returns whether the anonymous Microsub endpoint is used.
+ *
+ * @returns {boolean}
+ */
+function isDefaultMicrosubEndpoint() {
+    return getMicrosubEndpoint() === anonymousMicrosubEndpoint;
 }
 
 /**
@@ -168,7 +190,7 @@ function getMicrosubBaseUrl() {
  *
  * @returns {string}
  */
-function getMicropubBaseUrl() {
+function getMicropubEndpoint() {
     let micropub_endpoint = getElement('micropub_endpoint');
     if (micropub_endpoint !== undefined) {
         return micropub_endpoint;
@@ -190,11 +212,46 @@ function clearContainer(selector) {
 }
 
 /**
+ * Do an inline post.
+ *
+ * @param properties
+ * @param type
+ * @param element
+ */
+function doInlinePost(properties, type, element) {
+
+    let token = getElement('token');
+    let headers = {
+        'Accept': 'application/json'
+    };
+    if (token !== undefined) {
+        headers.Authorization = 'Bearer ' + token;
+    }
+
+    properties.h = 'entry';
+    properties['post-status'] = 'published';
+
+    $.ajax({
+        type: 'POST',
+        url: getMicropubEndpoint(),
+        headers: headers,
+        data: properties,
+        contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+    })
+    .done(function() {
+        let backgroundImage = 'images/button_' + type + '_pressed.png';
+        element.css('background-image', 'url(' + backgroundImage + ')');
+    })
+    .fail(function() {
+    });
+}
+
+/**
  * Load channels.
  */
 function loadChannels() {
 
-    let baseUrl = getMicrosubBaseUrl();
+    let baseUrl = getMicrosubEndpoint();
     let token = getElement('token');
     let headers = {
         'Accept': 'application/json'
@@ -247,7 +304,7 @@ function loadChannels() {
  * Mark read.
  */
 function markRead() {
-    let baseUrl = getMicrosubBaseUrl();
+    let baseUrl = getMicrosubEndpoint();
     let token = getElement('token');
     let headers = {
         'Accept': 'application/json'
@@ -335,7 +392,21 @@ function loadTimeline(timelineUrl, after) {
         $('.action').on('click', function() {
             let url = $(this).parent().data('url');
             if (url.length > 0) {
-                alert('coming soon');
+                let type = $(this).data('action');
+                if (type === 'like' || type === 'repost') {
+                    if (getElement(type + '_no_confirm')) {
+                        let prop = type + '-of';
+                        let properties = {};
+                        properties[prop] = url;
+                        doInlinePost(properties, type, $(this));
+                    }
+                    else {
+
+                    }
+                }
+                else {
+
+                }
             }
         });
 
@@ -437,8 +508,7 @@ function renderPost(item) {
         post += '<div class="content">' + item.summary + '</div>';
     }
 
-    if (checkReference.length > 0 && undefined !== item.refs[checkReference]) {
-        console.log('nie?');
+    if (checkReference.length > 0 && undefined !== item.refs && undefined !== item.refs[checkReference]) {
         let ref = item.refs[checkReference];
         if (undefined !== ref.content) {
             if (ref.content.text) {
@@ -460,15 +530,17 @@ function renderPost(item) {
     }
 
     // Actions.
-    let url = "";
-    if (item.url.length > 0) {
-        url = item.url;
+    if (!isDefaultMicrosubEndpoint() && item.url) {
+        let url = "";
+        if (item.url.length > 0) {
+            url = item.url;
+        }
+        post += '<div class="actions" data-url="' + url + '">';
+        post += '<div class="action action-reply" data-action="reply"></div>';
+        post += '<div class="action action-like" data-action="like"></div>';
+        post += '<div class="action action-repost" data-action="repost"></div>';
+        post += '</div>';
     }
-    post += '<div class="actions" data-url="' + url + '">';
-    post += '<div class="action" data-action="reply"><img src="./images/button_reply_idle.png" width="30" /></div>';
-    post += '<div class="action" data-action="like"><img src="./images/button_like_idle.png" width="30" /></div>';
-    post += '<div class="action" data-action="repost"><img src="./images/button_repost_idle.png" width="30" /></div>';
-    post += '</div>';
 
     // Closing wrapper.
     post += '</div>';

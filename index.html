@@ -15,7 +15,7 @@
         </div>
         <div class="reader float-left menu selected">Reader</div>
         <div class="post float-left menu">Post</div>
-        <div class="accounts float-left menu">Accounts</div>
+        <div class="settings float-left menu">Settings</div>
     </div>
 
     <div id="channels-container">
@@ -30,7 +30,17 @@
         <div class="pager"></div>
     </div>
 
-    <div id="accounts-container">
+    <div id="settings-container">
+        <div>
+            <label for="like-direct">Like without confirmation</label>
+            <input type="checkbox" name="like_direct" id="like-direct" class="checkbox" />
+            <div class="description">If not enabled, a confirmation dialog will show up first</div>
+        </div>
+        <div>
+            <label for="repost-direct">Repost without confirmation</label>
+            <input type="checkbox" name="repost_direct" id="repost-direct" class="checkbox" />
+            <div class="description">If not enabled, a confirmation dialog will show up first</div>
+        </div>
         <div>
             <label for="micropub-endpoint">Post endpoint</label><br />
             <input type="text" name="micropub_endpoint" id="micropub-endpoint" class="text" />
@@ -45,7 +55,7 @@
             <div><textarea name="token" id="token" cols="80" rows="10" class="text"></textarea></div>
             <div class="description token-description">This token will be send in the Authentication header.</div>
         </div>
-        <input type="submit" id="edit-submit" name="op" value="Save" class="save-account button">
+        <input type="submit" id="edit-submit" name="op" value="Save" class="save-settings button">
     </div>
 
     <div id="posts-container">

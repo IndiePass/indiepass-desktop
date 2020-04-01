@@ -1,7 +1,7 @@
 # Indigenous for Desktop
 
 An IndieWeb app with extensions for sharing information to micropub endpoints and reading 
-from microsub endpoints. Written in Electron, so availabl for Windows, MacOS and Linux.
+from microsub endpoints. Written in Electron, so available for Windows, MacOS and Linux.
 
 ## Functionality
 

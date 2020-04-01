@@ -92,6 +92,14 @@ $(document).ready(function() {
                formData.append('h', 'entry');
                formData.append('post-status', postStatus);
                formData.append('content', $('#post-content').val());
+
+               // Title.
+               let title = $('#title').val();
+               if (title.length > 0) {
+                   formData.append('name', title);
+               }
+
+               // Photo
                let photo = $('#photo')[0].files[0];
                if (undefined !== photo) {
                    formData.append('photo', photo);

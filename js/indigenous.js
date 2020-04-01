@@ -2,6 +2,7 @@ const Store = require('electron-store');
 const store = new Store();
 
 let currentChannel = 0;
+let tokenInfoAdded = false;
 
 function getElement(element) {
     return store.get(element);
@@ -42,6 +43,16 @@ $(document).ready(function() {
         hideContainer('#timeline-container');
         hideContainer('#posts-container');
         showContainer('#accounts-container');
+
+        if (!tokenInfoAdded) {
+            tokenInfoAdded = true;
+            let token = getElement('token');
+            if (token !== undefined) {
+                $(".token-description").append('<br />').append("A token has been saved. Enter a new one to replace it.");
+            }
+        }
+        $('#micropub-endpoint').val(getMicrosubBaseUrl());
+        $('#microsub-endpoint').val(getMicrosubBaseUrl());
     });
 
     $('.post').on('click', function() {
@@ -66,6 +77,7 @@ $(document).ready(function() {
 
         let token = $('#token').val();
         if (token !== undefined && token.length > 0) {
+            tokenInfoAdded = false;
             setElement('token', token);
         }
     });

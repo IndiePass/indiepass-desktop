@@ -30,18 +30,18 @@
 
     <div id="accounts-container">
         <div>
-            <label for="micropub-endpoint">Micropub endpoint</label><br />
+            <label for="micropub-endpoint">Post endpoint</label><br />
             <input type="text" name="micropub_endpoint" id="micropub-endpoint" class="text" />
         </div>
         <div>
-            <label for="microsub-endpoint">Microsub endpoint</label><br />
-            <input type="text" name="microsub_endpoint" id="microsub-endpoint" class="text" />
+            <label for="microsub-endpoint">Reader endpoint</label><br />
+            <input type="text" name="microsub_endpoint" id="microsub-endpoint" class="text" /><br />
+            <div class="description">The default endpoint for the reader is https://indigenous.realize.be</div>
         </div>
         <div>
-            <label for="token">The token for you account</label>
-            <div>
-                <textarea name="token" id="token" cols="80" rows="10" class="text"></textarea>
-            </div>
+            <label for="token">The token for both endpoints</label>
+            <div><textarea name="token" id="token" cols="80" rows="10" class="text"></textarea></div>
+            <div class="description token-description">This token will be send in the Authentication header.</div>
         </div>
         <input type="submit" id="edit-submit" name="op" value="Save" class="save-account button">
     </div>

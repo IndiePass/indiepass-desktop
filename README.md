@@ -1,7 +1,7 @@
 # Indigenous for Desktop
 
 An IndieWeb app with extensions for sharing information to micropub endpoints and reading 
-from microsub endpoints.
+from microsub endpoints. Written in Electron, so availabl for Windows, MacOS and Linux.
 
 ## Functionality
 
@@ -10,14 +10,18 @@ from microsub endpoints.
 https://indigenous.realize.be
 - Microsub
   - Read channels and posts per timeline
+  - Inline reply, like and repost with or without confirmation
   - Listen to audio or watch video
+  - Mark all read button
 - Micropub
-  - post types: note
+  - Post types: note/article
+  - Single photo upload
+  - Published status
 
-## Other Micropub and Microsub clients
+## Installation
 
-There are ton of other (mobile) clients, see https://indieweb.org/Micropub/Clients and
-https://indieweb.org/Microsub
+There are no releases yet. See development how to run this locally with the necessary
+development tools.
 
 ## Development
 
@@ -35,3 +39,8 @@ npm install
 # Run the app
 npm start
 ```
+
+## Other Micropub and Microsub clients
+
+There are ton of other (mobile) clients, see https://indieweb.org/Micropub/Clients and
+https://indieweb.org/Microsub

@@ -10,82 +10,85 @@
   </head>
   <body>
 
-    <div id="header">
-        <div class="logo-wrapper float-left">
-            <img alt="Indigenous" src="images/logo.png" class="logo">
+    <div class="page">
+        <div id="header">
+            <div class="logo-wrapper float-left">
+                <img alt="Indigenous" src="images/logo.png" class="logo">
+            </div>
+            <div class="reader float-left menu selected">Reader</div>
+            <div class="post float-left menu">Post</div>
+            <div class="settings float-left menu">Settings</div>
         </div>
-        <div class="reader float-left menu selected">Reader</div>
-        <div class="post float-left menu">Post</div>
-        <div class="settings float-left menu">Settings</div>
-    </div>
 
-    <div id="channels-container">
-    </div>
+        <div id="channels-container">
+        </div>
 
-    <div id="timeline-container">
-        <div class="actions">
-            <div class="back-to-channels float-left">Back to channels</div>
-            <div class="mark-read float-left">Mark read</div>
+        <div id="timeline-container">
+            <div class="actions">
+                <div class="back-to-channels float-left">Back to channels</div>
+                <div class="mark-read float-left">Mark read</div>
+            </div>
+            <div class="posts"></div>
+            <div class="pager"></div>
         </div>
-        <div class="posts"></div>
-        <div class="pager"></div>
-    </div>
 
-    <div id="settings-container">
-        <div>
-            <label for="like-direct">Like without confirmation</label>
-            <input type="checkbox" name="like_direct" id="like-direct" class="checkbox" />
-            <div class="description">If not enabled, a confirmation dialog will show up first</div>
-        </div>
-        <div>
-            <label for="repost-direct">Repost without confirmation</label>
-            <input type="checkbox" name="repost_direct" id="repost-direct" class="checkbox" />
-            <div class="description">If not enabled, a confirmation dialog will show up first</div>
-        </div>
-        <div>
-            <label for="micropub-endpoint">Post endpoint</label><br />
-            <input type="text" name="micropub_endpoint" id="micropub-endpoint" class="text" />
-        </div>
-        <div>
-            <label for="microsub-endpoint">Reader endpoint</label><br />
-            <input type="text" name="microsub_endpoint" id="microsub-endpoint" class="text" /><br />
-            <div class="description">The default endpoint for the reader is https://indigenous.realize.be</div>
-        </div>
-        <div>
-            <label for="token">The token for both endpoints</label>
-            <div><textarea name="token" id="token" cols="80" rows="10" class="text"></textarea></div>
-            <div class="description token-description">This token will be send in the Authentication header.</div>
-        </div>
-        <input type="submit" id="edit-submit" name="op" value="Save" class="save-settings button">
-    </div>
-
-    <div id="posts-container">
-        <div class="title">
-            <label for="title">Title</label><br />
-            <input type="text" name="title" id="title" class="text" />
-        </div>
-        <div class="reply">
-            <label for="url">Reply to</label><br />
-            <input type="text" name="url" id="url" class="text" />
-        </div>
-        <div>
-            <label for="post-content">Content</label>
+        <div id="settings-container">
             <div>
-                <textarea name="post_content" id="post-content" cols="80" rows="10" class="text"></textarea>
+                <label for="like-direct">Like without confirmation</label>
+                <input type="checkbox" name="like_direct" id="like-direct" class="checkbox" />
+                <div class="description">If not enabled, a confirmation dialog will show up first</div>
+            </div>
+            <div>
+                <label for="repost-direct">Repost without confirmation</label>
+                <input type="checkbox" name="repost_direct" id="repost-direct" class="checkbox" />
+                <div class="description">If not enabled, a confirmation dialog will show up first</div>
+            </div>
+            <div>
+                <label for="micropub-endpoint">Post endpoint</label><br />
+                <input type="text" name="micropub_endpoint" id="micropub-endpoint" class="text" />
+            </div>
+            <div>
+                <label for="microsub-endpoint">Reader endpoint</label><br />
+                <input type="text" name="microsub_endpoint" id="microsub-endpoint" class="text" /><br />
+                <div class="description">The default endpoint for the reader is https://indigenous.realize.be</div>
+            </div>
+            <div>
+                <label for="token">The token for both endpoints</label>
+                <div><textarea name="token" id="token" cols="80" rows="10" class="text"></textarea></div>
+                <div class="description token-description">This token will be send in the Authentication header.</div>
+            </div>
+            <input type="submit" id="edit-submit" name="op" value="Save" class="save-settings button">
+        </div>
+
+        <div id="posts-container">
+            <div class="title">
+                <label for="title">Title</label><br />
+                <input type="text" name="title" id="title" class="text" />
+            </div>
+            <div class="reply">
+                <label for="url">Reply to</label><br />
+                <input type="text" name="url" id="url" class="text" />
+            </div>
+            <div>
+                <label for="post-content">Content</label>
+                <div>
+                    <textarea name="post_content" id="post-content" cols="80" rows="10" class="text"></textarea>
+                </div>
+            </div>
+            <div>
+                <label for="photo">Select a file:</label>
+                <input type="file" id="photo" name="photo">
+            </div>
+            <div>
+                <label for="published">Published</label>
+                <input type="checkbox" id="published" name="published">
+            </div>
+            <div>
+                <input type="submit" id="send-post" name="op" value="Send post" class="send-post button">
             </div>
         </div>
-        <div>
-            <label for="photo">Select a file:</label>
-            <input type="file" id="photo" name="photo">
-        </div>
-        <div>
-            <label for="published">Published</label>
-            <input type="checkbox" id="published" name="published">
-        </div>
-        <div>
-            <input type="submit" id="send-post" name="op" value="Send post" class="send-post button">
-        </div>
     </div>
 
+    <div class="snackbar"></div>
   </body>
 </html>

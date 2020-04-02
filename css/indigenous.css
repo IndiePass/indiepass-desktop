@@ -5,6 +5,9 @@
     --primary-color-dark: #bd3e38;
     --primary-color-accent: #DD645E;
 
+    --color-error: #dc3545;
+    --color-success: #28a745;
+
     --text-color: #666666;
     --list-row-color: #ffffff;
     --list-background-color: #f5f5f5;
@@ -19,10 +22,13 @@ html {
 
 body {
     margin: 0;
-    padding: 10px;
     font-size: 18px;
     font-family: Signa,"Helvetica Neue",Helvetica,Arial,sans-serif;
     line-height: 28px;
+}
+
+.page {
+    padding: 10px;
 }
 
 p {
@@ -252,4 +258,23 @@ input {
 
 .inline-textarea {
     padding: 10px;
+}
+
+.snackbar {
+    bottom: 0;
+    height: 24px;
+    text-align: center;
+    position: fixed;
+    width: 100%;
+    color: #fff;
+}
+
+.snackbar.success {
+    padding: 10px;
+    background: var(--color-success);
+}
+
+.snackbar.error {
+    padding: 10px;
+    background: var(--primary-color);
 }

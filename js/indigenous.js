@@ -2,6 +2,7 @@ const Store = require('electron-store');
 const store = new Store();
 const shell = require('electron').shell;
 
+let snackbarElement;
 let currentChannel = 0;
 let tokenInfoAdded = false;
 let anonymousMicrosubEndpoint = 'https://indigenous.realize.be/indieweb/microsub';
@@ -28,6 +29,8 @@ function configSet(name, value) {
 }
 
 $(document).ready(function() {
+
+    snackbarElement = $('.snackbar');
 
     loadChannels();
 
@@ -107,6 +110,8 @@ $(document).ready(function() {
             tokenInfoAdded = false;
             configSet('token', token);
         }
+
+        snackbar('Settings have been saved');
     });
 
     $('.send-post').on('click', function() {
@@ -156,22 +161,39 @@ $(document).ready(function() {
                })
                .done(function(data) {
                    $('#post-content').val("");
-                   alert('Post created!');
+                   snackbar("Post created");
                })
                .fail(function() {
-                   // TODO error message.
+                   snackbar('Something went wrong creating the post', 'error');
                });
            }
            else {
-               alert('Please add some content');
+               snackbar('Please add some content', 'error');
            }
        }
        else {
-           alert('Please configure a micropub endpoint in Settings');
+           snackbar('You need to configure a micropub endpoint in Settings', 'error');
        }
     });
 
 });
+
+/**
+ * Shows a message in the snackbar.
+ *
+ * @param message
+ * @param type
+ */
+function snackbar(message, type) {
+    type = (typeof type !== 'undefined') ? type : 'success';
+
+    snackbarElement.html(message).fadeIn(500);
+    snackbarElement.removeClass('error', 'success');
+    snackbarElement.addClass(type);
+    setTimeout(function() {
+        snackbarElement.hide('slow');
+    }, 3000);
+}
 
 /**
  * Return the Microsub endpoint.
@@ -255,6 +277,7 @@ function doInlinePost(properties, type, element) {
         element.css('background-image', 'url(' + backgroundImage + ')');
     })
     .fail(function() {
+        snackbar('Something went wrong with this action', 'error');
     });
 }
 
@@ -307,7 +330,7 @@ function loadChannels() {
 
     })
     .fail(function() {
-
+        snackbar('Something went wrong loading the channels', 'error');
     });
 
 }
@@ -342,9 +365,10 @@ function markRead() {
     .done(function(data) {
         $('.new').hide();
         $('.channel-indicator-' + currentChannel).html("");
+        snackbar('All items marked as read');
     })
     .fail(function() {
-        // TODO fail message.
+        snackbar('Something went wrong marking the timeline as read', 'error');
     });
 }
 
@@ -471,6 +495,7 @@ function loadTimeline(timelineUrl, after) {
         });
     })
     .fail(function() {
+        snackbar('Something went wrong loading the timeline', 'error');
     });
 
 }

@@ -227,6 +227,10 @@ input {
     background-image: url('../images/button_repost_idle.png');
 }
 
+.tooltipster-base {
+    margin-left: 3px;
+}
+
 .tooltipster-sidetip .tooltipster-content {
     padding: 20px;
 }

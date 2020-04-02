@@ -3,6 +3,7 @@ const store = new Store();
 const shell = require('electron').shell;
 
 let snackbarElement;
+let refreshChannels = false;
 let currentChannel = 0;
 let tokenInfoAdded = false;
 let anonymousMicrosubEndpoint = 'https://indigenous.realize.be/indieweb/microsub';
@@ -19,13 +20,22 @@ function configGet(element) {
 }
 
 /**
- * Set a value in storage.
+ * Save a value in storage.
  *
  * @param name
  * @param value
  */
-function configSet(name, value) {
+function configSave(name, value) {
     store.set(name, value);
+}
+
+/**
+ * Remove config
+ *
+ * @param name
+ */
+function configDelete(name) {
+    store.clear(name);
 }
 
 $(document).ready(function() {
@@ -46,6 +56,11 @@ $(document).ready(function() {
     });
 
     $('.reader').on('click', function() {
+        if (refreshChannels) {
+            $('.channel').remove();
+            refreshChannels = false;
+            loadChannels();
+        }
         $('.menu').removeClass('selected');
         $('.reader').addClass('selected');
         hideContainer('#settings-container');
@@ -92,26 +107,38 @@ $(document).ready(function() {
 
     $('.save-settings').on('click', function() {
 
-        configSet('like_no_confirm', $('#like-direct').is(':checked'));
-        configSet('repost_no_confirm', $('#repost-direct').is(':checked'));
+        configSave('like_no_confirm', $('#like-direct').is(':checked'));
+        configSave('repost_no_confirm', $('#repost-direct').is(':checked'));
 
         let micropub = $('#micropub-endpoint').val();
         if (micropub !== undefined && micropub.length > 0) {
-            configSet('micropub_endpoint', micropub);
+            configSave('micropub_endpoint', micropub);
         }
 
         let microsub = $('#microsub-endpoint').val();
         if (microsub !== undefined && microsub.length > 0) {
-            configSet('microsub_endpoint', microsub);
+            configSave('microsub_endpoint', microsub);
+            refreshChannels = true;
         }
 
         let token = $('#token').val();
         if (token !== undefined && token.length > 0) {
             tokenInfoAdded = false;
-            configSet('token', token);
+            configSave('token', token);
+            $('#token').val("");
         }
 
         snackbar('Settings have been saved');
+    });
+
+    $('.reset-settings').on('click', function() {
+        refreshChannels = true;
+        configDelete('like_no_confirm');
+        configDelete('repost_no_confirm');
+        configDelete('micropub_endpoint');
+        configDelete('microsub_endpoint');
+        configDelete('token');
+        snackbar('Settings have been reset to default');
     });
 
     $('.send-post').on('click', function() {

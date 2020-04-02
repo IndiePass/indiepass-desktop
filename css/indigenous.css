@@ -195,10 +195,6 @@ input {
     cursor: pointer;
 }
 
-.reply {
-    display: none;
-}
-
 .next {
     margin: 10px 0;
 }

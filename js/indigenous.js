@@ -405,8 +405,8 @@ function loadTimeline(timelineUrl, after) {
             let url = $(this).parent().data('url');
             if (url.length > 0) {
                 let type = $(this).data('action');
+                let element = $(this);
                 if (type === 'like' || type === 'repost') {
-                    let element = $(this);
                     let prop = type + '-of';
                     let properties = {};
                     properties[prop] = url;
@@ -436,7 +436,30 @@ function loadTimeline(timelineUrl, after) {
                     }
                 }
                 else {
-
+                    $(this)
+                        .tooltipster({
+                            animation: 'slide',
+                            trigger: 'click',
+                            content: '<div class="tooltip-reply-wrapper"><div class="inline-reply"><textarea placeholder="Type your reply - click anywhere to close this" cols="60", rows="4" class="inline-textarea"></textarea></div><div class="button tooltip-send">Send</div></div>',
+                            contentAsHTML: true,
+                            interactive: true,
+                            functionReady: function(instance, helper){
+                                $('.tooltip-send').on('click', function() {
+                                    if ($('.inline-textarea').val().length > 0) {
+                                        instance.close();
+                                        let prop = 'in-reply-to';
+                                        let properties = {};
+                                        properties[prop] = url;
+                                        properties.content = $('.inline-textarea').val();
+                                        doInlinePost(properties, type, element);
+                                    }
+                                    else {
+                                        $('.inline-textarea').attr('placeholder', 'Please add some content for this reply');
+                                    }
+                                });
+                            }
+                        })
+                        .tooltipster('open');
                 }
             }
         });

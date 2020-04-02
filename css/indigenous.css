@@ -231,7 +231,7 @@ input {
     padding: 20px;
 }
 
-.tooltip-confirm-wrapper {
+.tooltip-confirm-wrapper, .tooltip-send {
     margin-top: 20px;
 }
 
@@ -244,4 +244,8 @@ input {
     display: inline-block;
     cursor: pointer;
     text-decoration: underline;
+}
+
+.inline-textarea {
+    padding: 10px;
 }

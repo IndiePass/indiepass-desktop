@@ -3,6 +3,9 @@
 An IndieWeb app with extensions for sharing information to micropub endpoints and reading 
 from microsub endpoints. Written in Electron, so available for Windows, MacOS and Linux.
 
+The philosophy at the moment of the app is that it will not be a full blown client like
+the Android version is. It will only include the most commonly used IndieWeb features.
+
 ## Functionality
 
 - Accounts: configure endpoints and token

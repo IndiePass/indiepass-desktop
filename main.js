@@ -19,12 +19,6 @@ function createWindow () {
       label: 'Indigenous',
       submenu: [
         {
-          label: 'About',
-          click() {
-            alert('Version 1.0.0');
-          }
-        },
-        {
           label: 'Quit',
           accelerator: 'CmdOrCtrl+Q',
           click() {

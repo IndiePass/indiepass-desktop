@@ -6,7 +6,7 @@ from microsub endpoints. Written in Electron, so available for Windows, MacOS an
 The philosophy at the moment of the app is that it will not be a full blown client like
 the Android version. The main focus is on the most commonly features used on a daily basis.
 
-Looking for the Android client? See https://github.com/swentel/indigenous-android/.
+Looking for the Android client? See https://github.com/swentel/indigenous-android
 
 ## Functionality
 

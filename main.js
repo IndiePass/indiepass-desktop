@@ -16,7 +16,7 @@ function createWindow () {
 
   let application_menu = [
     {
-      label: 'Indigenous',
+      label: 'Menu',
       submenu: [
         {
           label: 'Quit',

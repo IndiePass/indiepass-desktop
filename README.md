@@ -43,6 +43,15 @@ npm install
 npm start
 ```
 
+## Credits
+
+This app uses following libraries:
+
+- https://github.com/electron/electron
+- https://github.com/sindresorhus/electron-store
+- https://jquery.com
+- https://iamceege.github.io/tooltipster
+
 ## Other Micropub and Microsub clients
 
 There are ton of other (mobile) clients, see https://indieweb.org/Micropub/Clients and

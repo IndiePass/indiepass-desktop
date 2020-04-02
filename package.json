@@ -1,5 +1,6 @@
 {
-  "name": "Indigenous",
+  "name": "indigenous-desktop",
+  "productName": "Indigenous",
   "version": "1.0.0",
   "description": "An IndieWeb desktop application",
   "main": "main.js",

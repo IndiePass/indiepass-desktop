@@ -1,6 +1,7 @@
 window.addEventListener('DOMContentLoaded', () => {
     if (!!window && !(!!window.$)) {
-        window.$ = window.jQuery = require('./js/jquery-3.4.1.min.js');
+        window.$ = window.jQuery = require('jquery');
+        require ('tooltipster');
         require('./js/indigenous.js')
     }
 });

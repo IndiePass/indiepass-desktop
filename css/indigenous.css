@@ -226,3 +226,22 @@ input {
 .action-repost {
     background-image: url('../images/button_repost_idle.png');
 }
+
+.tooltipster-sidetip .tooltipster-content {
+    padding: 20px;
+}
+
+.tooltip-confirm-wrapper {
+    margin-top: 20px;
+}
+
+.tooltip-confirm-wrapper .tooltip-confirm {
+    margin-right: 30px;
+}
+
+.tooltip-confirm-wrapper .tooltip-confirm, .tooltip-confirm-wrapper .tooltip-close {
+    pointer-events: auto;
+    display: inline-block;
+    cursor: pointer;
+    text-decoration: underline;
+}

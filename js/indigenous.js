@@ -406,14 +406,33 @@ function loadTimeline(timelineUrl, after) {
             if (url.length > 0) {
                 let type = $(this).data('action');
                 if (type === 'like' || type === 'repost') {
+                    let element = $(this);
                     let prop = type + '-of';
                     let properties = {};
                     properties[prop] = url;
                     if (configGet(type + '_no_confirm')) {
-                        doInlinePost(properties, type, $(this));
+                        doInlinePost(properties, type, element);
                     }
                     else {
-
+                        // TODO check multiple binding (although tooltipster protects against it)
+                        $(this)
+                            .tooltipster({
+                                animation: 'slide',
+                                trigger: 'click',
+                                content: type + ' this entry?<div class="tooltip-confirm-wrapper"><div class="tooltip-confirm">Yes!</div><div class="tooltip-close">Nevermind!</div></div>',
+                                contentAsHTML: true,
+                                interactive: true,
+                                functionReady: function(instance, helper){
+                                   $('.tooltip-confirm').on('click', function() {
+                                       instance.close();
+                                       doInlinePost(properties, type, element);
+                                   });
+                                   $('.tooltip-close').on('click', function() {
+                                     instance.close();
+                                   });
+                                }
+                            })
+                            .tooltipster('open');
                     }
                 }
                 else {

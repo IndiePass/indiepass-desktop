@@ -24,6 +24,8 @@ https://indigenous.realize.be
   - Published status
   - Tags
 
+See it in action: https://www.youtube.com/watch?v=7egdRBg70XA
+
 ## Installation
 
 There are no releases yet. See development how to run this locally with the necessary

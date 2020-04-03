@@ -24,7 +24,7 @@ https://indigenous.realize.be
   - Published status
   - Tags
 
-See it in action: https://www.youtube.com/watch?v=7egdRBg70XA
+Video of first release: https://www.youtube.com/watch?v=7egdRBg70XA
 
 ## Installation
 

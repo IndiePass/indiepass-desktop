@@ -153,6 +153,7 @@ p {
 }
 
 .button {
+    cursor: pointer;
     display: inline-block;
     *zoom: 1;
     *display: inline;

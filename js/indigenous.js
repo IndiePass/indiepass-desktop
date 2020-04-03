@@ -44,9 +44,14 @@ $(document).ready(function() {
 
     loadChannels();
 
-    $('.mark-read').on('click', function() {
-        markRead();
-    });
+    if (isDefaultMicrosubEndpoint()) {
+        $('.mark-read').hide();
+    }
+    else {
+        $('.mark-read').on('click', function() {
+            markRead();
+        });
+    }
 
     $('.back-to-channels').on('click', function() {
        hideContainer('#timeline-container');

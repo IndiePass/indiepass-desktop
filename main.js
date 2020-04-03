@@ -5,8 +5,8 @@ const path = require('path')
 function createWindow () {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 1024,
-    height: 768,
+    width: 1200,
+    height: 900,
     title: 'Indigenous',
     icon: __dirname + '/images/logo.png',
     webPreferences: {

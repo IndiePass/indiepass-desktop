@@ -28,7 +28,10 @@ https://indigenous.realize.be
 There are no releases yet. See development how to run this locally with the necessary
 development tools.
 
-## Development
+## Development or installation from source
+
+You can also run this application if you are familiar with development tools. Make sure
+to have the most stable version running of npm.
 
 To clone and run this repository you'll need [Git](https://git-scm.com) and 
 [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) 

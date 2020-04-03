@@ -170,6 +170,18 @@ $(document).ready(function() {
                    formData.append('name', title);
                }
 
+               // Tags.
+               let tags = $('#tags').val().split(',');
+               if (tags.length > 0) {
+                   for (let i = 0, delta = 0; i < tags.length; i++) {
+                       let tagTrimmed = $.trim(tags[i]);
+                       if (tagTrimmed.length > 0) {
+                           delta++;
+                           formData.append("category[]", tagTrimmed)
+                       }
+                   }
+               }
+
                // Photo
                let photo = $('#photo')[0].files[0];
                if (undefined !== photo) {

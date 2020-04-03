@@ -22,6 +22,7 @@ https://indigenous.realize.be
   - Post types: note/article
   - Single photo upload
   - Published status
+  - Tags
 
 ## Installation
 

@@ -101,11 +101,12 @@ function addSyndicationTargetCheckboxes() {
     let syndicationTargets = configGet('micropubConfig.syndicate-to');
     if (undefined !== syndicationTargets && syndicationTargets.length > 0) {
         let targets = $('.syndication-targets-wrapper .targets');
+        clearContainer('.syndication-target');
         showContainer('.syndication-targets-wrapper');
         for (let i = 0; i < syndicationTargets.length; i++) {
             let uid = syndicationTargets[i].uid;
             let name = syndicationTargets[i].name;
-            let target = '<input type="checkbox" id="syndication-target-' + i + '" name="syndication_targets[' + uid + ']" value="' + uid +'"> <label for="syndication-target-' + i + '">' + name + '</label><br />';
+            let target = '<div class="syndication-target"><input type="checkbox" id="syndication-target-' + i + '" name="syndication_targets[' + uid + ']" value="' + uid +'"> <label for="syndication-target-' + i + '">' + name + '</label></div>';
             targets.append(target);
         }
     }

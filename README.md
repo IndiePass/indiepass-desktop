@@ -17,6 +17,7 @@ https://indigenous.realize.be
   - Read channels and posts per timeline
   - Inline reply, like, bookmark and repost with or without confirmation
   - Listen to audio or watch video
+  - Long articles open in an overlay
   - Mark all read button
 - Micropub
   - Post types: note/article

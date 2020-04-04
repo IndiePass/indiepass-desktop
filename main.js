@@ -1,6 +1,7 @@
 // Modules to control application life and create native browser window
 const {app, BrowserWindow, Menu} = require('electron')
 const path = require('path')
+const shell = require('electron').shell;
 
 function createWindow () {
   // Create the browser window.
@@ -17,42 +18,38 @@ function createWindow () {
   let application_menu = [
     {
       label: 'Menu',
-      submenu: [
-        {
-          label: 'Quit',
-          accelerator: 'CmdOrCtrl+Q',
-          click() {
-            app.quit();
-          }
-        },
-      ]
+      role: 'fileMenu',
     },
-  ];
-
-  if (process.platform === 'darwin') {
-    application_menu[1] = {
+    {
       label: 'Edit',
+      role: 'editMenu',
+    },
+    {
+      label: 'View',
+      role: 'viewMenu',
+    },
+    {
+      label: 'Window',
+      role: 'windowMenu',
+    },
+    {
+      label: 'Help',
       submenu: [
-        {label: 'Undo', accelerator: 'Command+Z', selector: 'undo:'},
-        {label: 'Redo', accelerator: 'Shift+Command+Z', selector: 'redo:'},
-        {type: 'separator'},
-        {label: 'Cut', accelerator: 'Command+X', selector: 'cut:'},
-        {label: 'Copy', accelerator: 'Command+C', selector: 'copy:'},
-        {label: 'Paste', accelerator: 'Command+V', selector: 'paste:'},
         {
-          label: 'Select All',
-          accelerator: 'Command+A',
-          selector: 'selectAll:'
+          label: 'Search issues',
+          click() {
+            shell.openExternal("https://github.com/swentel/indigenous-desktop");
+          }
         }
       ]
-    };
-  }
+    }
+  ];
 
   let menu = Menu.buildFromTemplate(application_menu);
   Menu.setApplicationMenu(menu);
 
   // and load the index.html of the app.
-  mainWindow.loadFile('index.html')
+  mainWindow.loadFile('index.html');
 
   // Open the DevTools.
   if (!app.isPackaged) {

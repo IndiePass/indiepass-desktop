@@ -41,6 +41,50 @@ function debug(log) {
 }
 
 /**
+ * Get tags from the Micropub endpoint.
+ * @param reload
+ */
+function getTags(reload) {
+    let categories = configGet('categories');
+    if (undefined === categories || reload) {
+
+        // First time, let's save an entry.
+        if (undefined === categories) {
+            configSave('categories', []);
+        }
+
+        let token = configGet('token');
+        let headers = {
+            'Accept': 'application/json'
+        };
+        if (token !== undefined) {
+            headers.Authorization = 'Bearer ' + token;
+        }
+
+        $.ajax({
+            type: 'GET',
+            url: getMicropubEndpoint() + '?q=category',
+            headers: headers,
+        })
+        .done(function(data) {
+            debug(data);
+            if (data.categories) {
+                configSave('categories', data.categories);
+            }
+
+            if (reload) {
+                snackbar('Categories updated');
+            }
+        })
+        .fail(function() {
+            if (reload) {
+                snackbar('Something went wrong with getting the tags', 'error');
+            }
+        });
+    }
+}
+
+/**
  * Remove config
  *
  * @param name
@@ -129,6 +173,10 @@ $(document).ready(function() {
         hideContainer('#timeline-container');
         hideContainer('#settings-container');
         showContainer('#posts-container');
+        getTags(false);
+        $('.reload-tags').on('click', function() {
+           getTags(true);
+        });
     });
 
     $('.save-settings').on('click', function() {
@@ -677,7 +725,7 @@ function renderPost(item) {
         if (content.length > 1000) {
             post += '<div class="content-truncated">' + content.substr(0, 300) + ' ...</div>';
             post += '<div class="content-full">' + content + ' ...</div>';
-            post += '<div class="read-more button">Read more</div>';
+            post += '<div class="read-more"><span class="button">Read more</span></div>';
         }
         else {
             post += '<div class="content">' + content + '</div>';

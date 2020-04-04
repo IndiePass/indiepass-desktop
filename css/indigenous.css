@@ -59,8 +59,21 @@ p {
     font-weight: 400;
 }
 
+.send-post-wrapper {
+    margin-top: 20px;
+}
+
 .float-left {
     float: left;
+}
+
+.settings-button-wrapper {
+    margin: 20px 0;
+}
+
+.settings-button-wrapper .button-wrapper {
+    display: inline-block;
+    margin-right: 20px;
 }
 
 #channels-container {
@@ -158,9 +171,7 @@ p {
 }
 
 .read-more {
-    display: block;
     margin-bottom: 10px;
-    width: 100px;
 }
 
 #overlay-container {
@@ -192,8 +203,6 @@ p {
 
 .button {
     cursor: pointer;
-    *zoom: 1;
-    *display: inline;
     background-color: rgb(221, 100, 94);
     color: #fff;
     padding: 10px 25px;
@@ -223,7 +232,7 @@ input {
 }
 
 .actions {
-    margin-top: 10px;
+    margin-top: 20px;
 }
 
 .action {

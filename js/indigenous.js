@@ -6,6 +6,7 @@ let snackbarElement;
 let refreshChannels = false;
 let currentChannel = 0;
 let tokenInfoAdded = false;
+let targetsAdded = false;
 let anonymousMicrosubEndpoint = 'https://indigenous.realize.be/indieweb/microsub';
 let defaultAuthor = '<div class="author-avatar"><img class="avatar" src="./images/avatar_small.png" width="80" height="80" /></div>';
 
@@ -73,6 +74,9 @@ function getMicropubConfig(reload, setSyndications) {
                 if (data) {
                     configSave('micropubConfig', data);
                     if (setSyndications) {
+                        if (reload) {
+                            targetsAdded = false;
+                        }
                         addSyndicationTargetCheckboxes();
                     }
                 }
@@ -99,7 +103,8 @@ function getMicropubConfig(reload, setSyndications) {
  */
 function addSyndicationTargetCheckboxes() {
     let syndicationTargets = configGet('micropubConfig.syndicate-to');
-    if (undefined !== syndicationTargets && syndicationTargets.length > 0) {
+    if (!targetsAdded && undefined !== syndicationTargets && syndicationTargets.length > 0) {
+        targetsAdded = true;
         let targets = $('.syndication-targets-wrapper .targets');
         clearContainer('.syndication-target');
         showContainer('.syndication-targets-wrapper');

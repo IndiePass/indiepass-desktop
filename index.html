@@ -98,15 +98,22 @@
                 <input type="text" name="tags" id="tags" class="text" /> <span class="reload-tags button">Reload</span>
                 <div class="description">Separate multiple tags by comma. Click "Reload" to update categories from the server.</div>
             </div>
+            <div class="syndication-targets-wrapper">
+                <label>Syndicate to</label>
+                <div class="targets"></div>
+            </div>
             <div>
                 <label for="photo">Select a file:</label>
                 <input type="file" id="photo" name="photo">
             </div>
             <div>
-                <label for="published">Published</label>
                 <input type="checkbox" id="published" name="published">
+                <label for="published">Published</label>
             </div>
-            <div class="send-post-wrapper"><span class="send-post button" id="send-post">Send post</span></div>
+            <div class="post-buttons-wrapper">
+                <span class="send-post button" id="send-post">Send post</span>
+                <span class="reload-config button">Reload configuration</span>
+            </div>
         </div>
     </div>
 

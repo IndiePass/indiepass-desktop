@@ -59,8 +59,16 @@ p {
     font-weight: 400;
 }
 
-.send-post-wrapper {
-    margin-top: 20px;
+.post-buttons-wrapper {
+    margin: 20px 0;
+}
+
+.send-post {
+    float: left;
+}
+
+.reload-config {
+    float: right;
 }
 
 .float-left {
@@ -340,4 +348,8 @@ input {
  */
 * html .ui-autocomplete {
     height: 100px;
+}
+
+.syndication-targets-wrapper {
+    display: none;
 }

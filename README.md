@@ -22,6 +22,7 @@ https://indigenous.realize.be
 - Micropub
   - Post types: note/article
   - Single photo upload
+  - Syndication targets
   - Published status
   - Tags
 - Developer

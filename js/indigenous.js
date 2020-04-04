@@ -41,7 +41,79 @@ function debug(log) {
 }
 
 /**
+ * Get configuration from the Micropub endpoint.
+ *
+ * @param reload
+ * @param setSyndications
+ */
+function getMicropubConfig(reload, setSyndications) {
+    let micropubConfig = configGet('micropubConfig');
+    if (undefined === micropubConfig || reload) {
+
+        // First time, let's save an entry.
+        if (undefined === micropubConfig) {
+            configSave('micropubConfig', {});
+        }
+
+        let token = configGet('token');
+        let headers = {
+            'Accept': 'application/json'
+        };
+        if (token !== undefined) {
+            headers.Authorization = 'Bearer ' + token;
+        }
+
+        $.ajax({
+            type: 'GET',
+            url: getMicropubEndpoint() + '?q=config',
+            headers: headers,
+        })
+            .done(function(data) {
+                debug(data);
+                if (data) {
+                    configSave('micropubConfig', data);
+                    if (setSyndications) {
+                        addSyndicationTargetCheckboxes();
+                    }
+                }
+
+                if (reload) {
+                    snackbar('Micropub configuration updated');
+                }
+            })
+            .fail(function() {
+                if (reload) {
+                    snackbar('Something went wrong with getting the Micropub configuration', 'error');
+                }
+            });
+    }
+    else {
+        if (setSyndications) {
+            addSyndicationTargetCheckboxes();
+        }
+    }
+}
+
+/**
+ * Set syndication targets.
+ */
+function addSyndicationTargetCheckboxes() {
+    let syndicationTargets = configGet('micropubConfig.syndicate-to');
+    if (undefined !== syndicationTargets && syndicationTargets.length > 0) {
+        let targets = $('.syndication-targets-wrapper .targets');
+        showContainer('.syndication-targets-wrapper');
+        for (let i = 0; i < syndicationTargets.length; i++) {
+            let uid = syndicationTargets[i].uid;
+            let name = syndicationTargets[i].name;
+            let target = '<input type="checkbox" id="syndication-target-' + i + '" name="syndication_targets[' + uid + ']" value="' + uid +'"> <label for="syndication-target-' + i + '">' + name + '</label><br />';
+            targets.append(target);
+        }
+    }
+}
+
+/**
  * Get tags from the Micropub endpoint.
+ *
  * @param reload
  */
 function getTags(reload) {
@@ -227,8 +299,12 @@ $(document).ready(function() {
         hideContainer('#settings-container');
         showContainer('#posts-container');
         getTags(false);
+        getMicropubConfig(false, true);
         $('.reload-tags').on('click', function() {
            getTags(true);
+        });
+        $('.reload-config').on('click', function() {
+            getMicropubConfig(true, true);
         });
     });
 
@@ -310,6 +386,13 @@ $(document).ready(function() {
                        }
                    }
                }
+
+               // Syndication targets.
+               $(".targets input").each(function() {
+                   if ($(this).is(':checked')) {
+                       formData.append("mp-syndicate-to[]", $(this).val())
+                   }
+               });
 
                // Photo
                let photo = $('#photo')[0].files[0];

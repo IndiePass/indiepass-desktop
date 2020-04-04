@@ -233,6 +233,10 @@ input {
     background-image: url('../images/button_bookmark_idle.png');
 }
 
+.action-external {
+    background-image: url('../images/button_external_idle.png');
+}
+
 .tooltipster-base {
     margin-left: 3px;
 }

@@ -478,7 +478,10 @@ function loadTimeline(timelineUrl, after) {
             if (url.length > 0) {
                 let type = $(this).data('action');
                 let element = $(this);
-                if (type === 'like' || type === 'repost' || type === 'bookmark') {
+                if (type === 'external') {
+                    shell.openExternal(url);
+                }
+                else if (type === 'like' || type === 'repost' || type === 'bookmark') {
                     let prop = type + '-of';
                     let properties = {};
                     properties[prop] = url;
@@ -667,6 +670,7 @@ function renderPost(item) {
         post += '<div class="action action-like" data-action="like"></div>';
         post += '<div class="action action-repost" data-action="repost"></div>';
         post += '<div class="action action-bookmark" data-action="bookmark"></div>';
+        post += '<div class="action action-external" data-action="external"></div>';
         post += '</div>';
     }
 

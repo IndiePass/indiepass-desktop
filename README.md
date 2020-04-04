@@ -15,7 +15,7 @@ Looking for the Android client? See https://github.com/swentel/indigenous-androi
 https://indigenous.realize.be
 - Microsub
   - Read channels and posts per timeline
-  - Inline reply, like and repost with or without confirmation
+  - Inline reply, like, bookmark and repost with or without confirmation
   - Listen to audio or watch video
   - Mark all read button
 - Micropub

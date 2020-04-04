@@ -98,6 +98,9 @@ $(document).ready(function() {
         if (configGet('repost_no_confirm')) {
             $('#repost-direct').prop('checked', true);
         }
+        if (configGet('bookmark_no_confirm')) {
+            $('#bookmark-direct').prop('checked', true);
+        }
 
     });
 
@@ -114,6 +117,7 @@ $(document).ready(function() {
 
         configSave('like_no_confirm', $('#like-direct').is(':checked'));
         configSave('repost_no_confirm', $('#repost-direct').is(':checked'));
+        configSave('bookmark_no_confirm', $('#bookmark-direct').is(':checked'));
 
         let micropub = $('#micropub-endpoint').val();
         if (micropub !== undefined && micropub.length > 0) {
@@ -474,7 +478,7 @@ function loadTimeline(timelineUrl, after) {
             if (url.length > 0) {
                 let type = $(this).data('action');
                 let element = $(this);
-                if (type === 'like' || type === 'repost') {
+                if (type === 'like' || type === 'repost' || type === 'bookmark') {
                     let prop = type + '-of';
                     let properties = {};
                     properties[prop] = url;
@@ -662,6 +666,7 @@ function renderPost(item) {
         post += '<div class="action action-reply" data-action="reply"></div>';
         post += '<div class="action action-like" data-action="like"></div>';
         post += '<div class="action action-repost" data-action="repost"></div>';
+        post += '<div class="action action-bookmark" data-action="bookmark"></div>';
         post += '</div>';
     }
 

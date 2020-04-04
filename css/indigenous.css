@@ -229,6 +229,10 @@ input {
     background-image: url('../images/button_repost_idle.png');
 }
 
+.action-bookmark {
+    background-image: url('../images/button_bookmark_idle.png');
+}
+
 .tooltipster-base {
     margin-left: 3px;
 }

@@ -5,7 +5,8 @@
   "description": "An IndieWeb desktop application",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "packages": "electron-packager . --platform=win32,linux"
   },
   "repository": "https://github.com/swentel/indieweb-desktop",
   "keywords": [

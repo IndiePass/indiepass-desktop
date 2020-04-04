@@ -30,6 +30,17 @@ function configSave(name, value) {
 }
 
 /**
+ * Render a debug message in console.
+ *
+ * @param log
+ */
+function debug(log) {
+    if (configGet('debug')) {
+        console.log(log);
+    }
+}
+
+/**
  * Remove config
  *
  * @param name
@@ -105,6 +116,9 @@ $(document).ready(function() {
         if (configGet('bookmark_no_confirm')) {
             $('#bookmark-direct').prop('checked', true);
         }
+        if (configGet('debug')) {
+            $('#debug-message').prop('checked', true);
+        }
 
     });
 
@@ -122,6 +136,7 @@ $(document).ready(function() {
         configSave('like_no_confirm', $('#like-direct').is(':checked'));
         configSave('repost_no_confirm', $('#repost-direct').is(':checked'));
         configSave('bookmark_no_confirm', $('#bookmark-direct').is(':checked'));
+        configSave('debug', $('#debug-message').is(':checked'));
 
         let micropub = $('#micropub-endpoint').val();
         if (micropub !== undefined && micropub.length > 0) {
@@ -353,6 +368,7 @@ function loadChannels() {
     })
     .done(function(data) {
 
+        debug(data);
         let channels = $('#channels-container');
 
         $.each(data.channels, function(i, item) {
@@ -453,6 +469,8 @@ function loadTimeline(timelineUrl, after) {
         headers: headers,
     })
     .done(function(data) {
+        debug(data);
+
         hideContainer('#channels-container');
         showContainer('#timeline-container');
 

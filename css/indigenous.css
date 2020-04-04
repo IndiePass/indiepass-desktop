@@ -68,7 +68,7 @@ p {
     background-color: var(--list-background-color);
 }
 
-#timeline-container, #settings-container, #posts-container {
+#timeline-container, #settings-container, #posts-container, #overlay-container {
     display: none;
 }
 
@@ -145,7 +145,45 @@ p {
 .author-name {
 }
 
-.content {
+.content-wrapper, .overlay-wrapper {
+    position: relative;
+}
+
+.overlay-wrapper {
+    overflow: auto;
+}
+
+.content-full {
+    display: none;
+}
+
+.read-more {
+    display: block;
+    margin-bottom: 10px;
+    width: 100px;
+}
+
+#overlay-container {
+    position: fixed;
+    background: #fff;
+    z-index: 100;
+    border: 20px solid rgba(0,0,0,0.6);
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: auto;
+}
+
+.overlay-content {
+    padding: 20px;
+}
+
+.overlay-close {
+    position: absolute;
+    cursor: pointer;
+    top: 20px;
+    right: 20px;
 }
 
 .avatar {
@@ -154,7 +192,6 @@ p {
 
 .button {
     cursor: pointer;
-    display: inline-block;
     *zoom: 1;
     *display: inline;
     background-color: rgb(221, 100, 94);

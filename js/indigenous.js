@@ -53,6 +53,10 @@ $(document).ready(function() {
         });
     }
 
+    $('.overlay-close').on('click', function() {
+      hideContainer('#overlay-container');
+    });
+
     $('.back-to-channels').on('click', function() {
        hideContainer('#timeline-container');
        hideContainer('#posts-container');
@@ -544,6 +548,18 @@ function loadTimeline(timelineUrl, after) {
             e.preventDefault();
             shell.openExternal(this.href);
         });
+
+        // Read more.
+        $('.timeline-item .read-more').on('click', function() {
+            let wrapper = $(this).parent().clone().html();
+            $('.overlay-content').html(wrapper);
+            hideContainer('.overlay-content .read-more');
+            hideContainer('.overlay-content .actions');
+            hideContainer('.overlay-content .content-truncated');
+            showContainer('.overlay-content .content-full');
+            showContainer('#overlay-container');
+        });
+
     })
     .fail(function() {
         snackbar('Something went wrong loading the timeline', 'error');
@@ -622,20 +638,32 @@ function renderPost(item) {
         }
     });
 
+    let content = "";
     let hasContent = false;
     if (item.content !== undefined) {
         if (item.content.html !== undefined) {
             hasContent = true;
-            post += '<div class="content">' + item.content.html + '</div>';
+            content = item.content.html;
         }
         else if (item.content.text !== undefined) {
             hasContent = true;
-            post += '<div class="content">' + item.content.text + '</div>';
+            content = item.content.text;
         }
     }
 
     if (!hasContent && item.summary !== undefined) {
-        post += '<div class="content">' + item.summary + '</div>';
+        content = + item.summary;
+    }
+
+    if (content.length > 0) {
+        if (content.length > 1000) {
+            post += '<div class="content-truncated">' + content.substr(0, 300) + ' ...</div>';
+            post += '<div class="content-full">' + content + ' ...</div>';
+            post += '<div class="read-more button">Read more</div>';
+        }
+        else {
+            post += '<div class="content">' + content + '</div>';
+        }
     }
 
     if (checkReference.length > 0 && undefined !== item.refs && undefined !== item.refs[checkReference]) {

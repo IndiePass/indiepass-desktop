@@ -24,6 +24,8 @@ https://indigenous.realize.be
   - Single photo upload
   - Published status
   - Tags
+- Developer
+  - View response of microsub requests in console
 
 Video of first release: https://www.youtube.com/watch?v=7egdRBg70XA
 

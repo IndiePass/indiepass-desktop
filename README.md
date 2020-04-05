@@ -32,8 +32,7 @@ Video of first release: https://www.youtube.com/watch?v=7egdRBg70XA
 
 ## Installation
 
-There are no releases yet. See development how to run this locally with the necessary
-development tools.
+See the releases page: https://github.com/swentel/indigenous-desktop/releases
 
 ## Development or installation from source
 

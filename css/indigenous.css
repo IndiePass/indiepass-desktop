@@ -291,6 +291,10 @@ input {
     background-image: url('../images/button_external_idle.png');
 }
 
+.action-rsvp {
+    background-image: url('../images/button_rsvp_idle.png');
+}
+
 .tooltipster-base {
     margin-left: 3px;
 }

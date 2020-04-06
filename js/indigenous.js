@@ -721,9 +721,12 @@ function loadTimeline(timelineUrl, after) {
         let postsContainer = $('#timeline-container .posts');
         let pagerContainer = $('#timeline-container .pager');
         $.each(data.items, function(i, item) {
-           let post = '<div class="timeline-item post-' + postIndex + '">' + renderPost(item) + '</div>';
-            postsContainer.append(post);
-            postIndex++;
+            let renderedPost = renderPost(item);
+            if (renderedPost.length > 0) {
+                let post = '<div class="timeline-item post-' + postIndex + '">' + renderedPost + '</div>';
+                postsContainer.append(post);
+                postIndex++;
+            }
         });
 
         // Pager.
@@ -746,6 +749,8 @@ function loadTimeline(timelineUrl, after) {
                 let element = $(this);
                 if (type === 'external') {
                     shell.openExternal(url);
+                }
+                else if (type === 'rsvp') {
                 }
                 else if (type === 'like' || type === 'repost' || type === 'bookmark') {
                     let prop = type + '-of';
@@ -838,6 +843,11 @@ function loadTimeline(timelineUrl, after) {
  */
 function renderPost(item) {
     let post = "";
+    let type = "entry";
+
+    if (item.type !== undefined && item.type === "card") {
+        return "";
+    }
 
     // Author.
     let authorName = "";
@@ -961,6 +971,9 @@ function renderPost(item) {
         post += '<div class="action action-repost" data-action="repost"></div>';
         post += '<div class="action action-bookmark" data-action="bookmark"></div>';
         post += '<div class="action action-external" data-action="external"></div>';
+        if (type === "event") {
+            post += '<div class="action action-rsvp" data-action="rsvp"></div>';
+        }
         post += '</div>';
     }
 

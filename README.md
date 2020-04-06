@@ -23,8 +23,8 @@ https://indigenous.realize.be
   - Post types: note/article
   - Single photo upload
   - Syndication targets
-  - Published status
-  - Tags
+  - Publish date and status
+  - Tags, with autocomplete
 - Developer
   - View response of microsub requests in console
 

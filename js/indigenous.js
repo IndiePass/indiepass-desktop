@@ -366,7 +366,7 @@ $(document).ready(function() {
                }
 
                let postStatus = 'draft';
-               if ($('#published').is(':checked')) {
+               if ($('#post-status').is(':checked')) {
                    postStatus = 'published';
                }
 
@@ -391,6 +391,12 @@ $(document).ready(function() {
                            formData.append("category[]", tagTrimmed)
                        }
                    }
+               }
+
+               // Published.
+               let published = $('#published').val();
+               if (published.length > 0) {
+                   formData.append("published", published);
                }
 
                // Syndication targets.

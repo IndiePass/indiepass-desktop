@@ -87,6 +87,11 @@
                 <label for="title">Title</label><br />
                 <input type="text" name="title" id="title" class="text" />
             </div>
+            <div class="published">
+                <label for="published">Publish date</label><br />
+                <input type="datetime-local" name="published" id="published" class="text" />
+                <div class="description">Leave empty for 'now'</div>
+            </div>
             <div>
                 <label for="post-content">Content</label>
                 <div>
@@ -107,8 +112,8 @@
                 <input type="file" id="photo" name="photo">
             </div>
             <div>
-                <input type="checkbox" id="published" name="published">
-                <label for="published">Published</label>
+                <input type="checkbox" id="post-status" name="post_status">
+                <label for="post-status">Published</label>
             </div>
             <div class="post-buttons-wrapper">
                 <span class="send-post button" id="send-post">Send post</span>

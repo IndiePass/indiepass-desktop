@@ -7,6 +7,8 @@ let refreshChannels = false;
 let currentChannel = 0;
 let tokenInfoAdded = false;
 let targetsAdded = false;
+let currentPost;
+let postIndex;
 let anonymousMicrosubEndpoint = 'https://indigenous.realize.be/indieweb/microsub';
 let defaultAuthor = '<div class="author-avatar"><img class="avatar" src="./images/avatar_small.png" width="80" height="80" /></div>';
 
@@ -229,6 +231,46 @@ $(document).ready(function() {
     snackbarElement = $('.snackbar');
 
     loadChannels();
+
+    Mousetrap.bind('n', function() {
+        if ($('.post-' + (currentPost + 1)).length > 0) {
+            currentPost++;
+            $('html,body').animate({
+                scrollTop: $(".post-" + currentPost).offset().top - 10
+            }, 'slow', function() {
+                $(".post-" + (currentPost - 1)).css('border', 'none');
+                $(".post-" + currentPost).css('border', '1px solid #DD645E')
+            });
+        }
+        else if ($('.next').length > 0) {
+            $('.next').click();
+        }
+    });
+
+    Mousetrap.bind('p', function() {
+        currentPost--;
+        if (currentPost >= 0) {
+            $('html,body').animate({
+                scrollTop: $(".post-" + currentPost).offset().top
+            }, 'slow', function() {
+                $(".post-" + (currentPost + 1)).css('border', 'none');
+                $(".post-" + currentPost).css('border', '1px solid #DD645E')
+            });
+        }
+        else {
+            currentPost = 0;
+        }
+    });
+
+    Mousetrap.bind('r', function() {
+        if (currentPost >= 0) {
+            $('.post-' + currentPost + ' .read-more').click();
+        }
+    });
+
+    Mousetrap.bind('c', function() {
+        $('.overlay-close').click();
+    });
 
     if (isDefaultMicrosubEndpoint()) {
         $('.mark-read').hide();
@@ -646,6 +688,11 @@ function markRead() {
  */
 function loadTimeline(timelineUrl, after) {
 
+    if (after.length === 0) {
+        currentPost = 0;
+        postIndex = 0;
+    }
+
     let token = configGet('token');
     let headers = {
         'Accept': 'application/json'
@@ -674,8 +721,9 @@ function loadTimeline(timelineUrl, after) {
         let postsContainer = $('#timeline-container .posts');
         let pagerContainer = $('#timeline-container .pager');
         $.each(data.items, function(i, item) {
-           let post = '<div class="timeline-item">' + renderPost(item) + '</div>';
+           let post = '<div class="timeline-item post-' + postIndex + '">' + renderPost(item) + '</div>';
             postsContainer.append(post);
+            postIndex++;
         });
 
         // Pager.

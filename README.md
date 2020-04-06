@@ -19,6 +19,11 @@ https://indigenous.realize.be
   - Listen to audio or watch video
   - Long articles open in an overlay
   - Mark all read button
+  - Navigate posts with keyboard shortcuts:
+    - p: previous post
+    - n: next post, triggers 'load more posts' at the end too.
+    - r: when a post has a read more button, open the overlay
+    - c: close overlay when opened
 - Micropub
   - Post types: note/article
   - Single photo upload

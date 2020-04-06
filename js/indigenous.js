@@ -914,7 +914,7 @@ function renderPost(item) {
     }
 
     if (!hasContent && item.summary !== undefined) {
-        content = + item.summary;
+        content = item.summary;
     }
 
     if (content.length > 0) {

@@ -10,10 +10,10 @@ Looking for the Android client? See https://github.com/swentel/indigenous-androi
 
 ## Functionality
 
-- Accounts: configure endpoints and token
-- Starts with default anonymous account with the reader connected to 
-https://indigenous.realize.be
+- General
+  - Uses the font of your system
 - Microsub
+  - Starts with default anonymous account with the reader connected to  https://indigenous.realize.be
   - Read channels and posts per timeline
   - Inline reply, like, bookmark and repost with or without confirmation
   - Listen to audio or watch video
@@ -30,10 +30,8 @@ https://indigenous.realize.be
   - Syndication targets
   - Publish date and status
   - Tags, with autocomplete
-- Developer
-  - View response of microsub requests in console
-- General
-  - Uses the font of your system  
+- Accounts: configure endpoints and token
+- Developer: view response of microsub requests in console
 
 Video of first release: https://www.youtube.com/watch?v=7egdRBg70XA
 

@@ -38,7 +38,9 @@
             <div class="actions">
                 <div class="back-to-channels float-left">Back to channels</div>
                 <div class="mark-read float-left">Mark read</div>
+                <div class="video-wall float-left">Video wall</div>
             </div>
+            <div class="reader-sub-title"></div>
             <div class="posts"></div>
             <div class="pager"></div>
         </div>
@@ -58,6 +60,11 @@
                 <label for="bookmark-direct">Bookmark without confirmation</label>
                 <input type="checkbox" name="bookmark_direct" id="bookmark-direct" class="checkbox" />
                 <div class="description">If not enabled, a confirmation dialog will show up first</div>
+            </div>
+            <div>
+                <label for="video-wall">Enable video wall</label>
+                <input type="checkbox" name="video_wall" id="video-wall" class="checkbox" />
+                <div class="description">Detects videos in a feed to show them in a video wall.</div>
             </div>
             <div>
                 <label for="debug-message">Debug messages</label>

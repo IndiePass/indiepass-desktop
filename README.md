@@ -20,6 +20,7 @@ Looking for the Android client? See https://github.com/swentel/indigenous-androi
   - Listen to audio or watch video
   - Long articles open in an overlay
   - Mark all read button
+  - View individual feed via author name
   - Navigate posts with keyboard shortcuts:
     - up: previous channel or post
     - down: next channel or post, triggers 'load more posts' at the end too.

@@ -6,6 +6,7 @@ const dayjs = require('dayjs');
 let snackbarElement;
 let refreshChannels = false;
 let loadedChannel = 0;
+let loadedSource = null;
 let currentChannel = 0;
 let isChannel = true;
 let isTimeline = false;
@@ -17,6 +18,8 @@ let postIndex;
 let mouseBindingsAdded = false;
 let anonymousMicrosubEndpoint = 'https://indigenous.realize.be/indieweb/microsub';
 let defaultAuthor = '<div class="author-avatar"><img class="avatar" src="./images/avatar_small.png" width="80" height="80" /></div>';
+let videos = [];
+let videoWall = false;
 
 /**
  * Get a value from storage.
@@ -271,6 +274,10 @@ $(document).ready(function() {
 
     snackbarElement = $('.snackbar');
 
+    if (configGet('video_wall')) {
+        videoWall = true;
+    }
+
     $('.external-link').on('click', function(e) {
         e.preventDefault();
         shell.openExternal(this.href);
@@ -294,6 +301,7 @@ $(document).ready(function() {
 
     $('.overlay-close').on('click', function() {
       hideContainer('#overlay-container');
+      $('.overlay-content').html('');
     });
 
     $('.back-to-channels').on('click', function() {
@@ -352,6 +360,9 @@ $(document).ready(function() {
         if (configGet('bookmark_no_confirm')) {
             $('#bookmark-direct').prop('checked', true);
         }
+        if (configGet('video_wall')) {
+            $('#video-wall').prop('checked', true);
+        }
         if (configGet('debug')) {
             $('#debug-message').prop('checked', true);
         }
@@ -382,7 +393,15 @@ $(document).ready(function() {
         configSave('like_no_confirm', $('#like-direct').is(':checked'));
         configSave('repost_no_confirm', $('#repost-direct').is(':checked'));
         configSave('bookmark_no_confirm', $('#bookmark-direct').is(':checked'));
+        configSave('video_wall', $('#video-wall').is(':checked'));
         configSave('debug', $('#debug-message').is(':checked'));
+
+        if (configGet('video_wall')) {
+            videoWall = true;
+        }
+        else {
+            videoWall = false;
+        }
 
         let micropub = $('#micropub-endpoint').val();
         if (micropub !== undefined && micropub.length > 0) {
@@ -866,6 +885,10 @@ function loadChannels() {
         });
 
         $('.channel').click(function() {
+            loadedSource = null;
+            videos = [];
+            $('.video-wall').hide();
+            $('.reader-sub-title').hide();
             clearContainer(".timeline-item");
             loadTimeline($(this).data('link'), "");
             loadedChannel = $(this).data('channel');
@@ -945,6 +968,10 @@ function loadTimeline(timelineUrl, after) {
         finalTimelineUrl += '&after=' + after;
     }
 
+    if (loadedSource != null) {
+        finalTimelineUrl += "&source=" + loadedSource;
+    }
+
     $.ajax({
         type: 'GET',
         url: finalTimelineUrl,
@@ -980,6 +1007,18 @@ function loadTimeline(timelineUrl, after) {
         else {
             pagerContainer.hide();
         }
+
+        // Author link.
+        $('.author-name').click(function() {
+            let source_id =  $(this).data('source-id');
+            if (undefined !== source_id) {
+                $('.reader-sub-title').show().html("Source: " + $(this).html());
+                clearContainer(".timeline-item");
+                loadedSource = source_id;
+                videos = [];
+                loadTimeline(timelineUrl, "");
+            }
+        });
 
         // Inline actions.
         $('.action').on('click', function() {
@@ -1086,6 +1125,16 @@ function loadTimeline(timelineUrl, after) {
             showContainer('#overlay-container');
         });
 
+        // Video wall.
+        $('.video-wall').on('click', function() {
+            let videoWall = "";
+            showContainer('#overlay-container');
+            for (let i = 0; i < videos.length; i++) {
+                videoWall += '<div class="video"> <video controls> <source src="' + videos[i] + '"> </video> </div>';
+            }
+            $('.overlay-content').html('<div class="video-wall-overlay">' + videoWall + '</div>');
+        });
+
     })
     .fail(function() {
         snackbar('Something went wrong loading the timeline', 'error');
@@ -1147,7 +1196,11 @@ function renderPost(item) {
 
     // Author name.
     if (authorName.length > 0) {
-        post += '<div class="author-name">' + authorName + '</div>';
+        let sourceAttributes = "";
+        if (undefined !== item._source) {
+            sourceAttributes = ' data-source-id="' + item._source + '"';
+        }
+        post += '<div class="author-name"' + sourceAttributes + '>' + authorName + '</div>';
     }
 
     // Published time.
@@ -1162,9 +1215,7 @@ function renderPost(item) {
     let types = {'like-of': 'Liked', 'repost-of': 'Reposted', 'quotation-of': 'Quoted', 'in-reply-to': 'Replied to'};
     $.each(types , function(index, val) {
         if (item[index]) {
-            if (index === 'quotation-of' || index === 'in-reply-to') {
-                checkReference = item[index];
-            }
+            checkReference = item[index];
             post += '<div class="post-type">' + val + ' <a href="' + item[index] + '">' + item[index] + '</a></div>';
         }
     });
@@ -1205,6 +1256,14 @@ function renderPost(item) {
             }
         }
 
+        if (undefined !== ref.video) {
+            if (videoWall) {
+                $('.video-wall').show();
+                videos.push(ref.video);
+            }
+            post += '<div class="video"> <video controls> <source src="' + ref.video[0] + '"> </video> </div>';
+        }
+
         if (undefined !== ref.photo) {
             for (let i = 0; i < ref.photo.length; i++) {
                 post += '<div class="image"><img src="' + ref.photo[i] + '" /></div>';
@@ -1219,6 +1278,10 @@ function renderPost(item) {
     }
 
     if (item.video !== undefined) {
+        if (videoWall) {
+            $('.video-wall').show();
+            videos.push(item.video);
+        }
         post += '<div class="video"> <video controls> <source src="' + item.video[0] + '"> </video> </div>';
     }
 

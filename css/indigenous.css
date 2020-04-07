@@ -134,15 +134,19 @@ p {
     font-size: 14px;
 }
 
-.back-to-channels, .mark-read, .next {
+.back-to-channels, .mark-read, .next, .video-wall {
     font-size: 20px;
     display: block;
     color: var(--text-color);
     cursor: pointer;
 }
 
-.mark-read {
+.mark-read, .video-wall {
     margin-left: 20px;
+}
+
+.video-wall-overlay .video {
+    float: left;
 }
 
 .timeline-item {
@@ -178,6 +182,12 @@ p {
 }
 
 .author-name {
+    cursor: pointer;
+}
+
+.reader-sub-title {
+    display: none;
+    font-size: 18px;
 }
 
 .content-wrapper, .overlay-wrapper {

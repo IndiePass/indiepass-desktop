@@ -23,7 +23,7 @@ html {
 body {
     margin: 0;
     font-size: 18px;
-    font-family: Signa,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font: caption;
     line-height: 28px;
 }
 

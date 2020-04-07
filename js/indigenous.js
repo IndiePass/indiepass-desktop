@@ -432,6 +432,7 @@ $(document).ready(function() {
         configDelete('repost_no_confirm');
         configDelete('micropub_endpoint');
         configDelete('microsub_endpoint');
+        configDelete('media_endpoint');
         configDelete('token');
         snackbar('Settings have been reset to default');
     });

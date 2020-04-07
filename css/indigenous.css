@@ -167,7 +167,7 @@ p {
     flex-grow: 1;
 }
 
-.post-content-wrapper img {
+.post-content-wrapper img, .overlay-content img {
     max-width: 100%;
 }
 

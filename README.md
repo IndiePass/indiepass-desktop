@@ -70,6 +70,8 @@ This app uses following libraries:
 - https://github.com/sindresorhus/electron-store
 - https://jquery.com
 - https://iamceege.github.io/tooltipster
+- https://github.com/iamkun/dayjs
+- https://craig.is/killing/mice
 
 ## Other Micropub and Microsub clients
 

@@ -281,6 +281,7 @@ $(document).ready(function() {
     window.addEventListener('online', function(e) { isOnline = true; });
 
     loadChannels();
+    addMouseBindings();
 
     if (isDefaultMicrosubEndpoint()) {
         $('.mark-read').hide();
@@ -869,8 +870,6 @@ function loadChannels() {
             loadTimeline($(this).data('link'), "");
             loadedChannel = $(this).data('channel');
         });
-
-        addMouseBindings();
     })
     .fail(function() {
         snackbar('Something went wrong loading the channels', 'error');

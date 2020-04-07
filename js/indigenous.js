@@ -883,6 +883,7 @@ function loadTimeline(timelineUrl, after) {
 
         // Pager.
         if (undefined !== data.paging && undefined !== data.paging.after) {
+            pagerContainer.show();
             let next = '<span class="next">More posts</span>';
             pagerContainer.html(next);
             $('.next').on('click', function() {
@@ -890,7 +891,7 @@ function loadTimeline(timelineUrl, after) {
             });
         }
         else {
-            pagerContainer.remove();
+            pagerContainer.hide();
         }
 
         // Inline actions.
@@ -1097,10 +1098,18 @@ function renderPost(item) {
                 post += '<div class="reference">' + ref.content.text + '</div>';
             }
         }
+
+        if (undefined !== ref.photo) {
+            for (let i = 0; i < ref.photo.length; i++) {
+                post += '<div class="image"><img src="' + ref.photo[i] + '" /></div>';
+            }
+        }
     }
 
     if (item.photo !== undefined) {
-        post += '<div class="image"><img src="' + item.photo[0] + '" /></div>';
+        for (let i = 0; i < item.photo.length; i++) {
+            post += '<div class="image"><img src="' + item.photo[i] + '" /></div>';
+        }
     }
 
     if (item.video !== undefined) {

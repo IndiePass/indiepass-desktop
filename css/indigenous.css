@@ -50,12 +50,14 @@ p {
 #header .logo {
     width: 100px;
     height: 100px;
+    -webkit-user-select:none;
 }
 
 #header .menu {
     line-height: 94px;
     margin-left: 20px;
     font-size: 20px;
+    -webkit-user-select:none;
 }
 
 .reader, .settings, .post, .media, .about {

@@ -325,19 +325,25 @@ $(document).ready(function() {
     });
 
     $('.back-to-channels').on('click', function() {
-       hideContainer('#timeline-container');
-       hideContainer('#posts-container');
-       hideContainer('#settings-container');
-       showContainer('#channels-container');
+        hideContainer('#media-container');
+        hideContainer('#timeline-container');
+        hideContainer('#posts-container');
+        hideContainer('#settings-container');
+        showContainer('#channels-container');
     });
 
     $('.reader').on('click', function() {
         loadReader();
     });
 
+    $('.media').on('click', function() {
+        loadMedia();
+    });
+
     $('.settings').on('click', function() {
         $('.menu').removeClass('selected');
         $('.settings').addClass('selected');
+        hideContainer('#media-container');
         hideContainer('#channels-container');
         hideContainer('#timeline-container');
         hideContainer('#posts-container');
@@ -352,6 +358,7 @@ $(document).ready(function() {
         }
         $('#micropub-endpoint').val(getMicropubEndpoint());
         $('#microsub-endpoint').val(getMicrosubEndpoint());
+        $('#media-endpoint').val(getMediaEndpoint());
 
         if (configGet('like_no_confirm')) {
             $('#like-direct').prop('checked', true);
@@ -371,6 +378,7 @@ $(document).ready(function() {
     $('.post').on('click', function() {
         $('.menu').removeClass('selected');
         $('.post').addClass('selected');
+        hideContainer('#media-container');
         hideContainer('#channels-container');
         hideContainer('#timeline-container');
         hideContainer('#settings-container');
@@ -395,6 +403,11 @@ $(document).ready(function() {
         let micropub = $('#micropub-endpoint').val();
         if (micropub !== undefined && micropub.length > 0) {
             configSave('micropub_endpoint', micropub);
+        }
+
+        let media = $('#media-endpoint').val();
+        if (media !== undefined && media.length > 0) {
+            configSave('media_endpoint', media);
         }
 
         let microsub = $('#microsub-endpoint').val();
@@ -422,6 +435,62 @@ $(document).ready(function() {
         configDelete('token');
         snackbar('Settings have been reset to default');
     });
+
+    $('.send-media').on('click', function() {
+
+        if (noConnection(true, '')) {
+            return;
+        }
+
+        let mediaEndpoint = getMediaEndpoint();
+        if (mediaEndpoint.length > 0) {
+
+            let formData = new FormData();
+            let file = $('#file')[0].files[0];
+
+            if (undefined === file) {
+                snackbar('Please select a file', 'error');
+                return;
+            }
+
+            formData.append('file', file);
+            let token = configGet('token');
+            let headers = {};
+            if (token !== undefined) {
+                headers.Authorization = 'Bearer ' + token;
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: mediaEndpoint,
+                headers: headers,
+                data: formData,
+                mimeType: 'multipart/form-data',
+                processData: false,
+                contentType: false,
+            })
+            .done(function(data, status, headers) {
+                let location = headers.getResponseHeader("Location");
+                $('#file').val("");
+                let fileUrl;
+                if (undefined !== location && location.length > 0) {
+                    fileUrl = "File URL: " + location;
+                }
+                else {
+                    fileUrl = "No URL location found in response";
+                }
+                $('.media-url').html(fileUrl).show();
+                snackbar("File uploaded");
+            })
+            .fail(function() {
+                snackbar('Something went wrong uploading the file', 'error');
+            });
+        }
+        else {
+            snackbar('You need to configure a media endpoint in Settings', 'error');
+        }
+    });
+
 
     $('.send-post').on('click', function() {
 
@@ -529,10 +598,24 @@ function loadReader() {
     }
     $('.menu').removeClass('selected');
     $('.reader').addClass('selected');
+    hideContainer('#media-container');
     hideContainer('#settings-container');
     hideContainer('#timeline-container');
     hideContainer('#posts-container');
     showContainer('#channels-container');
+}
+
+/**
+ * Load media.
+ */
+function loadMedia() {
+    $('.menu').removeClass('selected');
+    $('.media').addClass('selected');
+    hideContainer('#channels-container');
+    hideContainer('#settings-container');
+    hideContainer('#timeline-container');
+    hideContainer('#posts-container');
+    showContainer('#media-container');
 }
 
 /**
@@ -589,6 +672,18 @@ function getMicropubEndpoint() {
     return "";
 }
 
+/**
+ * Return the media base url.
+ *
+ * @returns {string}
+ */
+function getMediaEndpoint() {
+    let media_endpoint = configGet('media_endpoint');
+    if (media_endpoint !== undefined) {
+        return media_endpoint;
+    }
+    return "";
+}
 
 function showContainer(selector) {
     $(selector).show();

@@ -58,7 +58,7 @@ p {
     font-size: 20px;
 }
 
-.reader, .settings, .post {
+.reader, .settings, .post, .media {
     cursor: pointer;
 }
 
@@ -97,8 +97,12 @@ p {
     background-color: var(--list-background-color);
 }
 
-#timeline-container, #settings-container, #posts-container, #overlay-container {
+#timeline-container, #settings-container, #posts-container, #overlay-container, #media-container {
     display: none;
+}
+
+#media-container {
+    padding: 10px;
 }
 
 .channel {
@@ -180,10 +184,6 @@ p {
 
 .overlay-wrapper {
     overflow: auto;
-}
-
-.content-full {
-    display: none;
 }
 
 .read-more {
@@ -362,6 +362,6 @@ input {
     height: 100px;
 }
 
-.syndication-targets-wrapper {
+.content-full, .syndication-targets-wrapper, .media-url {
     display: none;
 }

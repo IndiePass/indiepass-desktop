@@ -30,6 +30,7 @@ Looking for the Android client? See https://github.com/swentel/indigenous-androi
   - Syndication targets
   - Publish date and status
   - Tags, with autocomplete
+  - Upload a file to media endpoint (soon in posts)
 - Accounts: configure endpoints and token
 - Developer: view response of microsub requests in console
 

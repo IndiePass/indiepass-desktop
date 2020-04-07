@@ -26,6 +26,7 @@
             </div>
             <div class="reader float-left menu selected">Reader</div>
             <div class="post float-left menu">Post</div>
+          <div class="media float-left menu">Media</div>
             <div class="settings float-left menu">Settings</div>
         </div>
 
@@ -65,6 +66,10 @@
             <div>
                 <label for="micropub-endpoint">Post endpoint</label><br />
                 <input type="text" name="micropub_endpoint" id="micropub-endpoint" class="text" />
+            </div>
+            <div>
+                <label for="media-endpoint">Media endpoint</label><br />
+                <input type="text" name="media_endpoint" id="media-endpoint" class="text" />
             </div>
             <div>
                 <label for="microsub-endpoint">Reader endpoint</label><br />
@@ -122,6 +127,18 @@
         </div>
     </div>
 
-    <div class="snackbar"></div>
+  <div id="media-container">
+      <p>Upload a file to your media endpoint. On success, the URL will be printed underneath.</p>
+      <div class="media-url"></div>
+      <div>
+          <label for="file">Select a file:</label>
+          <input type="file" id="file" name="file">
+      </div>
+      <div class="post-buttons-wrapper">
+          <span class="send-media button" id="send-media">Upload</span>
+      </div>
+  </div>
+
+  <div class="snackbar"></div>
   </body>
 </html>

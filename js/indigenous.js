@@ -1,6 +1,7 @@
 const Store = require('electron-store');
 const store = new Store();
 const shell = require('electron').shell;
+const dayjs = require('dayjs');
 
 let snackbarElement;
 let refreshChannels = false;
@@ -1046,7 +1047,7 @@ function renderPost(item) {
 
     // Published time.
     if (item.published) {
-        post += '<div class="published-on">' + item.published + '</div>';
+        post += '<div class="published-on">' + dayjs(item.published).format('DD/MM/YYYY HH:mm') + '</div>';
     }
 
     // Define a reference to check after content.

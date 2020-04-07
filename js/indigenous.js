@@ -267,6 +267,11 @@ $(document).ready(function() {
 
     snackbarElement = $('.snackbar');
 
+    $('.external-link').on('click', function(e) {
+        e.preventDefault();
+        shell.openExternal(this.href);
+    });
+
     if (!navigator.onLine) { isOnline = false; }
     window.addEventListener('offline', function(e) { isOnline = false; });
     window.addEventListener('online', function(e) { isOnline = true; });
@@ -326,10 +331,7 @@ $(document).ready(function() {
     });
 
     $('.back-to-channels').on('click', function() {
-        hideContainer('#media-container');
         hideContainer('#timeline-container');
-        hideContainer('#posts-container');
-        hideContainer('#settings-container');
         showContainer('#channels-container');
     });
 
@@ -341,9 +343,21 @@ $(document).ready(function() {
         loadMedia();
     });
 
+    $('.about').on('click', function () {
+        $('.menu').removeClass('selected');
+        $('.about').addClass('selected');
+        showContainer('#about-container');
+        hideContainer('#media-container');
+        hideContainer('#channels-container');
+        hideContainer('#timeline-container');
+        hideContainer('#posts-container');
+        hideContainer('#settings-container');
+    })
+
     $('.settings').on('click', function() {
         $('.menu').removeClass('selected');
         $('.settings').addClass('selected');
+        hideContainer('#about-container');
         hideContainer('#media-container');
         hideContainer('#channels-container');
         hideContainer('#timeline-container');
@@ -380,6 +394,7 @@ $(document).ready(function() {
         $('.menu').removeClass('selected');
         $('.post').addClass('selected');
         hideContainer('#media-container');
+        hideContainer('#about-container');
         hideContainer('#channels-container');
         hideContainer('#timeline-container');
         hideContainer('#settings-container');
@@ -600,6 +615,7 @@ function loadReader() {
     }
     $('.menu').removeClass('selected');
     $('.reader').addClass('selected');
+    hideContainer('#about-container');
     hideContainer('#media-container');
     hideContainer('#settings-container');
     hideContainer('#timeline-container');
@@ -613,6 +629,7 @@ function loadReader() {
 function loadMedia() {
     $('.menu').removeClass('selected');
     $('.media').addClass('selected');
+    hideContainer('#about-container');
     hideContainer('#channels-container');
     hideContainer('#settings-container');
     hideContainer('#timeline-container');

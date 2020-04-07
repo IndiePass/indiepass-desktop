@@ -58,7 +58,7 @@ p {
     font-size: 20px;
 }
 
-.reader, .settings, .post, .media {
+.reader, .settings, .post, .media, .about {
     cursor: pointer;
 }
 
@@ -97,11 +97,11 @@ p {
     background-color: var(--list-background-color);
 }
 
-#timeline-container, #settings-container, #posts-container, #overlay-container, #media-container {
+#timeline-container, #settings-container, #posts-container, #overlay-container, #media-container, #about-container {
     display: none;
 }
 
-#media-container {
+#media-container, #about-container {
     padding: 10px;
 }
 

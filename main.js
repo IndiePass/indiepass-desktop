@@ -36,16 +36,6 @@ function createWindow () {
       label: 'Help',
       submenu: [
         {
-          label: 'About',
-          click() {
-            const modalPath = path.join('file://', __dirname, 'about.html');
-            let win = new BrowserWindow({ frame: false });
-            win.on('close', () => { win = null });
-            win.loadURL(modalPath);
-            win.show();
-          }
-        },
-        {
           label: 'Search issues',
           click() {
             shell.openExternal("https://github.com/swentel/indigenous-desktop");

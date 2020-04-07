@@ -7,6 +7,7 @@ let refreshChannels = false;
 let currentChannel = 0;
 let tokenInfoAdded = false;
 let targetsAdded = false;
+let isOnline = true;
 let currentPost;
 let postIndex;
 let anonymousMicrosubEndpoint = 'https://indigenous.realize.be/indieweb/microsub';
@@ -41,6 +42,41 @@ function debug(log) {
     if (configGet('debug')) {
         console.log(log);
     }
+}
+
+/**
+ * Check if there's no internet connection.
+ *
+ * @param snackbarMessage
+ * @param element
+ */
+function noConnection(snackbarMessage, element) {
+    if (!isOnline) {
+
+        let addBreak = '<br />';
+        if (snackbarMessage) {
+            addBreak = ' ';
+        }
+        let message = "No internet connection" + addBreak + " Check your mobile data or Wi-Fi.";
+
+        if (snackbarMessage) {
+            snackbar(message);
+        }
+        else {
+            message += '<br />Click here to retry.';
+            message = '<div class="no-connection"><img src="./images/no_connection.png" class="no-connection" /><br />' + message + ' </div>';
+            $(element).html(message);
+        }
+
+        $('.no-connection').on('click', function() {
+            refreshChannels = true;
+            loadReader();
+        });
+
+        return true;
+    }
+
+    return false;
 }
 
 /**
@@ -230,8 +266,11 @@ $(document).ready(function() {
 
     snackbarElement = $('.snackbar');
 
-    loadChannels();
+    if (!navigator.onLine) { isOnline = false; }
+    window.addEventListener('offline', function(e) { isOnline = false; });
+    window.addEventListener('online', function(e) { isOnline = true; });
 
+    loadChannels();
     Mousetrap.bind('n', function() {
         if ($('.post-' + (currentPost + 1)).length > 0) {
             currentPost++;
@@ -293,17 +332,7 @@ $(document).ready(function() {
     });
 
     $('.reader').on('click', function() {
-        if (refreshChannels) {
-            $('.channel').remove();
-            refreshChannels = false;
-            loadChannels();
-        }
-        $('.menu').removeClass('selected');
-        $('.reader').addClass('selected');
-        hideContainer('#settings-container');
-        hideContainer('#timeline-container');
-        hideContainer('#posts-container');
-        showContainer('#channels-container');
+        loadReader();
     });
 
     $('.settings').on('click', function() {
@@ -395,6 +424,11 @@ $(document).ready(function() {
     });
 
     $('.send-post').on('click', function() {
+
+       if (noConnection(true, '')) {
+            return;
+       }
+
        let micropubEndpoint = getMicropubEndpoint();
        if (micropubEndpoint.length > 0) {
            if ($('#post-content').val().length > 0) {
@@ -482,6 +516,24 @@ $(document).ready(function() {
     });
 
 });
+
+/**
+ * Load reader.
+ */
+function loadReader() {
+    if (refreshChannels) {
+        $('.no-connection').remove();
+        $('.channel').remove();
+        refreshChannels = false;
+        loadChannels();
+    }
+    $('.menu').removeClass('selected');
+    $('.reader').addClass('selected');
+    hideContainer('#settings-container');
+    hideContainer('#timeline-container');
+    hideContainer('#posts-container');
+    showContainer('#channels-container');
+}
 
 /**
  * Shows a message in the snackbar.
@@ -590,6 +642,10 @@ function doInlinePost(properties, type, element) {
  * Load channels.
  */
 function loadChannels() {
+
+    if (noConnection(false, '#channels-container')) {
+        return;
+    }
 
     let baseUrl = getMicrosubEndpoint();
     let token = configGet('token');

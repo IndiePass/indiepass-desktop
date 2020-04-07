@@ -31,6 +31,14 @@ body {
     padding: 10px;
 }
 
+.no-connection {
+    margin-top: 20px;
+    text-align: center;
+    background-color: #fff;
+    padding: 10px;
+    cursor: pointer;
+}
+
 p {
     margin: 0 0 1em 0;
 }

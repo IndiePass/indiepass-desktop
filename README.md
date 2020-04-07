@@ -16,6 +16,7 @@ Looking for the Android client? See https://github.com/swentel/indigenous-androi
   - Starts with default anonymous account with the reader connected to  https://indigenous.realize.be
   - Read channels and posts per timeline
   - Inline reply, like, bookmark and repost with or without confirmation
+  - Inline RSVP on events
   - Listen to audio or watch video
   - Long articles open in an overlay
   - Mark all read button

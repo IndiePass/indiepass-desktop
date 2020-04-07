@@ -219,6 +219,7 @@ p {
 
 .button {
     cursor: pointer;
+    text-align: center;
     background-color: rgb(221, 100, 94);
     color: #fff;
     padding: 10px 25px;
@@ -229,6 +230,11 @@ p {
     -webkit-transition: all 0.2s ease;
     -moz-transition: all 0.2s ease;
     transition: all 0.2s ease;
+}
+
+.rsvp-response {
+    padding: 5px;
+    font-size: 16px;
 }
 
 input {

@@ -991,6 +991,25 @@ function loadTimeline(timelineUrl, after) {
                     shell.openExternal(url);
                 }
                 else if (type === 'rsvp') {
+                    $(this)
+                    .tooltipster({
+                        animation: 'slide',
+                        trigger: 'click',
+                        content: '<div class="tooltip-rsvp-wrapper"><div class="inline-rsvp"><select class="rsvp-response"><option value="yes">I\'m going!</option><option value="maybe">Maybe</option><option value="interested">Interested</option><option value="no">Can not attend</option></select></div><div class="button tooltip-send">RSVP</div></div>',
+                        contentAsHTML: true,
+                        interactive: true,
+                        functionReady: function(instance, helper){
+                            $('.tooltip-send').on('click', function() {
+                                instance.close();
+                                let prop = 'in-reply-to';
+                                let properties = {};
+                                properties[prop] = url;
+                                properties.rsvp = $('.rsvp-response').val();
+                                doInlinePost(properties, type, element);
+                            });
+                        }
+                    })
+                        .tooltipster('open');
                 }
                 else if (type === 'like' || type === 'repost' || type === 'bookmark') {
                     let prop = type + '-of';

@@ -32,6 +32,8 @@ https://indigenous.realize.be
   - Tags, with autocomplete
 - Developer
   - View response of microsub requests in console
+- General
+  - Uses the font of your system  
 
 Video of first release: https://www.youtube.com/watch?v=7egdRBg70XA
 

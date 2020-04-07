@@ -120,7 +120,7 @@ p {
     color: #666666;
 }
 
-.channel:hover {
+.channel:hover, .channel-hover {
     color: var(--primary-color-accent);
     background-color: var(--list-background-color);
 }

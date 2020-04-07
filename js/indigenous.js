@@ -5,12 +5,16 @@ const dayjs = require('dayjs');
 
 let snackbarElement;
 let refreshChannels = false;
+let loadedChannel = 0;
 let currentChannel = 0;
+let isChannel = true;
+let isTimeline = false;
 let tokenInfoAdded = false;
 let targetsAdded = false;
 let isOnline = true;
 let currentPost;
 let postIndex;
+let mouseBindingsAdded = false;
 let anonymousMicrosubEndpoint = 'https://indigenous.realize.be/indieweb/microsub';
 let defaultAuthor = '<div class="author-avatar"><img class="avatar" src="./images/avatar_small.png" width="80" height="80" /></div>';
 
@@ -277,45 +281,6 @@ $(document).ready(function() {
     window.addEventListener('online', function(e) { isOnline = true; });
 
     loadChannels();
-    Mousetrap.bind('n', function() {
-        if ($('.post-' + (currentPost + 1)).length > 0) {
-            currentPost++;
-            $('html,body').animate({
-                scrollTop: $(".post-" + currentPost).offset().top - 10
-            }, 'slow', function() {
-                $(".post-" + (currentPost - 1)).css('border', 'none');
-                $(".post-" + currentPost).css('border', '1px solid #DD645E')
-            });
-        }
-        else if ($('.next').length > 0) {
-            $('.next').click();
-        }
-    });
-
-    Mousetrap.bind('p', function() {
-        currentPost--;
-        if (currentPost >= 0) {
-            $('html,body').animate({
-                scrollTop: $(".post-" + currentPost).offset().top
-            }, 'slow', function() {
-                $(".post-" + (currentPost + 1)).css('border', 'none');
-                $(".post-" + currentPost).css('border', '1px solid #DD645E')
-            });
-        }
-        else {
-            currentPost = 0;
-        }
-    });
-
-    Mousetrap.bind('r', function() {
-        if (currentPost >= 0) {
-            $('.post-' + currentPost + ' .read-more').click();
-        }
-    });
-
-    Mousetrap.bind('c', function() {
-        $('.overlay-close').click();
-    });
 
     if (isDefaultMicrosubEndpoint()) {
         $('.mark-read').hide();
@@ -331,6 +296,8 @@ $(document).ready(function() {
     });
 
     $('.back-to-channels').on('click', function() {
+        isTimeline = false;
+        isChannel = true;
         hideContainer('#timeline-container');
         showContainer('#channels-container');
     });
@@ -604,6 +571,98 @@ $(document).ready(function() {
 });
 
 /**
+ * Add mouse bindings.
+ */
+function addMouseBindings() {
+
+    if (mouseBindingsAdded) {
+        return;
+    }
+    mouseBindingsAdded = true;
+
+    Mousetrap.bind('down', function() {
+
+        if (isChannel) {
+            if ($('.channel-' + (currentChannel + 1)).length > 0) {
+                currentChannel++;
+                $(".channel-" + (currentChannel - 1)).removeClass('channel-hover');
+                $(".channel-" + currentChannel).addClass('channel-hover')
+            }
+        }
+
+        if (isTimeline) {
+            if ($('.post-' + (currentPost + 1)).length > 0) {
+                currentPost++;
+                $('html,body').animate({
+                    scrollTop: $(".post-" + currentPost).offset().top - 10
+                }, 'slow', function() {
+                    $(".post-" + (currentPost - 1)).css('border', 'none');
+                    $(".post-" + currentPost).css('border', '1px solid #DD645E')
+                });
+            }
+            else if ($('.next').length > 0) {
+                $('.next').click();
+            }
+        }
+
+    });
+
+    Mousetrap.bind('up', function() {
+
+        // Channel.
+        if (isChannel) {
+            currentChannel--;
+            if (currentChannel >= 0) {
+                $(".channel-" + (currentChannel + 1)).removeClass('channel-hover');
+                $(".channel-" + currentChannel).addClass('channel-hover')
+            }
+            else {
+                currentChannel = 0;
+            }
+        }
+
+        // Timeline.
+        if (isTimeline) {
+            currentPost--;
+            if (currentPost >= 0) {
+                $('html,body').animate({
+                    scrollTop: $(".post-" + currentPost).offset().top
+                }, 'slow', function() {
+                    $(".post-" + (currentPost + 1)).css('border', 'none');
+                    $(".post-" + currentPost).css('border', '1px solid #DD645E')
+                });
+            }
+            else {
+                currentPost = 0;
+            }
+        }
+
+    });
+
+    Mousetrap.bind('right', function() {
+       if (isChannel) {
+           $('.channel-hover').click();
+       }
+    });
+
+    Mousetrap.bind('left', function() {
+        if (isTimeline) {
+            $('.back-to-channels').click();
+        }
+    });
+
+    Mousetrap.bind('r', function() {
+        if (isTimeline && currentPost >= 0) {
+            $('.post-' + currentPost + ' .read-more').click();
+        }
+    });
+
+    Mousetrap.bind('c', function() {
+        $('.overlay-close').click();
+    });
+}
+
+/**
  * Load reader.
  */
 function loadReader() {
@@ -761,6 +820,9 @@ function loadChannels() {
         return;
     }
 
+    isChannel = true;
+    isTimeline = false;
+
     let baseUrl = getMicrosubEndpoint();
     let token = configGet('token');
     let headers = {
@@ -794,16 +856,21 @@ function loadChannels() {
                 }
             }
             let timeline_url = baseUrl + '?action=timeline&channel=' + item.uid;
-            let channel = '<div class="channel" data-channel="' + item.uid + '" data-link="' + timeline_url + '">' + item.name + indicator + '</div>';
+            let channelClasses = "channel channel-" + i;
+            if (i === 0) {
+                channelClasses += ' channel-hover';
+            }
+            let channel = '<div class="' + channelClasses + '" data-channel="' + item.uid + '" data-link="' + timeline_url + '">' + item.name + indicator + '</div>';
             channels.append(channel);
         });
 
         $('.channel').click(function() {
             clearContainer(".timeline-item");
             loadTimeline($(this).data('link'), "");
-            currentChannel = $(this).data('channel');
+            loadedChannel = $(this).data('channel');
         });
 
+        addMouseBindings();
     })
     .fail(function() {
         snackbar('Something went wrong loading the channels', 'error');
@@ -829,7 +896,7 @@ function markRead() {
         'method': 'mark_read',
         // TODO fix this, although this works for Drupal, I guess other microsub servers behave differently.
         'last_read_entry': 'everything',
-        'channel': currentChannel,
+        'channel': loadedChannel,
     };
 
     $.ajax({
@@ -840,7 +907,7 @@ function markRead() {
     })
     .done(function(data) {
         $('.new').hide();
-        $('.channel-indicator-' + currentChannel).html("");
+        $('.channel-indicator-' + loadedChannel).html("");
         snackbar('All items marked as read');
     })
     .fail(function() {
@@ -857,6 +924,9 @@ function markRead() {
  *   The after value
  */
 function loadTimeline(timelineUrl, after) {
+
+    isChannel = false;
+    isTimeline = true;
 
     if (after.length === 0) {
         currentPost = 0;

@@ -9,7 +9,7 @@ function createWindow () {
     width: 1200,
     height: 900,
     title: 'Indigenous',
-    icon: __dirname + '/images/logo.png',
+    icon: __dirname + '/images/icon-big.png',
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
     }

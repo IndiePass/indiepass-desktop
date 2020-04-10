@@ -18,6 +18,7 @@ let postIndex;
 let search = "";
 let ignoreScroll = false;
 let mouseBindingsAdded = false;
+let channelResponse = [];
 let anonymousMicrosubEndpoint = 'https://indigenous.realize.be/indieweb/microsub';
 let defaultAuthor = '<div class="author-avatar"><img class="avatar" src="./images/avatar_small.png" width="80" height="80" /></div>';
 let videos = [];
@@ -413,6 +414,9 @@ $(document).ready(function() {
         if (configGet('video_wall')) {
             $('#video-wall').prop('checked', true);
         }
+        if (configGet('post_move')) {
+            $('#post-move').prop('checked', true);
+        }
         if (configGet('debug')) {
             $('#debug-message').prop('checked', true);
         }
@@ -445,6 +449,7 @@ $(document).ready(function() {
         configSave('bookmark_no_confirm', $('#bookmark-direct').is(':checked'));
         configSave('search', $('#search').is(':checked'));
         configSave('video_wall', $('#video-wall').is(':checked'));
+        configSave('post_move', $('#post-move').is(':checked'));
         configSave('debug', $('#debug-message').is(':checked'));
 
         videoWall = !!configGet('video_wall');
@@ -886,7 +891,7 @@ function doRequest(properties, type, element) {
     }
 
     let endpoint = getMicropubEndpoint();
-    if (type !== 'delete') {
+    if (type !== 'delete' && type !== 'move') {
         properties.h = 'entry';
         properties['post-status'] = 'published';
     }
@@ -940,7 +945,8 @@ function loadChannels() {
         debug(data);
         let channels = $('#channels-container .channel-wrapper');
 
-        $.each(data.channels, function(i, item) {
+        channelResponse = data.channels;
+        $.each(channelResponse, function(i, item) {
             let indicator = "";
             if (undefined !== item.unread) {
                 if (typeof(item.unread) === "boolean") {
@@ -1127,7 +1133,7 @@ function loadTimeline(timelineUrl, after) {
                             content: '<div class="tooltip-read-wrapper"><div class="inline-read"><select class="read-response"><option value="">Omit status</option><option value="to-read">To read</option><option value="reading">Reading</option><option value="finished">Finished</option></select></div><div class="button tooltip-send">Send</div></div>',
                             contentAsHTML: true,
                             interactive: true,
-                            functionReady: function(instance, helper){
+                            functionReady: function(instance, helper) {
                                 $('.tooltip-send').on('click', function() {
                                     instance.close();
                                     let prop = 'read-of';
@@ -1151,7 +1157,7 @@ function loadTimeline(timelineUrl, after) {
                         content: '<div class="tooltip-rsvp-wrapper"><div class="inline-rsvp"><select class="rsvp-response"><option value="yes">I\'m going!</option><option value="maybe">Maybe</option><option value="interested">Interested</option><option value="no">Can not attend</option></select></div><div class="button tooltip-send">RSVP</div></div>',
                         contentAsHTML: true,
                         interactive: true,
-                        functionReady: function(instance, helper){
+                        functionReady: function(instance, helper) {
                             $('.tooltip-send').on('click', function() {
                                 instance.close();
                                 let prop = 'in-reply-to';
@@ -1163,6 +1169,36 @@ function loadTimeline(timelineUrl, after) {
                         }
                     })
                     .tooltipster('open');
+                }
+                else if (type === 'move') {
+
+                    let content = '<div class="tooltip-move-wrapper"><div class="inline-move"><select class="move-channel">';
+                    $.each(channelResponse, function (i, item) {
+                        content += '<option value="' + item.uid + '">' + item.name + '</option>';
+                    });
+                    content += '</select></div><div class="button tooltip-send">Move</div></div>';
+
+                    $(this)
+                        .tooltipster({
+                            animation: 'slide',
+                            trigger: 'click',
+                            content: content,
+                            contentAsHTML: true,
+                            interactive: true,
+                            side: ["left"],
+                            functionReady: function(instance, helper) {
+                                $('.tooltip-send').on('click', function() {
+                                    instance.close();
+                                    let properties = {};
+                                    properties["entry"] = entry;
+                                    properties["action"] = "timeline";
+                                    properties["method"] = "move";
+                                    properties["channel"] = $('.move-channel').val();
+                                    doRequest(properties, type, element);
+                                });
+                            }
+                        })
+                        .tooltipster('open');
                 }
                 else if (type === 'like' || type === 'repost' || type === 'bookmark' || type === 'delete') {
                     let properties = {};
@@ -1191,7 +1227,7 @@ function loadTimeline(timelineUrl, after) {
                                 contentAsHTML: true,
                                 interactive: true,
                                 side: side,
-                                functionReady: function(instance, helper){
+                                functionReady: function(instance, helper) {
                                    $('.tooltip-confirm').on('click', function() {
                                        instance.close();
                                        doRequest(properties, type, element);
@@ -1441,6 +1477,9 @@ function renderPost(item) {
             post += '<div class="action action-rsvp" data-action="rsvp"></div>';
         }
         post += '<div class="action action-delete" data-action="delete"></div>';
+        if (configGet('post_move')) {
+            post += '<div class="action action-move" data-action="move"></div>';
+        }
         post += '</div>';
     }
 

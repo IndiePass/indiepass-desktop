@@ -247,7 +247,7 @@ p {
     transition: all 0.2s ease;
 }
 
-.rsvp-response, .read-response {
+.rsvp-response, .read-response, .move-channel {
     padding: 5px;
     font-size: 16px;
 }
@@ -325,9 +325,13 @@ input {
     background-image: url('../images/button_external_idle.png');
 }
 
+.action-move {
+    float: right;
+    background-image: url('../images/button_move_idle.png');
+}
+
 .action-delete {
     float: right;
-    margin-right: 10px;
     background-image: url('../images/button_delete_idle.png');
 }
 

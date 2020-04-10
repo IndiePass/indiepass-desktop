@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "dayjs": "^1.8.23",
+    "electron-context-menu": "^0.16.0",
     "electron-store": "^5.1.1",
     "jquery": "^3.4.1",
     "mousetrap": "^1.6.5",

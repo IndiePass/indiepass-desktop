@@ -29,6 +29,9 @@ Looking for the Android client? See https://github.com/swentel/indigenous-androi
     - left: back to channels
     - r: when a post has a read more button, open the overlay
     - c: close overlay when opened
+  - Context menu: right click when selecting text to search DuckDuckGo, or save
+    an image, or copy the link and so on.
+  - External links in posts are opened in your system browser
 - Micropub
   - Post types: note/article
   - Single photo upload

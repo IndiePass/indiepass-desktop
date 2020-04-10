@@ -1,7 +1,7 @@
-// Modules to control application life and create native browser window
-const {app, BrowserWindow, Menu} = require('electron')
-const path = require('path')
+const {app, BrowserWindow, Menu} = require('electron');
+const path = require('path');
 const shell = require('electron').shell;
+const contextMenu = require('electron-context-menu');
 
 function createWindow () {
   // Create the browser window.
@@ -47,6 +47,20 @@ function createWindow () {
 
   let menu = Menu.buildFromTemplate(application_menu);
   Menu.setApplicationMenu(menu);
+
+  contextMenu({
+    prepend: (defaultActions, params, browserWindow) => [
+      {
+        label: 'Search  for “{selection}”',
+        // Only show it when right-clicking text
+        visible: params.selectionText.trim().length > 0,
+        click: () => {
+          shell.openExternal(`https://duckduckgo.com/?q=${encodeURIComponent(params.selectionText)}`);
+        }
+      }
+    ],
+    showInspectElement: !app.isPackaged
+  });
 
   // and load the index.html of the app.
   mainWindow.loadFile('index.html');

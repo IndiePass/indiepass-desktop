@@ -320,6 +320,7 @@ $(document).ready(function() {
     $('.overlay-close').on('click', function() {
       hideContainer('#overlay-container');
       $('.overlay-content').html('');
+      setScrollingState(true);
     });
 
     $('.back-to-channels').on('click', function() {
@@ -621,6 +622,24 @@ $(document).ready(function() {
     });
 
 });
+
+/**
+ * Set scrolling state.
+ *
+ * @param enabled
+ */
+function setScrollingState(enabled) {
+    if (enabled) {
+        $('html, body').css({
+            overflow: 'auto'
+        });
+    }
+    else {
+        $('html, body').css({
+            overflow: 'hidden'
+        });
+    }
+}
 
 /**
  * Add mouse bindings.
@@ -1165,6 +1184,12 @@ function loadTimeline(timelineUrl, after) {
             hideContainer('.overlay-content .content-truncated');
             showContainer('.overlay-content .content-full');
             showContainer('#overlay-container');
+            setScrollingState(false);
+            $('.overlay-content a').on('click', function(e) {
+                e.preventDefault();
+                shell.openExternal(this.href);
+            });
+
         });
 
         // Video wall.

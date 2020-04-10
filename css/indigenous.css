@@ -243,7 +243,7 @@ p {
     transition: all 0.2s ease;
 }
 
-.rsvp-response {
+.rsvp-response, .read-response {
     padding: 5px;
     font-size: 16px;
 }
@@ -310,6 +310,10 @@ input {
 
 .action-bookmark {
     background-image: url('../images/button_bookmark_idle.png');
+}
+
+.action-read {
+    background-image: url('../images/button_read_idle.png');
 }
 
 .action-external {

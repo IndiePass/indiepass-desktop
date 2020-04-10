@@ -1090,6 +1090,30 @@ function loadTimeline(timelineUrl, after) {
                 if (type === 'external') {
                     shell.openExternal(url);
                 }
+                else if (type === 'read') {
+                    $(this)
+                        .tooltipster({
+                            animation: 'slide',
+                            trigger: 'click',
+                            content: '<div class="tooltip-read-wrapper"><div class="inline-read"><select class="read-response"><option value="">Omit status</option><option value="to-read">To read</option><option value="reading">Reading</option><option value="finished">Finished</option></select></div><div class="button tooltip-send">Send</div></div>',
+                            contentAsHTML: true,
+                            interactive: true,
+                            functionReady: function(instance, helper){
+                                $('.tooltip-send').on('click', function() {
+                                    instance.close();
+                                    let prop = 'read-of';
+                                    let properties = {};
+                                    properties[prop] = url;
+                                    let readResponse = $('.read-response').val();
+                                    if (readResponse.length > 0) {
+                                        properties['read-status'] = readResponse;
+                                    }
+                                    doInlinePost(properties, type, element);
+                                });
+                            }
+                        })
+                        .tooltipster('open');
+                }
                 else if (type === 'rsvp') {
                     $(this)
                     .tooltipster({
@@ -1370,6 +1394,7 @@ function renderPost(item) {
         post += '<div class="action action-like" data-action="like"></div>';
         post += '<div class="action action-repost" data-action="repost"></div>';
         post += '<div class="action action-bookmark" data-action="bookmark"></div>';
+        post += '<div class="action action-read" data-action="read"></div>';
         post += '<div class="action action-external" data-action="external"></div>';
         if (type === "event") {
             post += '<div class="action action-rsvp" data-action="rsvp"></div>';

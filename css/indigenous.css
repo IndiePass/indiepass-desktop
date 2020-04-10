@@ -270,6 +270,7 @@ input {
 
 .actions {
     margin-top: 20px;
+    width: 100%;
 }
 
 .action {
@@ -322,6 +323,12 @@ input {
 
 .action-external {
     background-image: url('../images/button_external_idle.png');
+}
+
+.action-delete {
+    float: right;
+    margin-right: 10px;
+    background-image: url('../images/button_delete_idle.png');
 }
 
 .action-rsvp {

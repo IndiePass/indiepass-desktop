@@ -869,13 +869,13 @@ function clearContainer(selector) {
 }
 
 /**
- * Do an inline post.
+ * Do a request to the micropub or microsub endpoint.
  *
  * @param properties
  * @param type
  * @param element
  */
-function doInlinePost(properties, type, element) {
+function doRequest(properties, type, element) {
 
     let token = configGet('token');
     let headers = {
@@ -885,12 +885,18 @@ function doInlinePost(properties, type, element) {
         headers.Authorization = 'Bearer ' + token;
     }
 
-    properties.h = 'entry';
-    properties['post-status'] = 'published';
+    let endpoint = getMicropubEndpoint();
+    if (type !== 'delete') {
+        properties.h = 'entry';
+        properties['post-status'] = 'published';
+    }
+    else {
+        endpoint = getMicrosubEndpoint();
+    }
 
     $.ajax({
         type: 'POST',
-        url: getMicropubEndpoint(),
+        url: endpoint,
         headers: headers,
         data: properties,
         contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -1106,6 +1112,7 @@ function loadTimeline(timelineUrl, after) {
         // Inline actions.
         $('.action').on('click', function() {
             let url = $(this).parent().data('url');
+            let entry = $(this).parent().data('entry');
             if (url.length > 0) {
                 let type = $(this).data('action');
                 let element = $(this);
@@ -1130,7 +1137,7 @@ function loadTimeline(timelineUrl, after) {
                                     if (readResponse.length > 0) {
                                         properties['read-status'] = readResponse;
                                     }
-                                    doInlinePost(properties, type, element);
+                                    doRequest(properties, type, element);
                                 });
                             }
                         })
@@ -1151,18 +1158,28 @@ function loadTimeline(timelineUrl, after) {
                                 let properties = {};
                                 properties[prop] = url;
                                 properties.rsvp = $('.rsvp-response').val();
-                                doInlinePost(properties, type, element);
+                                doRequest(properties, type, element);
                             });
                         }
                     })
-                        .tooltipster('open');
+                    .tooltipster('open');
                 }
-                else if (type === 'like' || type === 'repost' || type === 'bookmark') {
-                    let prop = type + '-of';
+                else if (type === 'like' || type === 'repost' || type === 'bookmark' || type === 'delete') {
                     let properties = {};
-                    properties[prop] = url;
+                    let side = ["top"];
+                    if (type === 'delete') {
+                        side = ["left"];
+                        properties["entry"] = entry;
+                        properties["action"] = "timeline";
+                        properties["method"] = "remove";
+                        properties["channel"] = loadedChannel;
+                    }
+                    else {
+                        let prop = type + '-of';
+                        properties[prop] = url;
+                    }
                     if (configGet(type + '_no_confirm')) {
-                        doInlinePost(properties, type, element);
+                        doRequest(properties, type, element);
                     }
                     else {
                         // TODO check multiple binding (although tooltipster protects against it)
@@ -1173,10 +1190,11 @@ function loadTimeline(timelineUrl, after) {
                                 content: type + ' this entry?<div class="tooltip-confirm-wrapper"><div class="tooltip-confirm">Yes!</div><div class="tooltip-close">Nevermind!</div></div>',
                                 contentAsHTML: true,
                                 interactive: true,
+                                side: side,
                                 functionReady: function(instance, helper){
                                    $('.tooltip-confirm').on('click', function() {
                                        instance.close();
-                                       doInlinePost(properties, type, element);
+                                       doRequest(properties, type, element);
                                    });
                                    $('.tooltip-close').on('click', function() {
                                      instance.close();
@@ -1202,7 +1220,7 @@ function loadTimeline(timelineUrl, after) {
                                         let properties = {};
                                         properties[prop] = url;
                                         properties.content = $('.inline-textarea').val();
-                                        doInlinePost(properties, type, element);
+                                        doRequest(properties, type, element);
                                     }
                                     else {
                                         $('.inline-textarea').attr('placeholder', 'Please add some content for this reply');
@@ -1412,7 +1430,7 @@ function renderPost(item) {
         if (item.url.length > 0) {
             url = item.url;
         }
-        post += '<div class="actions" data-url="' + url + '">';
+        post += '<div class="actions" data-url="' + url + '" data-entry="' + item._id + '">';
         post += '<div class="action action-reply" data-action="reply"></div>';
         post += '<div class="action action-like" data-action="like"></div>';
         post += '<div class="action action-repost" data-action="repost"></div>';
@@ -1422,6 +1440,7 @@ function renderPost(item) {
         if (type === "event") {
             post += '<div class="action action-rsvp" data-action="rsvp"></div>';
         }
+        post += '<div class="action action-delete" data-action="delete"></div>';
         post += '</div>';
     }
 

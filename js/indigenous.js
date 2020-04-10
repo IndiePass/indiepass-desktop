@@ -15,6 +15,7 @@ let targetsAdded = false;
 let isOnline = true;
 let currentPost;
 let postIndex;
+let search = "";
 let mouseBindingsAdded = false;
 let anonymousMicrosubEndpoint = 'https://indigenous.realize.be/indieweb/microsub';
 let defaultAuthor = '<div class="author-avatar"><img class="avatar" src="./images/avatar_small.png" width="80" height="80" /></div>';
@@ -290,6 +291,23 @@ $(document).ready(function() {
     loadChannels();
     addMouseBindings();
 
+    if (configGet('search')) {
+        $('#search-form').on('submit', function(e) {
+            search = $('.search-field').val();
+            if (search.length > 0) {
+                $('.reader-sub-title').show().html("Search: " + search);
+                videos = [];
+                $('.mark-read').hide();
+                clearContainer(".timeline-item");
+                loadTimeline(getMicrosubEndpoint(), "");
+            }
+            e.preventDefault();
+        });
+    }
+    else {
+        $('.search-wrapper').hide();
+    }
+
     if (isDefaultMicrosubEndpoint()) {
         $('.mark-read').hide();
     }
@@ -307,6 +325,14 @@ $(document).ready(function() {
     $('.back-to-channels').on('click', function() {
         isTimeline = false;
         isChannel = true;
+
+        // Bring back mark read in case this was a search.
+        if (search.length > 0) {
+            search = "";
+            $('.search-field').val("");
+            $('.mark-read').show();
+        }
+
         hideContainer('#timeline-container');
         showContainer('#channels-container');
     });
@@ -360,6 +386,9 @@ $(document).ready(function() {
         if (configGet('bookmark_no_confirm')) {
             $('#bookmark-direct').prop('checked', true);
         }
+        if (configGet('search')) {
+            $('#search').prop('checked', true);
+        }
         if (configGet('video_wall')) {
             $('#video-wall').prop('checked', true);
         }
@@ -393,14 +422,17 @@ $(document).ready(function() {
         configSave('like_no_confirm', $('#like-direct').is(':checked'));
         configSave('repost_no_confirm', $('#repost-direct').is(':checked'));
         configSave('bookmark_no_confirm', $('#bookmark-direct').is(':checked'));
+        configSave('search', $('#search').is(':checked'));
         configSave('video_wall', $('#video-wall').is(':checked'));
         configSave('debug', $('#debug-message').is(':checked'));
 
-        if (configGet('video_wall')) {
-            videoWall = true;
+        videoWall = !!configGet('video_wall');
+
+        if (configGet('search')) {
+            $('.search-wrapper').show();
         }
         else {
-            videoWall = false;
+            $('.search-wrapper').hide();
         }
 
         let micropub = $('#micropub-endpoint').val();
@@ -859,7 +891,7 @@ function loadChannels() {
     .done(function(data) {
 
         debug(data);
-        let channels = $('#channels-container');
+        let channels = $('#channels-container .channel-wrapper');
 
         $.each(data.channels, function(i, item) {
             let indicator = "";
@@ -972,10 +1004,20 @@ function loadTimeline(timelineUrl, after) {
         finalTimelineUrl += "&source=" + loadedSource;
     }
 
+    let method = 'GET';
+    let data = {};
+    if (search.length > 0) {
+        method = 'POST';
+        data['action'] = 'search';
+        data['channel'] = 'global';
+        data['query'] = search;
+    }
+
     $.ajax({
-        type: 'GET',
+        type: method,
         url: finalTimelineUrl,
         headers: headers,
+        data: data,
     })
     .done(function(data) {
         debug(data);

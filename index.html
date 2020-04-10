@@ -32,6 +32,8 @@
         </div>
 
         <div id="channels-container">
+            <div class="search-wrapper"><form id="search-form"><input type="text" class="search-field text" placeholder="search"></form></div>
+            <div class="channel-wrapper"></div>
         </div>
 
         <div id="timeline-container">
@@ -60,6 +62,11 @@
                 <label for="bookmark-direct">Bookmark without confirmation</label>
                 <input type="checkbox" name="bookmark_direct" id="bookmark-direct" class="checkbox" />
                 <div class="description">If not enabled, a confirmation dialog will show up first</div>
+            </div>
+            <div>
+                <label for="search">Enable search</label>
+                <input type="checkbox" name="search" id="search" class="checkbox" />
+                <div class="description">Leave disabled if your Microsub server does not support this.</div>
             </div>
             <div>
                 <label for="video-wall">Enable video wall</label>

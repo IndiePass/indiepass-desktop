@@ -1209,12 +1209,14 @@ function renderPost(item) {
     }
 
     // Define a reference to check after content.
+    let postType = "";
     let checkReference = "";
 
     // Post context, e. reply, repost or quotation.
     let types = {'like-of': 'Liked', 'repost-of': 'Reposted', 'quotation-of': 'Quoted', 'in-reply-to': 'Replied to'};
     $.each(types , function(index, val) {
         if (item[index]) {
+            postType = index;
             checkReference = item[index];
             post += '<div class="post-type">' + val + ' <a href="' + item[index] + '">' + item[index] + '</a></div>';
         }
@@ -1250,7 +1252,8 @@ function renderPost(item) {
 
     if (checkReference.length > 0 && undefined !== item.refs && undefined !== item.refs[checkReference]) {
         let ref = item.refs[checkReference];
-        if (undefined !== ref.content) {
+
+        if (undefined !== ref.content && postType !== 'repost-of') {
             if (ref.content.text) {
                 post += '<div class="reference">' + ref.content.text + '</div>';
             }

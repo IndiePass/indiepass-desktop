@@ -23,10 +23,10 @@ Looking for the Android client? See https://github.com/swentel/indigenous-androi
   - View individual feed via author name
   - Search in all channels and feeds
   - Navigate posts with keyboard shortcuts:
-    - up: previous channel or post
-    - down: next channel or post, triggers 'load more posts' at the end too.
-    - right: view timeline
-    - left: back to channels
+    - n: previous channel or post
+    - p: next channel or post, triggers 'load more posts' at the end too.
+    - k: view timeline
+    - j: back to channels
     - r: when a post has a read more button, open the overlay
     - c: close overlay when opened
   - Context menu: right click when selecting text to search DuckDuckGo, or save

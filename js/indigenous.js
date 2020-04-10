@@ -651,7 +651,7 @@ function addMouseBindings() {
     }
     mouseBindingsAdded = true;
 
-    Mousetrap.bind('down', function() {
+    Mousetrap.bind('n', function() {
 
         if (isChannel) {
             if ($('.channel-' + (currentChannel + 1)).length > 0) {
@@ -678,7 +678,7 @@ function addMouseBindings() {
 
     });
 
-    Mousetrap.bind('up', function() {
+    Mousetrap.bind('p', function() {
 
         // Channel.
         if (isChannel) {
@@ -710,13 +710,13 @@ function addMouseBindings() {
 
     });
 
-    Mousetrap.bind('right', function() {
+    Mousetrap.bind('k', function() {
        if (isChannel) {
            $('.channel-hover').click();
        }
     });
 
-    Mousetrap.bind('left', function() {
+    Mousetrap.bind('j', function() {
         if (isTimeline) {
             $('.back-to-channels').click();
         }

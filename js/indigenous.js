@@ -16,6 +16,7 @@ let isOnline = true;
 let currentPost;
 let postIndex;
 let search = "";
+let ignoreScroll = false;
 let mouseBindingsAdded = false;
 let anonymousMicrosubEndpoint = 'https://indigenous.realize.be/indieweb/microsub';
 let defaultAuthor = '<div class="author-avatar"><img class="avatar" src="./images/avatar_small.png" width="80" height="80" /></div>';
@@ -284,6 +285,24 @@ $(document).ready(function() {
         shell.openExternal(this.href);
     });
 
+    $(window).scroll(function () {
+        if (isTimeline) {
+            clearTimeout( $.data( this, "scrollCheck" ) );
+            $.data( this, "scrollCheck", setTimeout(function() {
+                // noinspection CssInvalidPseudoSelector
+                if (!ignoreScroll) {
+                    let elements = $('.timeline-item:in-viewport');
+                    if (elements.length > 0) {
+                        $('.timeline-item').removeClass('highlight', 'none');
+                        $(elements[0]).addClass('highlight');
+                        currentPost = parseInt($(elements[0]).data('post-id'));
+                    }
+                }
+                ignoreScroll = false;
+            }, 250) );
+        }
+    });
+
     if (!navigator.onLine) { isOnline = false; }
     window.addEventListener('offline', function(e) { isOnline = false; });
     window.addEventListener('online', function(e) { isOnline = true; });
@@ -321,6 +340,7 @@ $(document).ready(function() {
       hideContainer('#overlay-container');
       $('.overlay-content').html('');
       setScrollingState(true);
+      isTimeline = true;
     });
 
     $('.back-to-channels').on('click', function() {
@@ -662,13 +682,14 @@ function addMouseBindings() {
         }
 
         if (isTimeline) {
+            ignoreScroll = true;
             if ($('.post-' + (currentPost + 1)).length > 0) {
                 currentPost++;
                 $('html,body').animate({
                     scrollTop: $(".post-" + currentPost).offset().top - 10
                 }, 'slow', function() {
-                    $(".post-" + (currentPost - 1)).css('border', 'none');
-                    $(".post-" + currentPost).css('border', '1px solid #DD645E')
+                    $(".post-" + (currentPost - 1)).removeClass('highlight');
+                    $(".post-" + currentPost).addClass('highlight');
                 });
             }
             else if ($('.next').length > 0) {
@@ -694,13 +715,14 @@ function addMouseBindings() {
 
         // Timeline.
         if (isTimeline) {
+            ignoreScroll = true;
             currentPost--;
             if (currentPost >= 0) {
                 $('html,body').animate({
                     scrollTop: $(".post-" + currentPost).offset().top
                 }, 'slow', function() {
-                    $(".post-" + (currentPost + 1)).css('border', 'none');
-                    $(".post-" + currentPost).css('border', '1px solid #DD645E')
+                    $(".post-" + (currentPost + 1)).removeClass('highlight');
+                    $(".post-" + currentPost).addClass('highlight')
                 });
             }
             else {
@@ -1050,7 +1072,7 @@ function loadTimeline(timelineUrl, after) {
         $.each(data.items, function(i, item) {
             let renderedPost = renderPost(item);
             if (renderedPost.length > 0) {
-                let post = '<div class="timeline-item post-' + postIndex + '">' + renderedPost + '</div>';
+                let post = '<div class="timeline-item post-' + postIndex + '" data-post-id="' + postIndex + '">' + renderedPost + '</div>';
                 postsContainer.append(post);
                 postIndex++;
             }
@@ -1203,6 +1225,7 @@ function loadTimeline(timelineUrl, after) {
         $('.timeline-item .read-more').on('click', function() {
             let wrapper = $(this).parent().clone().html();
             $('.overlay-content').html(wrapper);
+            isTimeline = false;
             hideContainer('.overlay-content .read-more');
             hideContainer('.overlay-content .actions');
             hideContainer('.overlay-content .content-truncated');

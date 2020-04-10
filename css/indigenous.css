@@ -154,6 +154,10 @@ p {
     display: flex;
 }
 
+.highlight {
+    border: 1px solid #DD645E;
+}
+
 .title {
     font-size: 20px;
 }

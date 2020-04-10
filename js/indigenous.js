@@ -891,7 +891,7 @@ function doRequest(properties, type, element) {
     }
 
     let endpoint = getMicropubEndpoint();
-    if (type !== 'delete' && type !== 'move') {
+    if (type !== 'delete' && type !== 'move' && type !== 'unread') {
         properties.h = 'entry';
         properties['post-status'] = 'published';
     }
@@ -1200,7 +1200,7 @@ function loadTimeline(timelineUrl, after) {
                         })
                         .tooltipster('open');
                 }
-                else if (type === 'like' || type === 'repost' || type === 'bookmark' || type === 'delete') {
+                else if (type === 'like' || type === 'repost' || type === 'bookmark' || type === 'delete' || type === 'unread') {
                     let properties = {};
                     let side = ["top"];
                     if (type === 'delete') {
@@ -1208,6 +1208,13 @@ function loadTimeline(timelineUrl, after) {
                         properties["entry"] = entry;
                         properties["action"] = "timeline";
                         properties["method"] = "remove";
+                        properties["channel"] = loadedChannel;
+                    }
+                    else if (type === 'unread') {
+                        side = ["left"];
+                        properties["entry[]"] = entry;
+                        properties["action"] = "timeline";
+                        properties["method"] = "mark_unread";
                         properties["channel"] = loadedChannel;
                     }
                     else {
@@ -1479,6 +1486,9 @@ function renderPost(item) {
         post += '<div class="action action-delete" data-action="delete"></div>';
         if (configGet('post_move')) {
             post += '<div class="action action-move" data-action="move"></div>';
+        }
+        if (item._is_read !== false) {
+            post += '<div class="action action-unread" data-action="unread"></div>';
         }
         post += '</div>';
     }

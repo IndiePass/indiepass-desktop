@@ -321,6 +321,11 @@ input {
     background-image: url('../images/button_read_idle.png');
 }
 
+.action-unread {
+    float: right;
+    background-image: url('../images/button_unread_idle.png');
+}
+
 .action-external {
     background-image: url('../images/button_external_idle.png');
 }

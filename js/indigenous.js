@@ -21,8 +21,6 @@ let mouseBindingsAdded = false;
 let channelResponse = [];
 let anonymousMicrosubEndpoint = 'https://indigenous.realize.be/indieweb/microsub';
 let defaultAuthor = '<div class="author-avatar"><img class="avatar" src="./images/avatar_small.png" width="80" height="80" /></div>';
-let videos = [];
-let videoWall = false;
 
 /**
  * Get a value from storage.
@@ -277,10 +275,6 @@ $(document).ready(function() {
 
     snackbarElement = $('.snackbar');
 
-    if (configGet('video_wall')) {
-        videoWall = true;
-    }
-
     $('.external-link').on('click', function(e) {
         e.preventDefault();
         shell.openExternal(this.href);
@@ -316,7 +310,6 @@ $(document).ready(function() {
             search = $('.search-field').val();
             if (search.length > 0) {
                 $('.reader-sub-title').show().html("Search: " + search);
-                videos = [];
                 $('.mark-read').hide();
                 clearContainer(".timeline-item");
                 loadTimeline(getMicrosubEndpoint(), "");
@@ -411,9 +404,6 @@ $(document).ready(function() {
         if (configGet('search')) {
             $('#search').prop('checked', true);
         }
-        if (configGet('video_wall')) {
-            $('#video-wall').prop('checked', true);
-        }
         if (configGet('post_move')) {
             $('#post-move').prop('checked', true);
         }
@@ -448,11 +438,8 @@ $(document).ready(function() {
         configSave('repost_no_confirm', $('#repost-direct').is(':checked'));
         configSave('bookmark_no_confirm', $('#bookmark-direct').is(':checked'));
         configSave('search', $('#search').is(':checked'));
-        configSave('video_wall', $('#video-wall').is(':checked'));
         configSave('post_move', $('#post-move').is(':checked'));
         configSave('debug', $('#debug-message').is(':checked'));
-
-        videoWall = !!configGet('video_wall');
 
         if (configGet('search')) {
             $('.search-wrapper').show();
@@ -971,8 +958,6 @@ function loadChannels() {
 
         $('.channel').click(function() {
             loadedSource = null;
-            videos = [];
-            $('.video-wall').hide();
             $('.reader-sub-title').hide();
             clearContainer(".timeline-item");
             loadTimeline($(this).data('link'), "");
@@ -1110,7 +1095,6 @@ function loadTimeline(timelineUrl, after) {
                 $('.reader-sub-title').show().html("Source: " + $(this).html());
                 clearContainer(".timeline-item");
                 loadedSource = source_id;
-                videos = [];
                 loadTimeline(timelineUrl, "");
             }
         });
@@ -1300,16 +1284,6 @@ function loadTimeline(timelineUrl, after) {
 
         });
 
-        // Video wall.
-        $('.video-wall').on('click', function() {
-            let videoWall = "";
-            showContainer('#overlay-container');
-            for (let i = 0; i < videos.length; i++) {
-                videoWall += '<div class="video"> <video controls> <source src="' + videos[i] + '"> </video> </div>';
-            }
-            $('.overlay-content').html('<div class="video-wall-overlay">' + videoWall + '</div>');
-        });
-
     })
     .fail(function() {
         snackbar('Something went wrong loading the timeline', 'error');
@@ -1435,10 +1409,6 @@ function renderPost(item) {
         }
 
         if (undefined !== ref.video) {
-            if (videoWall) {
-                $('.video-wall').show();
-                videos.push(ref.video);
-            }
             post += '<div class="video"> <video controls> <source src="' + ref.video[0] + '"> </video> </div>';
         }
 
@@ -1456,10 +1426,6 @@ function renderPost(item) {
     }
 
     if (item.video !== undefined) {
-        if (videoWall) {
-            $('.video-wall').show();
-            videos.push(item.video);
-        }
         post += '<div class="video"> <video controls> <source src="' + item.video[0] + '"> </video> </div>';
     }
 

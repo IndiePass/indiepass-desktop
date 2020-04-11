@@ -133,19 +133,15 @@ p {
     font-size: 14px;
 }
 
-.back-to-channels, .mark-read, .next, .video-wall {
+.back-to-channels, .mark-read, .next {
     font-size: 20px;
     display: block;
     color: var(--text-color);
     cursor: pointer;
 }
 
-.mark-read, .video-wall {
+.mark-read {
     margin-left: 20px;
-}
-
-.video-wall-overlay .video {
-    float: left;
 }
 
 .timeline-item {

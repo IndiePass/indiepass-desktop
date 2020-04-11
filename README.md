@@ -97,6 +97,8 @@ This app uses following libraries:
 - https://iamceege.github.io/tooltipster
 - https://github.com/iamkun/dayjs
 - https://craig.is/killing/mice
+- https://github.com/zeusdeux/isInViewport
+- https://github.com/sindresorhus/electron-context-menu
 
 ## Other Micropub and Microsub clients
 

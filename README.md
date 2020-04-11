@@ -49,6 +49,24 @@ Video of first release: https://www.youtube.com/watch?v=7egdRBg70XA
 
 See the releases page: https://github.com/swentel/indigenous-desktop/releases
 
+## Launcher on Linux
+
+You create a launcher by creating a file called 'Indigenous.desktop and place
+it in /usr/share/applications or ~/.local/share/applications
+
+```
+[Desktop Entry]
+Name=Indigenous
+Comment=IndieWeb for desktop
+Exec=/home/other/indigenous-desktop-packages/Indigenous-linux-x64/Indigenous
+Terminal=false
+Type=Application
+Icon=/home/other/indigenous-desktop-packages/Indigenous-linux-x64/resources/app/images/icon.png
+```
+
+This should at least work for Fedora and Ubuntu, it might be different on other
+linux distributions.
+
 ## Development or installation from source
 
 You can also run this application if you are familiar with development tools. Make sure

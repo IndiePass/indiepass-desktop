@@ -6,7 +6,7 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "packages": "electron-packager . --platform=win32,linux --icon=imgages/icon"
+    "packages": "electron-packager . --platform=win32,linux --icon=images/icon"
   },
   "repository": "https://github.com/swentel/indieweb-desktop",
   "keywords": [

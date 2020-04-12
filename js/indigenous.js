@@ -342,11 +342,7 @@ $(document).ready(function() {
         isChannel = true;
 
         // Bring back mark read in case this was a search.
-        if (search.length > 0) {
-            search = "";
-            $('.search-field').val("");
-            $('.mark-read').show();
-        }
+        resetSearch();
 
         hideContainer('#timeline-container');
         showContainer('#channels-container');
@@ -636,6 +632,17 @@ $(document).ready(function() {
 });
 
 /**
+ * Reset search.
+ */
+function resetSearch() {
+    if (search.length > 0) {
+        search = "";
+        $('.search-field').val("");
+        $('.mark-read').show();
+    }
+}
+
+/**
  * Set scrolling state.
  *
  * @param enabled
@@ -757,6 +764,7 @@ function loadReader() {
         refreshChannels = false;
         loadChannels();
     }
+    resetSearch();
     $('.menu').removeClass('selected');
     $('.reader').addClass('selected');
     hideContainer('#about-container');

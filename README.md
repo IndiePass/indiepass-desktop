@@ -12,6 +12,8 @@ Looking for the Android client? See https://github.com/swentel/indigenous-androi
 
 - General
   - Uses the font of your system
+  - Accounts: configure endpoints and token
+  - Developer: view response of microsub requests in console
 - Microsub
   - Starts with default anonymous account with the reader connected to  https://indigenous.realize.be
   - Read channels and posts per timeline
@@ -40,8 +42,6 @@ Looking for the Android client? See https://github.com/swentel/indigenous-androi
   - Publish date and status
   - Tags, with autocomplete
   - Upload a file to media endpoint (soon in posts)
-- Accounts: configure endpoints and token
-- Developer: view response of microsub requests in console
 
 Video of first release: https://www.youtube.com/watch?v=7egdRBg70XA
 

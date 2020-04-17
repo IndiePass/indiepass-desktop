@@ -4,12 +4,11 @@ const shell = require('electron').shell;
 const dayjs = require('dayjs');
 
 let snackbarElement;
-let refreshChannels = false;
+let refreshReader = false;
 let loadedChannel = 0;
 let loadedSource = null;
-let currentChannel = 0;
-let isChannel = true;
-let isTimeline = false;
+let isReader = false;
+let isGlobalUnread = false;
 let tokenInfoAdded = false;
 let targetsAdded = false;
 let isOnline = true;
@@ -21,6 +20,7 @@ let mouseBindingsAdded = false;
 let channelResponse = [];
 let anonymousMicrosubEndpoint = 'https://indigenous.realize.be/indieweb/microsub';
 let defaultAuthor = '<div class="author-avatar"><img class="avatar" src="./images/avatar_small.png" width="80" height="80" /></div>';
+let defaultAuthorCard = '';
 
 /**
  * Get a value from storage.
@@ -87,7 +87,7 @@ function noConnection(snackbarMessage, element) {
         }
 
         $('.no-connection').on('click', function() {
-            refreshChannels = true;
+            refreshReader = true;
             loadReader();
         });
 
@@ -290,7 +290,7 @@ $(document).ready(function() {
     });
 
     $(window).scroll(function () {
-        if (isTimeline) {
+        if (isReader) {
             clearTimeout( $.data( this, "scrollCheck" ) );
             $.data( this, "scrollCheck", setTimeout(function() {
                 // noinspection CssInvalidPseudoSelector
@@ -319,6 +319,7 @@ $(document).ready(function() {
         $('#search-form').on('submit', function(e) {
             search = $('.search-field').val();
             if (search.length > 0) {
+                isGlobalUnread = false;
                 $('.reader-sub-title').show().html("Search: " + search);
                 $('.mark-read').hide();
                 clearContainer(".timeline-item");
@@ -331,10 +332,7 @@ $(document).ready(function() {
         $('.search-wrapper').hide();
     }
 
-    if (isDefaultMicrosubEndpoint()) {
-        $('.mark-read').hide();
-    }
-    else {
+    if (!isDefaultMicrosubEndpoint()) {
         $('.mark-read').on('click', function() {
             markRead();
         });
@@ -344,18 +342,7 @@ $(document).ready(function() {
       hideContainer('#overlay-container');
       $('.overlay-content').html('');
       setScrollingState(true);
-      isTimeline = true;
-    });
-
-    $('.back-to-channels').on('click', function() {
-        isTimeline = false;
-        isChannel = true;
-
-        // Bring back mark read in case this was a search.
-        resetSearch();
-
-        hideContainer('#timeline-container');
-        showContainer('#channels-container');
+      isReader = true;
     });
 
     $('.reader').on('click', function() {
@@ -371,8 +358,7 @@ $(document).ready(function() {
         $('.about').addClass('selected');
         showContainer('#about-container');
         hideContainer('#media-container');
-        hideContainer('#channels-container');
-        hideContainer('#timeline-container');
+        hideContainer('#reader-container');
         hideContainer('#posts-container');
         hideContainer('#settings-container');
     })
@@ -382,8 +368,7 @@ $(document).ready(function() {
         $('.settings').addClass('selected');
         hideContainer('#about-container');
         hideContainer('#media-container');
-        hideContainer('#channels-container');
-        hideContainer('#timeline-container');
+        hideContainer('#reader-container');
         hideContainer('#posts-container');
         showContainer('#settings-container');
 
@@ -413,6 +398,9 @@ $(document).ready(function() {
         if (configGet('post_move')) {
             $('#post-move').prop('checked', true);
         }
+        if (configGet('global_unread')) {
+            $('#global-unread').prop('checked', true);
+        }
         if (configGet('debug')) {
             $('#debug-message').prop('checked', true);
         }
@@ -424,8 +412,7 @@ $(document).ready(function() {
         $('.post').addClass('selected');
         hideContainer('#media-container');
         hideContainer('#about-container');
-        hideContainer('#channels-container');
-        hideContainer('#timeline-container');
+        hideContainer('#reader-container');
         hideContainer('#settings-container');
         showContainer('#posts-container');
         getTags(false);
@@ -445,6 +432,7 @@ $(document).ready(function() {
         configSave('bookmark_no_confirm', $('#bookmark-direct').is(':checked'));
         configSave('search', $('#search').is(':checked'));
         configSave('post_move', $('#post-move').is(':checked'));
+        configSave('global_unread', $('#global-unread').is(':checked'));
         configSave('debug', $('#debug-message').is(':checked'));
 
         if (configGet('search')) {
@@ -471,11 +459,12 @@ $(document).ready(function() {
         }
 
         let microsub = $('#microsub-endpoint').val();
-        if (microsub !== undefined && microsub.length > 0) {
+        if (microsub !== undefined && microsub.length > 0 && getMicrosubEndpoint() !== microsub) {
             configSave('microsub_endpoint', microsub);
-            refreshChannels = true;
+            refreshReader = true;
         }
         else if (microsub !== undefined && microsub.length === 0 && !isDefaultMicrosubEndpoint()) {
+            refreshReader = true;
             configDelete('microsub_endpoint');
         }
 
@@ -492,9 +481,14 @@ $(document).ready(function() {
     });
 
     $('.reset-settings').on('click', function() {
-        refreshChannels = true;
+        refreshReader = true;
         configDelete('like_no_confirm');
         configDelete('repost_no_confirm');
+        configDelete('bookmark_no_confirm');
+        configDelete('search');
+        configDelete('post_move');
+        configDelete('global_unread');
+        configDelete('debug');
         configDelete('micropub_endpoint');
         configDelete('microsub_endpoint');
         configDelete('media_endpoint');
@@ -659,7 +653,6 @@ function resetSearch() {
     if (search.length > 0) {
         search = "";
         $('.search-field').val("");
-        $('.mark-read').show();
     }
 }
 
@@ -718,15 +711,7 @@ function addMouseBindings() {
 
     Mousetrap.bind('n', function() {
 
-        if (isChannel) {
-            if ($('.channel-' + (currentChannel + 1)).length > 0) {
-                currentChannel++;
-                $(".channel-" + (currentChannel - 1)).removeClass('channel-hover');
-                $(".channel-" + currentChannel).addClass('channel-hover')
-            }
-        }
-
-        if (isTimeline) {
+        if (isReader) {
             ignoreScroll = true;
             if ($('.post-' + (currentPost + 1)).length > 0) {
                 currentPost++;
@@ -746,20 +731,7 @@ function addMouseBindings() {
 
     Mousetrap.bind('p', function() {
 
-        // Channel.
-        if (isChannel) {
-            currentChannel--;
-            if (currentChannel >= 0) {
-                $(".channel-" + (currentChannel + 1)).removeClass('channel-hover');
-                $(".channel-" + currentChannel).addClass('channel-hover')
-            }
-            else {
-                currentChannel = 0;
-            }
-        }
-
-        // Timeline.
-        if (isTimeline) {
+        if (isReader) {
             ignoreScroll = true;
             currentPost--;
             if (currentPost >= 0) {
@@ -777,20 +749,8 @@ function addMouseBindings() {
 
     });
 
-    Mousetrap.bind('k', function() {
-       if (isChannel) {
-           $('.channel-hover').click();
-       }
-    });
-
-    Mousetrap.bind('j', function() {
-        if (isTimeline) {
-            $('.back-to-channels').click();
-        }
-    });
-
     Mousetrap.bind('r', function() {
-        if (isTimeline && currentPost >= 0) {
+        if (isReader && currentPost >= 0) {
             $('.post-' + currentPost + ' .read-more').click();
         }
     });
@@ -804,11 +764,13 @@ function addMouseBindings() {
  * Load reader.
  */
 function loadReader() {
-    if (refreshChannels) {
+    if (refreshReader) {
         $('.no-connection').remove();
         $('.channel').remove();
-        refreshChannels = false;
+        clearContainer(".timeline-item");
+        refreshReader = false;
         loadChannels();
+        $('.mark-read').hide();
     }
     resetSearch();
     $('.menu').removeClass('selected');
@@ -816,9 +778,8 @@ function loadReader() {
     hideContainer('#about-container');
     hideContainer('#media-container');
     hideContainer('#settings-container');
-    hideContainer('#timeline-container');
     hideContainer('#posts-container');
-    showContainer('#channels-container');
+    showContainer('#reader-container');
 }
 
 /**
@@ -828,9 +789,8 @@ function loadMedia() {
     $('.menu').removeClass('selected');
     $('.media').addClass('selected');
     hideContainer('#about-container');
-    hideContainer('#channels-container');
+    hideContainer('#reader-container');
     hideContainer('#settings-container');
-    hideContainer('#timeline-container');
     hideContainer('#posts-container');
     showContainer('#media-container');
 }
@@ -961,12 +921,11 @@ function doRequest(properties, type, element) {
  */
 function loadChannels() {
 
-    if (noConnection(false, '#channels-container')) {
+    if (noConnection(false, '#reader-container')) {
         return;
     }
 
-    isChannel = true;
-    isTimeline = false;
+    isReader = true;
 
     let baseUrl = getMicrosubEndpoint();
     let token = configGet('token');
@@ -984,7 +943,12 @@ function loadChannels() {
     .done(function(data) {
 
         debug(data);
-        let channels = $('#channels-container .channel-wrapper');
+        let channels = $('#reader-container .channel-wrapper');
+
+        if (configGet('global_unread')) {
+            let channel = '<div class="channel global-unread-channel" data-channel="global" data-link="">Home</div>';
+            channels.append(channel);
+        }
 
         channelResponse = data.channels;
         $.each(channelResponse, function(i, item) {
@@ -1003,20 +967,36 @@ function loadChannels() {
             }
             let timeline_url = baseUrl + '?action=timeline&channel=' + item.uid;
             let channelClasses = "channel channel-" + i;
-            if (i === 0) {
-                channelClasses += ' channel-hover';
-            }
             let channel = '<div class="' + channelClasses + '" data-channel="' + item.uid + '" data-link="' + timeline_url + '">' + item.name + indicator + '</div>';
             channels.append(channel);
         });
 
         $('.channel').click(function() {
             loadedSource = null;
+            resetSearch();
+            let url = $(this).data('link');
+            if ($(this).hasClass('global-unread-channel')) {
+                url = baseUrl;
+                isGlobalUnread = true;
+                $('.mark-read').hide();
+            }
+            else {
+                isGlobalUnread = false;
+                $('.mark-read').show();
+            }
             $('.reader-sub-title').hide();
             clearContainer(".timeline-item");
-            loadTimeline($(this).data('link'), "");
+            loadTimeline(url, "");
             loadedChannel = $(this).data('channel');
         });
+
+        // Load global if configured.
+        if (configGet('global_unread')) {
+            debug('nie??');
+            isGlobalUnread = true;
+            loadTimeline(baseUrl, "");
+        }
+
     })
     .fail(function() {
         snackbar('Something went wrong loading the channels', 'error');
@@ -1071,9 +1051,6 @@ function markRead() {
  */
 function loadTimeline(timelineUrl, after) {
 
-    isChannel = false;
-    isTimeline = true;
-
     if (after.length === 0) {
         currentPost = 0;
         postIndex = 0;
@@ -1088,6 +1065,11 @@ function loadTimeline(timelineUrl, after) {
     }
 
     let finalTimelineUrl = timelineUrl;
+
+    if (isGlobalUnread) {
+        finalTimelineUrl += "?action=timeline&channel=global&is_read=false"
+    }
+
     if (after.length > 0) {
         finalTimelineUrl += '&after=' + after;
     }
@@ -1114,16 +1096,20 @@ function loadTimeline(timelineUrl, after) {
     .done(function(data) {
         debug(data);
 
-        hideContainer('#channels-container');
-        showContainer('#timeline-container');
-
         // Posts.
         let postsContainer = $('#timeline-container .posts');
         let pagerContainer = $('#timeline-container .pager');
         $.each(data.items, function(i, item) {
             let renderedPost = renderPost(item);
             if (renderedPost.length > 0) {
-                let post = '<div class="timeline-item post-' + postIndex + '" data-post-id="' + postIndex + '">' + renderedPost + '</div>';
+                let postClasses = 'timeline-item post-' + postIndex;
+                /*if (isGlobalUnread) {
+                    postClasses += " card-view";
+                }
+                else {*/
+                    postClasses += " feed-view";
+                //}
+                let post = '<div class="' + postClasses + '" data-post-id="' + postIndex + '">' + renderedPost + '</div>';
                 postsContainer.append(post);
                 postIndex++;
             }
@@ -1149,6 +1135,7 @@ function loadTimeline(timelineUrl, after) {
                 $('.reader-sub-title').show().html("Source: " + $(this).html());
                 clearContainer(".timeline-item");
                 loadedSource = source_id;
+                isGlobalUnread = false;
                 loadTimeline(timelineUrl, "");
             }
         });
@@ -1321,10 +1308,10 @@ function loadTimeline(timelineUrl, after) {
         });
 
         // Read more.
-        $('.timeline-item .read-more').on('click', function() {
+        $('.timeline-item .read-more, .card-view').on('click', function() {
             let wrapper = $(this).parent().clone().html();
             $('.overlay-content').html(wrapper);
-            isTimeline = false;
+            isReader = false;
             hideContainer('.overlay-content .read-more');
             hideContainer('.overlay-content .actions');
             hideContainer('.overlay-content .content-truncated');
@@ -1353,12 +1340,114 @@ function loadTimeline(timelineUrl, after) {
  * return {string}
  */
 function renderPost(item) {
-    let post = "";
-    let type = "entry";
 
     if (item.type !== undefined && item.type === "card") {
         return "";
     }
+
+    /*if (isGlobalUnread) {
+        return renderCardView(item);
+    }
+    else {*/
+        return renderFeedView(item);
+    //}
+
+}
+
+/**
+ * Render card view.
+ *
+ * @param {Object} item
+ *
+ * @returns {string}
+ */
+function renderCardView(item) {
+    let post = "";
+
+    // Author.
+    let authorName = "";
+    post += '<div>';
+    if (item.author) {
+        if (item.author.name && item.author.name.length > 0) {
+            authorName = item.author.name;
+        }
+        else if (item.author.url && item.author.url.length > 0) {
+            authorName = item.author.url;
+        }
+        else {
+            post += defaultAuthorCard;
+        }
+    }
+    else {
+        post += defaultAuthorCard;
+    }
+
+    // End author wrapper.
+    post += '</div>';
+
+    // Content wrapper.
+    post += '<div class="post-content-wrapper">';
+
+    // Title.
+    if (item.name) {
+        post += '<div class="title">' + item.name + '</div>';
+    }
+
+    // Author name.
+    if (authorName.length > 0) {
+        post += '<div class="author-name">' + authorName + '</div>';
+    }
+
+    // Published time.
+    if (item.published) {
+        post += '<div class="published-on">' + dayjs(item.published).format('DD/MM/YYYY HH:mm') + '</div>';
+    }
+
+    if (item.photo !== undefined) {
+        for (let i = 0; i < item.photo.length; i++) {
+            post += '<div class="image"><img src="' + item.photo[i] + '" /></div>';
+        }
+    }
+    else {
+        let content = "";
+        let hasContent = false;
+        if (item.content !== undefined) {
+            if (item.content.html !== undefined) {
+                hasContent = true;
+                content = item.content.html;
+            }
+            else if (item.content.text !== undefined) {
+                hasContent = true;
+                content = item.content.text;
+            }
+        }
+
+        if (!hasContent && item.summary !== undefined) {
+            content = item.summary;
+        }
+
+        if (content.length > 0) {
+            post += '<div class="content-truncated">' + content.substr(0, 300) + ' ...</div>';
+        }
+
+    }
+
+    // Closing wrapper.
+    post += '</div>';
+
+    return post;
+}
+
+/**
+ * Render feed view.
+ *
+ * @param {Object} item
+ *
+ * @returns {string}
+ */
+function renderFeedView(item) {
+    let post = "";
+    let type = "entry";
 
     // Author.
     let authorName = "";

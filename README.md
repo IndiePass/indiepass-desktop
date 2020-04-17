@@ -16,6 +16,7 @@ Looking for the Android client? See https://github.com/swentel/indigenous-androi
   - Developer: view response of microsub requests in console
 - Microsub
   - Starts with default anonymous account with the reader connected to  https://indigenous.realize.be
+  - Allow for global unread start screen if the server supports it
   - Read channels and posts per timeline
   - Inline reply, like, bookmark, read and repost with or without confirmation
   - Inline RSVP on events
@@ -26,10 +27,8 @@ Looking for the Android client? See https://github.com/swentel/indigenous-androi
   - Search in all channels and feeds
   - Delete or move posts
   - Navigate posts with keyboard shortcuts:
-    - n: previous channel or post
-    - p: next channel or post, triggers 'load more posts' at the end too.
-    - k: view timeline
-    - j: back to channels
+    - n: previous post
+    - p: next post, triggers 'load more posts' at the end too.
     - r: when a post has a read more button, open the overlay
     - c: close overlay when opened
   - Context menu: right click when selecting text to search DuckDuckGo, or save

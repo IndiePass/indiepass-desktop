@@ -31,19 +31,23 @@
             <div class="about float-left menu">About</div>
         </div>
 
-        <div id="channels-container">
-            <div class="search-wrapper"><form id="search-form"><input type="text" class="search-field text" placeholder="search"></form></div>
-            <div class="channel-wrapper"></div>
-        </div>
-
-        <div id="timeline-container">
-            <div class="actions">
-                <div class="back-to-channels float-left">Back to channels</div>
-                <div class="mark-read float-left">Mark read</div>
+        <div id="reader-container">
+            <div class="reader-top">
+                <div class="search-wrapper"><form id="search-form"><input type="text" class="search-field text" placeholder="search"></form></div>
+                <div class="reader-global-actions">
+                    <div class="mark-read">Mark all read</div>
+                </div>
             </div>
-            <div class="reader-sub-title"></div>
-            <div class="posts"></div>
-            <div class="pager"></div>
+
+            <div class="reader-wrapper">
+                <div class="channel-wrapper"></div>
+                <div id="timeline-container">
+                    <div class="reader-sub-title"></div>
+                    <div class="posts"></div>
+                    <div class="pager"></div>
+                </div>
+            </div>
+
         </div>
 
         <div id="settings-container">
@@ -66,6 +70,11 @@
                 <label for="search">Enable search</label>
                 <input type="checkbox" name="search" id="search" class="checkbox" />
                 <div class="description">Leave disabled if your Microsub server does not support this.</div>
+            </div>
+            <div>
+                <label for="global-unread">Global unread</label>
+                <input type="checkbox" name="global_unread" id="global-unread" class="checkbox" />
+                <div class="description">Start screen of reader will show all unread items in card view.</div>
             </div>
             <div>
                 <label for="post-move">Enable move action</label>
@@ -161,10 +170,8 @@
       <ul>
           <li>Reader
               <ul>
-                  <li>n: previous channel or post
-                  <li>p: next channel or post, triggers 'load more posts' at the end too.
-                  <li>k: view timeline
-                  <li>j: back to channels
+                  <li>n: post
+                  <li>p: next post, triggers 'load more posts' at the end too.
                   <li>r: when a post has a read more button, open the overlay
                   <li>c: close overlay when opened
               </ul>

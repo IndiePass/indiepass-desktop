@@ -60,7 +60,7 @@ p {
     -webkit-user-select:none;
 }
 
-.reader, .settings, .post, .media, .about {
+.reader, .settings, .post, .media, .about, .card-view {
     cursor: pointer;
 }
 
@@ -98,16 +98,32 @@ p {
     margin-right: 20px;
 }
 
-#channels-container {
+#reader-container {
     display: block;
 }
 
-#timeline-container, #settings-container, #posts-container, #overlay-container, #media-container, #about-container {
+#settings-container, #posts-container, #overlay-container, #media-container, #about-container {
     display: none;
 }
 
 #media-container, #about-container {
     padding: 10px;
+}
+
+.reader-top {
+    display: block;
+}
+
+.reader-wrapper {
+    display: flex;
+}
+
+.channel-wrapper {
+    padding-right: 20px;
+}
+
+#timeline-container {
+    flex-flow: row;
 }
 
 .channel {
@@ -137,7 +153,12 @@ p {
     font-size: 14px;
 }
 
-.back-to-channels, .mark-read, .next {
+.info {
+    margin-top: 10px;
+    font-size: 18px;
+}
+
+.mark-read, .next {
     font-size: 20px;
     display: block;
     color: var(--text-color);
@@ -145,7 +166,18 @@ p {
 }
 
 .mark-read {
+    display: none;
     margin-left: 20px;
+}
+
+.search-wrapper {
+    display: inline-block;
+}
+
+.reader-global-actions {
+    float: right;
+    display: inline-block;
+    margin-right: 10px;
 }
 
 .timeline-item {
@@ -155,7 +187,7 @@ p {
 }
 
 .highlight {
-    border: 1px solid #DD645E;
+    background-color: #f2f2f2;
 }
 
 .title {
@@ -172,6 +204,22 @@ p {
 
 .author-wrapper {
     display: inline-block;
+}
+
+.posts {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    flex-direction: row;
+}
+
+.feed-view {
+    width: 100%;
+}
+
+.card-view {
+    display: block;
+    width: 50%;
 }
 
 .post-content-wrapper {

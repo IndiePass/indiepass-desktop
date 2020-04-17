@@ -404,6 +404,9 @@ $(document).ready(function() {
         if (configGet('debug')) {
             $('#debug-message').prop('checked', true);
         }
+        if (configGet('hide_notifications')) {
+            $('#hide-notifications-channel').prop('checked', true);
+        }
 
     });
 
@@ -434,6 +437,12 @@ $(document).ready(function() {
         configSave('post_move', $('#post-move').is(':checked'));
         configSave('global_unread', $('#global-unread').is(':checked'));
         configSave('debug', $('#debug-message').is(':checked'));
+        configSave('hide_notifications', $('#hide-notifications-channel').is(':checked'));
+
+        // TODO - fix this
+        /*if ($('#hide-notifications-channel').is(':checked') !== configGet('hide_notifications')) {
+            refreshReader = true;
+        }*/
 
         if (configGet('search')) {
             $('.search-wrapper').show();
@@ -927,6 +936,7 @@ function loadChannels() {
 
     isReader = true;
 
+    let disableNotificationChannel = configGet('hide_notifications');
     let baseUrl = getMicrosubEndpoint();
     let token = configGet('token');
     let headers = {
@@ -952,16 +962,21 @@ function loadChannels() {
 
         channelResponse = data.channels;
         $.each(channelResponse, function(i, item) {
+
+            if (item.uid === 'notifications' && disableNotificationChannel) {
+                return;
+            }
+
             let indicator = "";
             if (undefined !== item.unread) {
                 if (typeof(item.unread) === "boolean") {
                     if (item.unread) {
-                        indicator = '<span class="indicator channel-indicator-' + item.uid + '">New</span>'
+                        indicator = '&nbsp;<span class="indicator channel-indicator-' + item.uid + '">New</span>'
                     }
                 }
                 else {
                     if (item.unread > 0) {
-                        indicator = '<span class="indicator channel-indicator-' + item.uid + '">' + item.unread +  '</span>'
+                        indicator = '&nbsp;<span class="indicator channel-indicator-' + item.uid + '">' + item.unread +  '</span>'
                     }
                 }
             }
@@ -992,7 +1007,6 @@ function loadChannels() {
 
         // Load global if configured.
         if (configGet('global_unread')) {
-            debug('nie??');
             isGlobalUnread = true;
             loadTimeline(baseUrl, "");
         }

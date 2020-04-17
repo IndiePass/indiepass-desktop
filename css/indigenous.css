@@ -120,6 +120,7 @@ p {
 
 .channel-wrapper {
     padding-right: 20px;
+    min-width: 150px;
 }
 
 #timeline-container {
@@ -147,10 +148,10 @@ p {
 }
 
 .indicator {
-    float: right;
     text-decoration: none;
     color: #000;
     font-size: 14px;
+    display: inline-block;
 }
 
 .info {

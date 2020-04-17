@@ -43,6 +43,15 @@ function configSave(name, value) {
 }
 
 /**
+ * Clears a value in storage.
+ *
+ * @param name
+ */
+function configDelete(name) {
+    store.delete(name);
+}
+
+/**
  * Render a debug message in console.
  *
  * @param log
@@ -268,7 +277,7 @@ function setAutocomplete(categories) {
  * @param name
  */
 function configDelete(name) {
-    store.clear(name);
+    store.delete(name);
 }
 
 $(document).ready(function() {
@@ -302,6 +311,7 @@ $(document).ready(function() {
     window.addEventListener('offline', function(e) { isOnline = false; });
     window.addEventListener('online', function(e) { isOnline = true; });
 
+    checkMicropubSettings(false);
     loadChannels();
     addMouseBindings();
 
@@ -448,16 +458,25 @@ $(document).ready(function() {
         if (micropub !== undefined && micropub.length > 0) {
             configSave('micropub_endpoint', micropub);
         }
+        else if (micropub !== undefined && micropub.length === 0 && getMicropubEndpoint().length > 0) {
+            configDelete('micropub_endpoint');
+        }
 
         let media = $('#media-endpoint').val();
         if (media !== undefined && media.length > 0) {
             configSave('media_endpoint', media);
+        }
+        else if (media !== undefined && media.length === 0 && getMediaEndpoint().length > 0) {
+            configDelete('media_endpoint');
         }
 
         let microsub = $('#microsub-endpoint').val();
         if (microsub !== undefined && microsub.length > 0) {
             configSave('microsub_endpoint', microsub);
             refreshChannels = true;
+        }
+        else if (microsub !== undefined && microsub.length === 0 && !isDefaultMicrosubEndpoint()) {
+            configDelete('microsub_endpoint');
         }
 
         let token = $('#token').val();
@@ -466,6 +485,8 @@ $(document).ready(function() {
             configSave('token', token);
             $('#token').val("");
         }
+
+        checkMicropubSettings(true);
 
         snackbar('Settings have been saved');
     });
@@ -640,6 +661,31 @@ function resetSearch() {
         $('.search-field').val("");
         $('.mark-read').show();
     }
+}
+
+/**
+ * Check micropub settings.
+ *
+ * @param calledFromSettings
+ */
+function checkMicropubSettings(calledFromSettings) {
+    let pe = getMicropubEndpoint();
+    let me = getMediaEndpoint();
+
+    if (pe.length > 0) {
+        $('.post').show();
+    }
+    else if (calledFromSettings && pe.length === 0) {
+        $('.post').hide();
+    }
+
+    if (me.length > 0) {
+        $('.media').show();
+    }
+    else if (calledFromSettings && me.length === 0) {
+        $('.media').hide();
+    }
+
 }
 
 /**
@@ -1447,16 +1493,19 @@ function renderPost(item) {
         if (item.url.length > 0) {
             url = item.url;
         }
+
         post += '<div class="actions" data-url="' + url + '" data-entry="' + item._id + '">';
-        post += '<div class="action action-reply" data-action="reply"></div>';
-        post += '<div class="action action-like" data-action="like"></div>';
-        post += '<div class="action action-repost" data-action="repost"></div>';
-        post += '<div class="action action-bookmark" data-action="bookmark"></div>';
-        post += '<div class="action action-read" data-action="read"></div>';
-        post += '<div class="action action-external" data-action="external"></div>';
-        if (type === "event") {
-            post += '<div class="action action-rsvp" data-action="rsvp"></div>';
+        if (getMicropubEndpoint().length > 0) {
+            post += '<div class="action action-reply" data-action="reply"></div>';
+            post += '<div class="action action-like" data-action="like"></div>';
+            post += '<div class="action action-repost" data-action="repost"></div>';
+            post += '<div class="action action-bookmark" data-action="bookmark"></div>';
+            post += '<div class="action action-read" data-action="read"></div>';
+            if (type === "event") {
+                post += '<div class="action action-rsvp" data-action="rsvp"></div>';
+            }
         }
+
         post += '<div class="action action-delete" data-action="delete"></div>';
         if (configGet('post_move')) {
             post += '<div class="action action-move" data-action="move"></div>';
@@ -1464,6 +1513,7 @@ function renderPost(item) {
         if (item._is_read !== false) {
             post += '<div class="action action-unread" data-action="unread"></div>';
         }
+        post += '<div class="action action-external" data-action="external"></div>';
         post += '</div>';
     }
 

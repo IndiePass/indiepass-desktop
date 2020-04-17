@@ -64,6 +64,10 @@ p {
     cursor: pointer;
 }
 
+.post, .media {
+    display: none;
+}
+
 .selected {
     text-decoration: underline;
     font-weight: 400;
@@ -329,6 +333,10 @@ input {
 .action-move {
     float: right;
     background-image: url('../images/button_move_idle.png');
+}
+
+.action-external {
+    float: right;
 }
 
 .action-delete {

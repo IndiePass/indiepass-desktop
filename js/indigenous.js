@@ -12,12 +12,14 @@ let isGlobalUnread = false;
 let tokenInfoAdded = false;
 let targetsAdded = false;
 let isOnline = true;
+let isDetail = false;
 let currentPost;
-let postIndex;
+let postDelta;
 let search = "";
 let ignoreScroll = false;
 let mouseBindingsAdded = false;
 let channelResponse = [];
+let posts = [];
 let anonymousMicrosubEndpoint = 'https://indigenous.realize.be/indieweb/microsub';
 let defaultAuthor = '<div class="author-avatar"><img class="avatar" src="./images/avatar_small.png" width="80" height="80" /></div>';
 let defaultAuthorCard = '';
@@ -295,11 +297,12 @@ $(document).ready(function() {
             $.data( this, "scrollCheck", setTimeout(function() {
                 // noinspection CssInvalidPseudoSelector
                 if (!ignoreScroll) {
+                    // noinspection CssInvalidPseudoSelector
                     let elements = $('.timeline-item:in-viewport');
                     if (elements.length > 0) {
                         $('.timeline-item').removeClass('highlight', 'none');
                         $(elements[0]).addClass('highlight');
-                        currentPost = parseInt($(elements[0]).data('post-id'));
+                        currentPost = parseInt($(elements[0]).data('post-delta'));
                     }
                 }
                 ignoreScroll = false;
@@ -343,6 +346,7 @@ $(document).ready(function() {
       $('.overlay-content').html('');
       setScrollingState(true);
       isReader = true;
+      isDetail = false;
     });
 
     $('.reader').on('click', function() {
@@ -752,6 +756,13 @@ function addMouseBindings() {
             }
         }
 
+        if (isDetail) {
+            if (posts[currentPost + 1]) {
+                $('.overlay-content').html(renderDetailView(posts[currentPost + 1], false));
+                currentPost++;
+            }
+        }
+
     });
 
     Mousetrap.bind('p', function() {
@@ -769,6 +780,14 @@ function addMouseBindings() {
             }
             else {
                 currentPost = 0;
+            }
+        }
+
+        if (isDetail) {
+            ignoreScroll = true;
+            if (posts[currentPost - 1]) {
+                $('.overlay-content').html(renderDetailView(posts[currentPost - 1], false));
+                currentPost--;
             }
         }
 
@@ -1089,7 +1108,8 @@ function loadTimeline(timelineUrl, after) {
 
     if (after.length === 0) {
         currentPost = 0;
-        postIndex = 0;
+        postDelta = 0;
+        posts = [];
     }
 
     let token = configGet('token');
@@ -1138,16 +1158,17 @@ function loadTimeline(timelineUrl, after) {
         $.each(data.items, function(i, item) {
             let renderedPost = renderPost(item);
             if (renderedPost.length > 0) {
-                let postClasses = 'timeline-item post-' + postIndex;
-                /*if (isGlobalUnread) {
+                posts[postDelta] = item;
+                let postClasses = 'timeline-item post-' + postDelta;
+                if (isGlobalUnread) {
                     postClasses += " card-view";
                 }
-                else {*/
+                else {
                     postClasses += " feed-view";
-                //}
-                let post = '<div class="' + postClasses + '" data-post-id="' + postIndex + '">' + renderedPost + '</div>';
+                }
+                let post = '<div class="' + postClasses + '" data-post-delta="' + postDelta + '">' + renderedPost + '</div>';
                 postsContainer.append(post);
-                postIndex++;
+                postDelta++;
             }
         });
 
@@ -1357,20 +1378,19 @@ function loadTimeline(timelineUrl, after) {
 
         // Read more.
         $('.timeline-item .read-more, .card-view').on('click', function() {
-            let wrapper = $(this).parent().clone().html();
-            $('.overlay-content').html(wrapper);
-            isReader = false;
-            hideContainer('.overlay-content .read-more');
-            hideContainer('.overlay-content .actions');
-            hideContainer('.overlay-content .content-truncated');
-            showContainer('.overlay-content .content-full');
-            showContainer('#overlay-container');
-            setScrollingState(false);
-            $('.overlay-content a').on('click', function(e) {
-                e.preventDefault();
-                shell.openExternal(this.href);
-            });
-
+            let index = $(this).data('post-delta');
+            if (posts[index]) {
+                $('.overlay-content').html(renderDetailView(posts[index], false));
+                isReader = false;
+                isDetail = true;
+                hideContainer('.overlay-content .actions');
+                showContainer('#overlay-container');
+                setScrollingState(false);
+                $('.overlay-content a').on('click', function(e) {
+                    e.preventDefault();
+                    shell.openExternal(this.href);
+                });
+            }
         });
 
     })
@@ -1393,12 +1413,12 @@ function renderPost(item) {
         return "";
     }
 
-    /*if (isGlobalUnread) {
+    if (isGlobalUnread) {
         return renderCardView(item);
     }
-    else {*/
-        return renderFeedView(item);
-    //}
+    else {
+        return renderDetailView(item, true);
+    }
 
 }
 
@@ -1452,9 +1472,7 @@ function renderCardView(item) {
     }
 
     if (item.photo !== undefined) {
-        for (let i = 0; i < item.photo.length; i++) {
-            post += '<div class="image"><img src="' + item.photo[i] + '" /></div>';
-        }
+        post += '<div class="image"><img src="' + item.photo[0] + '" /></div>';
     }
     else {
         let content = "";
@@ -1490,10 +1508,11 @@ function renderCardView(item) {
  * Render feed view.
  *
  * @param {Object} item
+ * @param {Boolean} truncate
  *
  * @returns {string}
  */
-function renderFeedView(item) {
+function renderDetailView(item, truncate) {
     let post = "";
     let type = "entry";
 
@@ -1580,9 +1599,8 @@ function renderFeedView(item) {
     }
 
     if (content.length > 0) {
-        if (content.length > 1000) {
+        if (truncate && content.length > 1000) {
             post += '<div class="content-truncated">' + content.substr(0, 300) + ' ...</div>';
-            post += '<div class="content-full">' + content + ' ...</div>';
             post += '<div class="read-more"><span class="button">Read more</span></div>';
         }
         else {

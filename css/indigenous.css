@@ -220,7 +220,7 @@ p {
 
 .card-view {
     display: block;
-    width: 50%;
+    width: 33.33%;
 }
 
 .post-content-wrapper {
@@ -461,6 +461,6 @@ input {
     height: 100px;
 }
 
-.content-full, .syndication-targets-wrapper, .media-url {
+.syndication-targets-wrapper, .media-url {
     display: none;
 }

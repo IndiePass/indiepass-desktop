@@ -273,15 +273,6 @@ function setAutocomplete(categories) {
     }
 }
 
-/**
- * Remove config
- *
- * @param name
- */
-function configDelete(name) {
-    store.delete(name);
-}
-
 $(document).ready(function() {
 
     snackbarElement = $('.snackbar');

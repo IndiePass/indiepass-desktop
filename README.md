@@ -25,7 +25,7 @@ Looking for the Android client? See https://github.com/swentel/indigenous-androi
   - Mark all read button
   - View individual feed via author name
   - Search in all channels and feeds
-  - Delete or move posts
+  - Delete or move posts, with default channel for moving
   - Navigate posts with keyboard shortcuts:
     - n: previous post
     - p: next post, triggers 'load more posts' at the end too.

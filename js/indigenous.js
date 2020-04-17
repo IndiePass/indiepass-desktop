@@ -408,6 +408,19 @@ $(document).ready(function() {
             $('#hide-notifications-channel').prop('checked', true);
         }
 
+        let defaultMoveChannel = configGet('post_move_default');
+        let defaultMoveSelect = $('#post-move-default');
+        $.each(channelResponse, function(i, c) {
+            let option = {
+                value: c.uid,
+                text: c.name
+            };
+            if (c.uid === defaultMoveChannel) {
+                option.selected = true;
+            }
+            defaultMoveSelect.append($('<option>', option));
+        });
+
     });
 
     $('.post').on('click', function() {
@@ -438,6 +451,7 @@ $(document).ready(function() {
         configSave('global_unread', $('#global-unread').is(':checked'));
         configSave('debug', $('#debug-message').is(':checked'));
         configSave('hide_notifications', $('#hide-notifications-channel').is(':checked'));
+        configSave('post_move_default', $('#post-move-default').val());
 
         // TODO - fix this
         /*if ($('#hide-notifications-channel').is(':checked') !== configGet('hide_notifications')) {
@@ -496,7 +510,9 @@ $(document).ready(function() {
         configDelete('bookmark_no_confirm');
         configDelete('search');
         configDelete('post_move');
+        configDelete('post_move_default');
         configDelete('global_unread');
+        configDelete('hide_notifications');
         configDelete('debug');
         configDelete('micropub_endpoint');
         configDelete('microsub_endpoint');
@@ -1211,9 +1227,14 @@ function loadTimeline(timelineUrl, after) {
                 }
                 else if (type === 'move') {
 
+                    let defaultChannel = configGet('post_move_default');
                     let content = '<div class="tooltip-move-wrapper"><div class="inline-move"><select class="move-channel">';
                     $.each(channelResponse, function (i, item) {
-                        content += '<option value="' + item.uid + '">' + item.name + '</option>';
+                        let selected = "";
+                        if (item.uid === defaultChannel) {
+                            selected = " selected";
+                        }
+                        content += '<option value="' + item.uid + '"' + selected + '>' + item.name + '</option>';
                     });
                     content += '</select></div><div class="button tooltip-send">Move</div></div>';
 

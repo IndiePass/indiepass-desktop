@@ -22,7 +22,7 @@ Looking for the Android client? See https://github.com/swentel/indigenous-androi
   - Inline RSVP on events
   - Listen to audio or watch video
   - Long articles open in an overlay
-  - Mark all read button
+  - Mark all read button, or per item.
   - View individual feed via author name
   - Search in all channels and feeds
   - Delete or move posts, with default channel for moving

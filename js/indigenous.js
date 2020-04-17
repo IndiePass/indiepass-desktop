@@ -917,7 +917,7 @@ function doRequest(properties, type, element) {
     }
 
     let endpoint = getMicropubEndpoint();
-    if (type !== 'delete' && type !== 'move' && type !== 'unread') {
+    if (type !== 'delete' && type !== 'move' && type !== 'unread' && type !== 'read') {
         properties.h = 'entry';
         properties['post-status'] = 'published';
     }
@@ -933,6 +933,12 @@ function doRequest(properties, type, element) {
         contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
     })
     .done(function() {
+        if (type === 'read-of') {
+            type = 'read';
+        }
+        if (type === 'read') {
+            type = 'unread';
+        }
         let backgroundImage = 'images/button_' + type + '_pressed.png';
         element.css('background-image', 'url(' + backgroundImage + ')');
     })
@@ -1180,7 +1186,7 @@ function loadTimeline(timelineUrl, after) {
                 if (type === 'external') {
                     shell.openExternal(url);
                 }
-                else if (type === 'read') {
+                else if (type === 'read-of') {
                     $(this)
                         .tooltipster({
                             animation: 'slide',
@@ -1260,7 +1266,7 @@ function loadTimeline(timelineUrl, after) {
                         })
                         .tooltipster('open');
                 }
-                else if (type === 'like' || type === 'repost' || type === 'bookmark' || type === 'delete' || type === 'unread') {
+                else if (type === 'like' || type === 'repost' || type === 'bookmark' || type === 'delete' || type === 'unread' || type === 'read') {
                     let properties = {};
                     let side = ["top"];
                     if (type === 'delete') {
@@ -1275,6 +1281,13 @@ function loadTimeline(timelineUrl, after) {
                         properties["entry[]"] = entry;
                         properties["action"] = "timeline";
                         properties["method"] = "mark_unread";
+                        properties["channel"] = loadedChannel;
+                    }
+                    else if (type === 'read') {
+                        side = ["left"];
+                        properties["entry[]"] = entry;
+                        properties["action"] = "timeline";
+                        properties["method"] = "mark_read";
                         properties["channel"] = loadedChannel;
                     }
                     else {
@@ -1624,7 +1637,7 @@ function renderFeedView(item) {
             post += '<div class="action action-like" data-action="like"></div>';
             post += '<div class="action action-repost" data-action="repost"></div>';
             post += '<div class="action action-bookmark" data-action="bookmark"></div>';
-            post += '<div class="action action-read" data-action="read"></div>';
+            post += '<div class="action action-read-of" data-action="read-of"></div>';
             if (type === "event") {
                 post += '<div class="action action-rsvp" data-action="rsvp"></div>';
             }
@@ -1636,6 +1649,9 @@ function renderFeedView(item) {
         }
         if (item._is_read !== false) {
             post += '<div class="action action-unread" data-action="unread"></div>';
+        }
+        else {
+            post += '<div class="action action-read" data-action="read"></div>';
         }
         post += '<div class="action action-external" data-action="external"></div>';
         post += '</div>';

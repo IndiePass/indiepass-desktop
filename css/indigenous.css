@@ -366,11 +366,16 @@ input {
     background-image: url('../images/button_bookmark_idle.png');
 }
 
-.action-read {
+.action-read-of {
     background-image: url('../images/button_read_idle.png');
 }
 
 .action-unread {
+    float: right;
+    background-image: url('../images/button_unread_idle.png');
+}
+
+.action-read {
     float: right;
     background-image: url('../images/button_unread_idle.png');
 }

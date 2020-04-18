@@ -1503,6 +1503,28 @@ function renderTitleView(item) {
     if (item.name) {
         post += '<div class="title">' + item.name + '</div>';
     }
+    else {
+        let content = "";
+        let hasContent = false;
+        if (item.content !== undefined) {
+            if (item.content.text !== undefined) {
+                hasContent = true;
+                content = item.content.text;
+            }
+            else if (item.content.html !== undefined) {
+                hasContent = true;
+                content = item.content.html;
+            }
+        }
+
+        if (!hasContent && item.summary !== undefined) {
+            content = item.summary;
+        }
+
+        if (content.length > 0) {
+            post += '<div class="title">' + content.substr(0, 120) + ' ...</div>';
+        }
+    }
 
     // Published time.
     if (item.published) {

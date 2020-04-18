@@ -282,6 +282,39 @@ $(document).ready(function() {
         shell.openExternal(this.href);
     });
 
+    $('.timeline-display').on('click', function(e) {
+        let content = '<div class="tooltip-display-wrapper"><div class="display"><select class="timeline-display-select">';
+        content += '<option value="title">Titles</option>';
+        content += '<option value="card">Cards</option>';
+        content += '<option value="feed">Feed</option>';
+        content += '</select></div><div class="button tooltip-send">Change</div></div>';
+        $(this)
+            .tooltipster({
+                animation: 'slide',
+                trigger: 'click',
+                content: content,
+                contentAsHTML: true,
+                interactive: true,
+                side: ['left', 'right'],
+                functionReady: function(instance, helper) {
+
+                    let display = getDisplay();
+                    let displaySelect = $('.timeline-display-select');
+                    displaySelect.val(display);
+
+                    $('.tooltip-send').on('click', function() {
+                        instance.close();
+                        if (displaySelect.val() !== display) {
+                            configSave('timeline.display.' + loadedChannel, displaySelect.val());
+                            snackbar("Saved. Restart app to see the changes.");
+                        }
+                    });
+                }
+            })
+            .tooltipster('open');
+
+    });
+
     $(window).scroll(function () {
         if (isReader) {
             clearTimeout( $.data( this, "scrollCheck" ) );
@@ -331,14 +364,6 @@ $(document).ready(function() {
             markRead();
         });
     }
-
-    $('.overlay-close').on('click', function() {
-      hideContainer('#overlay-container');
-      $('.overlay-content').html('');
-      setScrollingState(true);
-      isReader = true;
-      isDetail = false;
-    });
 
     $('.reader').on('click', function() {
         loadReader();
@@ -736,7 +761,7 @@ function addMouseBindings() {
             if ($('.post-' + (currentPost + 1)).length > 0) {
                 currentPost++;
                 $('html,body').animate({
-                    scrollTop: $(".post-" + currentPost).offset().top - 10
+                    scrollTop: $(".post-" + currentPost).offset().top - 160
                 }, 'slow', function() {
                     $(".post-" + (currentPost - 1)).removeClass('highlight');
                     $(".post-" + currentPost).addClass('highlight');
@@ -749,7 +774,9 @@ function addMouseBindings() {
 
         if (isDetail) {
             if (posts[currentPost + 1]) {
-                $('.overlay-content').html(renderDetailView(posts[currentPost + 1], false));
+                $('.overlay-content').html(renderDetailView(posts[currentPost + 1], false, true));
+                bindActions();
+                catchExternalLinks();
                 currentPost++;
             }
         }
@@ -763,7 +790,7 @@ function addMouseBindings() {
             currentPost--;
             if (currentPost >= 0) {
                 $('html,body').animate({
-                    scrollTop: $(".post-" + currentPost).offset().top
+                    scrollTop: $(".post-" + currentPost).offset().top - 160
                 }, 'slow', function() {
                     $(".post-" + (currentPost + 1)).removeClass('highlight');
                     $(".post-" + currentPost).addClass('highlight')
@@ -777,7 +804,9 @@ function addMouseBindings() {
         if (isDetail) {
             ignoreScroll = true;
             if (posts[currentPost - 1]) {
-                $('.overlay-content').html(renderDetailView(posts[currentPost - 1], false));
+                $('.overlay-content').html(renderDetailView(posts[currentPost - 1], false, true));
+                bindActions();
+                catchExternalLinks();
                 currentPost--;
             }
         }
@@ -845,6 +874,20 @@ function snackbar(message, type) {
     setTimeout(function() {
         snackbarElement.hide('slow');
     }, 3000);
+}
+
+/**
+ * Get the display.
+ */
+function getDisplay() {
+    let display = 'feed';
+
+    let storedDisplay = configGet('timeline.display.' + loadedChannel);
+    if (storedDisplay !== undefined) {
+        display = storedDisplay;
+    }
+
+    return display;
 }
 
 /**
@@ -1029,17 +1072,18 @@ function loadChannels() {
             }
             else {
                 isGlobalUnread = false;
-                $('.mark-read').show();
+                $('.mark-read').css('display', 'inline-block');
             }
             $('.reader-sub-title').hide();
             clearContainer(".timeline-item");
-            loadTimeline(url, "");
             loadedChannel = $(this).data('channel');
+            loadTimeline(url, "");
         });
 
         // Load global if configured.
         if (configGet('global_unread')) {
             isGlobalUnread = true;
+            loadedChannel = 'global';
             loadTimeline(baseUrl, "");
         }
 
@@ -1143,16 +1187,21 @@ function loadTimeline(timelineUrl, after) {
     .done(function(data) {
         debug(data);
 
+        let display = getDisplay();
+
         // Posts.
         let postsContainer = $('#timeline-container .posts');
         let pagerContainer = $('#timeline-container .pager');
         $.each(data.items, function(i, item) {
-            let renderedPost = renderPost(item);
+            let renderedPost = renderPost(item, display);
             if (renderedPost.length > 0) {
                 posts[postDelta] = item;
                 let postClasses = 'timeline-item post-' + postDelta;
-                if (isGlobalUnread) {
+                if (display === 'card') {
                     postClasses += " card-view";
+                }
+                else if (display === 'title') {
+                    postClasses += " title-view";
                 }
                 else {
                     postClasses += " feed-view";
@@ -1189,47 +1238,101 @@ function loadTimeline(timelineUrl, after) {
         });
 
         // Inline actions.
-        $('.action').on('click', function() {
-            let url = $(this).parent().data('url');
-            let entry = $(this).parent().data('entry');
-            if (url.length > 0) {
-                let type = $(this).data('action');
-                let element = $(this);
-                if (type === 'external') {
-                    shell.openExternal(url);
-                }
-                else if (type === 'read-of') {
-                    $(this)
-                        .tooltipster({
-                            animation: 'slide',
-                            trigger: 'click',
-                            content: '<div class="tooltip-read-wrapper"><div class="inline-read"><select class="read-response"><option value="">Omit status</option><option value="to-read">To read</option><option value="reading">Reading</option><option value="finished">Finished</option></select></div><div class="button tooltip-send">Send</div></div>',
-                            contentAsHTML: true,
-                            interactive: true,
-                            functionReady: function(instance, helper) {
-                                $('.tooltip-send').on('click', function() {
-                                    instance.close();
-                                    let prop = 'read-of';
-                                    let properties = {};
-                                    properties[prop] = url;
-                                    let readResponse = $('.read-response').val();
-                                    if (readResponse.length > 0) {
-                                        properties['read-status'] = readResponse;
-                                    }
-                                    doRequest(properties, type, element);
-                                });
-                            }
-                        })
-                        .tooltipster('open');
-                }
-                else if (type === 'rsvp') {
-                    $(this)
+        bindActions();
+
+        // Catch all links.
+        catchExternalLinks('.timeline-item a');
+
+        // Read more.
+        $('.timeline-item .read-more, .card-view, .title-view').on('click', function() {
+            let index = $(this).data('post-delta');
+            if (posts[index]) {
+                currentPost = index;
+                $('.overlay-content').html(renderDetailView(posts[index], false, true));
+                isReader = false;
+                isDetail = true;
+                showContainer('#overlay-container');
+                setScrollingState(false);
+                catchExternalLinks('.overlay-content a');
+                bindActions();
+            }
+        });
+
+    })
+    .fail(function() {
+        snackbar('Something went wrong loading the timeline', 'error');
+    });
+
+}
+
+/**
+ * Catch all external links.
+ *
+ * @param selector
+ */
+function catchExternalLinks(selector) {
+    $(selector).on('click', function(e) {
+        e.preventDefault();
+        shell.openExternal(this.href);
+    });
+}
+
+/**
+ * Bind actions.
+ */
+function bindActions() {
+
+    $('.overlay-close').on('click', function() {
+        hideContainer('#overlay-container');
+        $('.overlay-content').html('');
+        setScrollingState(true);
+        isReader = true;
+        isDetail = false;
+    });
+
+    $('.action').on('click', function() {
+        let url = $(this).parent().parent().data('url');
+        let entry = $(this).parent().parent().data('entry');
+        if (url.length > 0) {
+            let type = $(this).data('action');
+            let element = $(this);
+            if (type === 'external') {
+                shell.openExternal(url);
+            }
+            else if (type === 'read-of') {
+                $(this)
+                    .tooltipster({
+                        animation: 'slide',
+                        trigger: 'click',
+                        content: '<div class="tooltip-read-wrapper"><div class="inline-read"><select class="read-response"><option value="">Omit status</option><option value="to-read">To read</option><option value="reading">Reading</option><option value="finished">Finished</option></select></div><div class="button tooltip-send">Send</div></div>',
+                        contentAsHTML: true,
+                        interactive: true,
+                        side: ['left', 'right'],
+                        functionReady: function(instance, helper) {
+                            $('.tooltip-send').on('click', function() {
+                                instance.close();
+                                let prop = 'read-of';
+                                let properties = {};
+                                properties[prop] = url;
+                                let readResponse = $('.read-response').val();
+                                if (readResponse.length > 0) {
+                                    properties['read-status'] = readResponse;
+                                }
+                                doRequest(properties, type, element);
+                            });
+                        }
+                    })
+                    .tooltipster('open');
+            }
+            else if (type === 'rsvp') {
+                $(this)
                     .tooltipster({
                         animation: 'slide',
                         trigger: 'click',
                         content: '<div class="tooltip-rsvp-wrapper"><div class="inline-rsvp"><select class="rsvp-response"><option value="yes">I\'m going!</option><option value="maybe">Maybe</option><option value="interested">Interested</option><option value="no">Can not attend</option></select></div><div class="button tooltip-send">RSVP</div></div>',
                         contentAsHTML: true,
                         interactive: true,
+                        side: ['left', 'right'],
                         functionReady: function(instance, helper) {
                             $('.tooltip-send').on('click', function() {
                                 instance.close();
@@ -1242,175 +1345,174 @@ function loadTimeline(timelineUrl, after) {
                         }
                     })
                     .tooltipster('open');
-                }
-                else if (type === 'move') {
-
-                    let defaultChannel = configGet('post_move_default');
-                    let content = '<div class="tooltip-move-wrapper"><div class="inline-move"><select class="move-channel">';
-                    $.each(channelResponse, function (i, item) {
-                        let selected = "";
-                        if (item.uid === defaultChannel) {
-                            selected = " selected";
+            }
+            else if (type === 'move') {
+                let defaultChannel = configGet('post_move_default');
+                let content = '<div class="tooltip-move-wrapper"><div class="inline-move"><select class="move-channel">';
+                $.each(channelResponse, function (i, item) {
+                    let selected = "";
+                    if (item.uid === defaultChannel) {
+                        selected = " selected";
+                    }
+                    content += '<option value="' + item.uid + '"' + selected + '>' + item.name + '</option>';
+                });
+                content += '</select></div><div class="button tooltip-send">Move</div></div>';
+                $(this)
+                    .tooltipster({
+                        animation: 'slide',
+                        trigger: 'click',
+                        content: content,
+                        contentAsHTML: true,
+                        interactive: true,
+                        side: ['left', 'right'],
+                        functionReady: function(instance, helper) {
+                            $('.tooltip-send').on('click', function() {
+                                instance.close();
+                                let properties = {};
+                                properties["entry"] = entry;
+                                properties["action"] = "timeline";
+                                properties["method"] = "move";
+                                properties["channel"] = $('.move-channel').val();
+                                doRequest(properties, type, element);
+                            });
                         }
-                        content += '<option value="' + item.uid + '"' + selected + '>' + item.name + '</option>';
-                    });
-                    content += '</select></div><div class="button tooltip-send">Move</div></div>';
-
-                    $(this)
-                        .tooltipster({
-                            animation: 'slide',
-                            trigger: 'click',
-                            content: content,
-                            contentAsHTML: true,
-                            interactive: true,
-                            side: ["left"],
-                            functionReady: function(instance, helper) {
-                                $('.tooltip-send').on('click', function() {
-                                    instance.close();
-                                    let properties = {};
-                                    properties["entry"] = entry;
-                                    properties["action"] = "timeline";
-                                    properties["method"] = "move";
-                                    properties["channel"] = $('.move-channel').val();
-                                    doRequest(properties, type, element);
-                                });
-                            }
-                        })
-                        .tooltipster('open');
+                    })
+                    .tooltipster('open');
+            }
+            else if (type === 'like' || type === 'repost' || type === 'bookmark' || type === 'delete' || type === 'unread' || type === 'read') {
+                let properties = {};
+                if (type === 'delete') {
+                    properties["entry"] = entry;
+                    properties["action"] = "timeline";
+                    properties["method"] = "remove";
+                    properties["channel"] = loadedChannel;
                 }
-                else if (type === 'like' || type === 'repost' || type === 'bookmark' || type === 'delete' || type === 'unread' || type === 'read') {
-                    let properties = {};
-                    let side = ["top"];
-                    if (type === 'delete') {
-                        side = ["left"];
-                        properties["entry"] = entry;
-                        properties["action"] = "timeline";
-                        properties["method"] = "remove";
-                        properties["channel"] = loadedChannel;
-                    }
-                    else if (type === 'unread') {
-                        side = ["left"];
-                        properties["entry[]"] = entry;
-                        properties["action"] = "timeline";
-                        properties["method"] = "mark_unread";
-                        properties["channel"] = loadedChannel;
-                    }
-                    else if (type === 'read') {
-                        side = ["left"];
-                        properties["entry[]"] = entry;
-                        properties["action"] = "timeline";
-                        properties["method"] = "mark_read";
-                        properties["channel"] = loadedChannel;
-                    }
-                    else {
-                        let prop = type + '-of';
-                        properties[prop] = url;
-                    }
-                    if (configGet(type + '_no_confirm')) {
-                        doRequest(properties, type, element);
-                    }
-                    else {
-                        // TODO check multiple binding (although tooltipster protects against it)
-                        $(this)
-                            .tooltipster({
-                                animation: 'slide',
-                                trigger: 'click',
-                                content: type + ' this entry?<div class="tooltip-confirm-wrapper"><div class="tooltip-confirm">Yes!</div><div class="tooltip-close">Nevermind!</div></div>',
-                                contentAsHTML: true,
-                                interactive: true,
-                                side: side,
-                                functionReady: function(instance, helper) {
-                                   $('.tooltip-confirm').on('click', function() {
-                                       instance.close();
-                                       doRequest(properties, type, element);
-                                   });
-                                   $('.tooltip-close').on('click', function() {
-                                     instance.close();
-                                   });
-                                }
-                            })
-                            .tooltipster('open');
-                    }
+                else if (type === 'unread') {
+                    properties["entry[]"] = entry;
+                    properties["action"] = "timeline";
+                    properties["method"] = "mark_unread";
+                    properties["channel"] = loadedChannel;
+                }
+                else if (type === 'read') {
+                    properties["entry[]"] = entry;
+                    properties["action"] = "timeline";
+                    properties["method"] = "mark_read";
+                    properties["channel"] = loadedChannel;
                 }
                 else {
+                    let prop = type + '-of';
+                    properties[prop] = url;
+                }
+                if (configGet(type + '_no_confirm')) {
+                    doRequest(properties, type, element);
+                }
+                else {
+                    // TODO check multiple binding (although tooltipster protects against it)
                     $(this)
                         .tooltipster({
                             animation: 'slide',
                             trigger: 'click',
-                            content: '<div class="tooltip-reply-wrapper"><div class="inline-reply"><textarea placeholder="Type your reply - click anywhere to close this" cols="60", rows="4" class="inline-textarea"></textarea></div><div class="button tooltip-send">Send</div></div>',
+                            content: type + ' this entry?<div class="tooltip-confirm-wrapper"><div class="tooltip-confirm">Yes!</div><div class="tooltip-close">Nevermind!</div></div>',
                             contentAsHTML: true,
                             interactive: true,
-                            functionReady: function(instance, helper){
-                                $('.tooltip-send').on('click', function() {
-                                    if ($('.inline-textarea').val().length > 0) {
-                                        instance.close();
-                                        let prop = 'in-reply-to';
-                                        let properties = {};
-                                        properties[prop] = url;
-                                        properties.content = $('.inline-textarea').val();
-                                        doRequest(properties, type, element);
-                                    }
-                                    else {
-                                        $('.inline-textarea').attr('placeholder', 'Please add some content for this reply');
-                                    }
+                            side: ['left', 'right'],
+                            functionReady: function(instance, helper) {
+                                $('.tooltip-confirm').on('click', function() {
+                                    instance.close();
+                                    doRequest(properties, type, element);
+                                });
+                                $('.tooltip-close').on('click', function() {
+                                    instance.close();
                                 });
                             }
                         })
                         .tooltipster('open');
                 }
             }
-        });
-
-        // Catch all links in timeline-item.
-        $('.timeline-item a').on('click', function(e) {
-            e.preventDefault();
-            shell.openExternal(this.href);
-        });
-
-        // Read more.
-        $('.timeline-item .read-more, .card-view').on('click', function() {
-            let index = $(this).data('post-delta');
-            if (posts[index]) {
-                $('.overlay-content').html(renderDetailView(posts[index], false));
-                isReader = false;
-                isDetail = true;
-                hideContainer('.overlay-content .actions');
-                showContainer('#overlay-container');
-                setScrollingState(false);
-                $('.overlay-content a').on('click', function(e) {
-                    e.preventDefault();
-                    shell.openExternal(this.href);
-                });
+            else {
+                $(this)
+                    .tooltipster({
+                        animation: 'slide',
+                        trigger: 'click',
+                        content: '<div class="tooltip-reply-wrapper"><div class="inline-reply"><textarea placeholder="Type your reply - click anywhere to close this" cols="60", rows="4" class="inline-textarea"></textarea></div><div class="button tooltip-send">Send</div></div>',
+                        contentAsHTML: true,
+                        interactive: true,
+                        side: ['bottom', 'top', 'right'],
+                        functionReady: function(instance, helper){
+                            $('.tooltip-send').on('click', function() {
+                                if ($('.inline-textarea').val().length > 0) {
+                                    instance.close();
+                                    let prop = 'in-reply-to';
+                                    let properties = {};
+                                    properties[prop] = url;
+                                    properties.content = $('.inline-textarea').val();
+                                    doRequest(properties, type, element);
+                                }
+                                else {
+                                    $('.inline-textarea').attr('placeholder', 'Please add some content for this reply');
+                                }
+                            });
+                        }
+                    })
+                    .tooltipster('open');
             }
-        });
-
-    })
-    .fail(function() {
-        snackbar('Something went wrong loading the timeline', 'error');
+        }
     });
-
 }
 
 /**
  * Render a post.
  *
  * @param {Object} item
+ * @param {String} display
  *
  * return {string}
  */
-function renderPost(item) {
+function renderPost(item, display) {
 
     if (item.type !== undefined && item.type === "card") {
         return "";
     }
 
-    if (isGlobalUnread) {
+    if (display === 'title') {
+        return renderTitleView(item);
+    }
+    else if (display === 'card') {
         return renderCardView(item);
     }
     else {
-        return renderDetailView(item, true);
+        return renderDetailView(item, true, false);
     }
 
+}
+
+/**
+ * Render card view.
+ *
+ * @param {Object} item
+ *
+ * @returns {string}
+ */
+function renderTitleView(item) {
+    let post = "";
+
+    // Content wrapper.
+    post += '<div class="post-content-wrapper">';
+
+    // Title.
+    if (item.name) {
+        post += '<div class="title">' + item.name + '</div>';
+    }
+
+    // Published time.
+    if (item.published) {
+        post += '<div class="published-on">' + dayjs(item.published).format('DD/MM/YYYY HH:mm') + '</div>';
+    }
+
+    // Closing wrapper.
+    post += '</div>';
+
+    return post;
 }
 
 /**
@@ -1500,12 +1602,18 @@ function renderCardView(item) {
  *
  * @param {Object} item
  * @param {Boolean} truncate
+ * @param {Boolean} actionsAtTop
  *
  * @returns {string}
  */
-function renderDetailView(item, truncate) {
+function renderDetailView(item, truncate, actionsAtTop) {
     let post = "";
     let type = "entry";
+
+    // Actions.
+    if (actionsAtTop) {
+        post += renderActions(item, type, true);
+    }
 
     // Author.
     let authorName = "";
@@ -1634,40 +1742,67 @@ function renderDetailView(item, truncate) {
     }
 
     // Actions.
-    if (!isDefaultMicrosubEndpoint() && item.url) {
-        let url = "";
-        if (item.url.length > 0) {
-            url = item.url;
-        }
-
-        post += '<div class="actions" data-url="' + url + '" data-entry="' + item._id + '">';
-        if (getMicropubEndpoint().length > 0) {
-            post += '<div class="action action-reply" data-action="reply"></div>';
-            post += '<div class="action action-like" data-action="like"></div>';
-            post += '<div class="action action-repost" data-action="repost"></div>';
-            post += '<div class="action action-bookmark" data-action="bookmark"></div>';
-            post += '<div class="action action-read-of" data-action="read-of"></div>';
-            if (type === "event") {
-                post += '<div class="action action-rsvp" data-action="rsvp"></div>';
-            }
-        }
-
-        post += '<div class="action action-delete" data-action="delete"></div>';
-        if (configGet('post_move')) {
-            post += '<div class="action action-move" data-action="move"></div>';
-        }
-        if (item._is_read !== false) {
-            post += '<div class="action action-unread" data-action="unread"></div>';
-        }
-        else {
-            post += '<div class="action action-read" data-action="read"></div>';
-        }
-        post += '<div class="action action-external" data-action="external"></div>';
-        post += '</div>';
+    if (!actionsAtTop) {
+        post += renderActions(item, type, false);
     }
 
     // Closing wrapper.
     post += '</div>';
 
     return post;
+}
+
+/**
+ * Renders actions.
+ *
+ * @param {Object} item
+ * @param {String} type
+ * @param {Boolean} renderClose
+ *
+ * @returns {string}
+ */
+function renderActions(item, type, renderClose) {
+    let actions = "";
+
+    if (!isDefaultMicrosubEndpoint() && item.url) {
+        let url = "";
+        if (item.url.length > 0) {
+            url = item.url;
+        }
+
+        actions += '<div class="actions" data-url="' + url + '" data-entry="' + item._id + '">';
+        actions += '<div class="actions-column">';
+        if (getMicropubEndpoint().length > 0) {
+            actions += '<div class="action action-reply" data-action="reply"></div>';
+            actions += '<div class="action action-like" data-action="like"></div>';
+            actions += '<div class="action action-repost" data-action="repost"></div>';
+            actions += '<div class="action action-bookmark" data-action="bookmark"></div>';
+            actions += '<div class="action action-read-of" data-action="read-of"></div>';
+            if (type === "event") {
+                actions += '<div class="action action-rsvp" data-action="rsvp"></div>';
+            }
+        }
+        actions += '</div>';
+        actions += '<div class="actions-column text-align-right">';
+
+        actions += '<div class="action action-delete" data-action="delete"></div>';
+        if (configGet('post_move')) {
+            actions += '<div class="action action-move" data-action="move"></div>';
+        }
+        if (item._is_read !== false) {
+            actions += '<div class="action action-unread" data-action="unread"></div>';
+        }
+        else {
+            actions += '<div class="action action-read" data-action="read"></div>';
+        }
+        actions += '<div class="action action-external" data-action="external"></div>';
+
+        if (renderClose) {
+            actions += '<div class="overlay-close"></div>'
+        }
+
+        actions += '</div></div>';
+    }
+
+    return actions;
 }

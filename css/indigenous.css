@@ -28,6 +28,10 @@ body {
 }
 
 .page {
+    margin-top: 80px;
+}
+
+.body-margin {
     padding: 10px;
 }
 
@@ -41,6 +45,14 @@ body {
 
 p {
     margin: 0 0 1em 0;
+}
+
+#header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: #fff;
+    z-index: 100;
 }
 
 #header, .actions {
@@ -60,7 +72,7 @@ p {
     -webkit-user-select:none;
 }
 
-.reader, .settings, .post, .media, .about, .card-view {
+.reader, .settings, .post, .media, .about, .card-view, .title-view {
     cursor: pointer;
 }
 
@@ -110,21 +122,33 @@ p {
     padding: 10px;
 }
 
-.reader-top {
-    display: block;
-}
-
 .reader-wrapper {
     display: flex;
 }
 
 .channel-wrapper {
     padding-right: 20px;
-    min-width: 150px;
+    min-width: 190px;
+    position: fixed;
+    left: 0;
+    top: 160px;
+}
+
+.reader-top {
+    display: block;
+    position: fixed;
+    width: 100%;
+    background-color: #fff;
+    left: 0;
+    top: 70px;
+    z-index: 100;
+    box-shadow: 0 1px 1px #666;
 }
 
 #timeline-container {
     flex-flow: row;
+    margin-left: 190px;
+    margin-top: 80px;
 }
 
 .channel {
@@ -166,9 +190,22 @@ p {
     cursor: pointer;
 }
 
+.reader-global-actions {
+    padding-top: 10px;
+}
+
 .mark-read {
     display: none;
     margin-left: 20px;
+}
+
+.timeline-display {
+    color: var(--text-color);
+    font-size: 20px;
+    cursor: pointer;
+    display: inline-block;
+    margin-left: 20px;
+    margin-right: 20px;
 }
 
 .search-wrapper {
@@ -204,6 +241,7 @@ p {
 }
 
 .author-wrapper {
+    min-width: 90px;
     display: inline-block;
 }
 
@@ -219,8 +257,11 @@ p {
 }
 
 .card-view {
-    display: block;
     width: 33.33%;
+}
+
+.title-view {
+    width: 100%;
 }
 
 .post-content-wrapper {
@@ -231,6 +272,16 @@ p {
 
 .post-content-wrapper img, .overlay-content img {
     max-width: 100%;
+}
+
+.overlay-content .actions {
+    position: fixed;
+    width: 90%;
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+    top: 0;
+    left: 20px;
+    padding: 15px 10px 10px 10px;
 }
 
 .author-name {
@@ -257,7 +308,7 @@ p {
 #overlay-container {
     position: fixed;
     background: #fff;
-    z-index: 100;
+    z-index: 101;
     border: 20px solid rgba(0,0,0,0.6);
     top: 0;
     left: 0;
@@ -267,14 +318,19 @@ p {
 }
 
 .overlay-content {
-    padding: 20px;
+    margin: 20px;
+    display: flex;
+    padding-top: 70px;
 }
 
 .overlay-close {
-    position: absolute;
     cursor: pointer;
-    top: 20px;
-    right: 20px;
+    display: inline-block;
+    background-image: url('../images/button_close.png');
+    width: 30px;
+    height: 30px;
+    background-size: 30px;
+    background-repeat: no-repeat;
 }
 
 .avatar {
@@ -296,7 +352,7 @@ p {
     transition: all 0.2s ease;
 }
 
-.rsvp-response, .read-response, .move-channel {
+.rsvp-response, .read-response, .move-channel, .timeline-display-select {
     padding: 5px;
     font-size: 16px;
 }
@@ -320,12 +376,22 @@ input {
 .actions {
     margin-top: 20px;
     width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.actions-column {
+    width: 50%;
 }
 
 .action {
     display: inline-block;
     margin-right: 15px;
     cursor: pointer;
+}
+
+.text-align-right {
+    text-align: right;
 }
 
 .next {
@@ -371,12 +437,10 @@ input {
 }
 
 .action-unread {
-    float: right;
     background-image: url('../images/button_unread_idle.png');
 }
 
 .action-read {
-    float: right;
     background-image: url('../images/button_unread_idle.png');
 }
 
@@ -385,16 +449,10 @@ input {
 }
 
 .action-move {
-    float: right;
     background-image: url('../images/button_move_idle.png');
 }
 
-.action-external {
-    float: right;
-}
-
 .action-delete {
-    float: right;
     background-image: url('../images/button_delete_idle.png');
 }
 

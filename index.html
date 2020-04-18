@@ -15,32 +15,29 @@
   <div id="overlay-container">
       <div class="overlay-wrapper">
           <div class="overlay-content"></div>
-          <div class="overlay-close button">Close</div>
       </div>
   </div>
 
   <div class="page">
       <div id="header">
-            <div class="logo-wrapper float-left">
-                <img alt="Indigenous" src="images/icon.png" class="logo">
-            </div>
-            <div class="reader float-left menu selected">Reader</div>
-            <div class="post float-left menu">Post</div>
-            <div class="media float-left menu">Media</div>
-            <div class="settings float-left menu">Settings</div>
-            <div class="about float-left menu">About</div>
-        </div>
+        <div class="reader float-left menu selected">Reader</div>
+        <div class="post float-left menu">Post</div>
+        <div class="media float-left menu">Media</div>
+        <div class="settings float-left menu">Settings</div>
+        <div class="about float-left menu">About</div>
+      </div>
 
-        <div id="reader-container">
-            <div class="reader-top">
+        <div id="reader-container" class="body-margin">
+            <div class="reader-top body-margin">
                 <div class="search-wrapper"><form id="search-form"><input type="text" class="search-field text" placeholder="search"></form></div>
                 <div class="reader-global-actions">
                     <div class="mark-read">Mark all read</div>
+                    <div class="timeline-display">Display</div>
                 </div>
             </div>
 
             <div class="reader-wrapper">
-                <div class="channel-wrapper"></div>
+                <div class="channel-wrapper body-margin"></div>
                 <div id="timeline-container">
                     <div class="reader-sub-title"></div>
                     <div class="posts"></div>
@@ -50,7 +47,7 @@
 
         </div>
 
-        <div id="settings-container">
+        <div id="settings-container" class="body-margin">
             <div>
                 <label for="like-direct">Like without confirmation</label>
                 <input type="checkbox" name="like_direct" id="like-direct" class="checkbox" />
@@ -120,7 +117,7 @@
             </div>
         </div>
 
-        <div id="posts-container">
+        <div id="posts-container" class="body-margin">
             <div class="title">
                 <label for="title">Title</label><br />
                 <input type="text" name="title" id="title" class="text" />
@@ -158,38 +155,35 @@
                 <span class="reload-config button">Reload configuration</span>
             </div>
         </div>
+
+        <div id="media-container" class="body-margin">
+          <p>Upload a file to your media endpoint. On success, the URL will be printed underneath.</p>
+          <div class="media-url"></div>
+          <div>
+              <label for="file">Select a file:</label>
+              <input type="file" id="file" name="file">
+          </div>
+          <div class="post-buttons-wrapper">
+              <span class="send-media button" id="send-media">Upload</span>
+          </div>
+      </div>
+
+        <div id="about-container" class="body-margin">
+          <h3>Keyboard shortcuts</h3>
+          <ul>
+              <li>Reader
+                  <ul>
+                      <li>p: previous post in overlay
+                      <li>n: previous post in overlay, triggers 'load more posts' at the end too.
+                      <li>r: when a post has a read more button, open the overlay
+                      <li>c: close overlay when opened
+                  </ul>
+              </li>
+          </ul>
+
+          <p>Found a bug? Don't hesitate to submit an issue at <a href="https://github.com/swentel/indigenous-desktop" class="external-link">https://github.com/swentel/indigenous-desktop</a></p>
+      </div>
     </div>
-
-  <div id="media-container">
-      <p>Upload a file to your media endpoint. On success, the URL will be printed underneath.</p>
-      <div class="media-url"></div>
-      <div>
-          <label for="file">Select a file:</label>
-          <input type="file" id="file" name="file">
-      </div>
-      <div class="post-buttons-wrapper">
-          <span class="send-media button" id="send-media">Upload</span>
-      </div>
-  </div>
-
-  <div id="about-container">
-      <h2>Indigenous</h2>
-
-      <h3>Keyboard shortcuts</h3>
-
-      <ul>
-          <li>Reader
-              <ul>
-                  <li>p: previous post
-                  <li>n: previous post, triggers 'load more posts' at the end too.
-                  <li>r: when a post has a read more button, open the overlay
-                  <li>c: close overlay when opened
-              </ul>
-          </li>
-      </ul>
-
-      <p>Found a bug? Don't hesitate to submit an issue at <a href="https://github.com/swentel/indigenous-desktop" class="external-link">https://github.com/swentel/indigenous-desktop</a></p>
-  </div>
 
   <div class="snackbar"></div>
   </body>

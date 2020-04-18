@@ -322,7 +322,7 @@ $(document).ready(function() {
                 // noinspection CssInvalidPseudoSelector
                 if (!ignoreScroll) {
                     // noinspection CssInvalidPseudoSelector
-                    let elements = $('.timeline-item:in-viewport');
+                    let elements = $('.timeline-item:in-viewport(200)');
                     if (elements.length > 0) {
                         $('.timeline-item').removeClass('highlight', 'none');
                         $(elements[0]).addClass('highlight');

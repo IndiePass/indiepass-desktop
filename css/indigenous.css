@@ -257,7 +257,8 @@ p {
 }
 
 .card-view {
-    width: 33.33%;
+    width: 27%;
+    padding: 20px;
 }
 
 .title-view {

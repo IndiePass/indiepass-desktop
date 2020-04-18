@@ -1773,32 +1773,32 @@ function renderActions(item, type, renderClose) {
         actions += '<div class="actions" data-url="' + url + '" data-entry="' + item._id + '">';
         actions += '<div class="actions-column">';
         if (getMicropubEndpoint().length > 0) {
-            actions += '<div class="action action-reply" data-action="reply"></div>';
-            actions += '<div class="action action-like" data-action="like"></div>';
-            actions += '<div class="action action-repost" data-action="repost"></div>';
-            actions += '<div class="action action-bookmark" data-action="bookmark"></div>';
-            actions += '<div class="action action-read-of" data-action="read-of"></div>';
+            actions += '<div class="action action-reply" data-action="reply" title="Reply"></div>';
+            actions += '<div class="action action-like" data-action="like" title="Like"></div>';
+            actions += '<div class="action action-repost" data-action="repost" title="Repost"></div>';
+            actions += '<div class="action action-bookmark" data-action="bookmark" title="Bookmark"></div>';
+            actions += '<div class="action action-read-of" data-action="read-of" title="Read"></div>';
             if (type === "event") {
-                actions += '<div class="action action-rsvp" data-action="rsvp"></div>';
+                actions += '<div class="action action-rsvp" data-action="rsvp" title="RSVP"></div>';
             }
         }
         actions += '</div>';
         actions += '<div class="actions-column text-align-right">';
 
-        actions += '<div class="action action-delete" data-action="delete"></div>';
+        actions += '<div class="action action-delete" data-action="delete" title="Delete"></div>';
         if (configGet('post_move')) {
-            actions += '<div class="action action-move" data-action="move"></div>';
+            actions += '<div class="action action-move" data-action="move" title="Move"></div>';
         }
         if (item._is_read !== false) {
-            actions += '<div class="action action-unread" data-action="unread"></div>';
+            actions += '<div class="action action-unread" data-action="unread" title="Mark unread"></div>';
         }
         else {
-            actions += '<div class="action action-read" data-action="read"></div>';
+            actions += '<div class="action action-read" data-action="read" title="Mark read"></div>';
         }
-        actions += '<div class="action action-external" data-action="external"></div>';
+        actions += '<div class="action action-external" data-action="external" title="Visit site"></div>';
 
         if (renderClose) {
-            actions += '<div class="overlay-close"></div>'
+            actions += '<div class="overlay-close" title="Close overlay"></div>'
         }
 
         actions += '</div></div>';

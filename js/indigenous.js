@@ -1246,6 +1246,9 @@ function loadTimeline(timelineUrl, after) {
         // Read more.
         $('.timeline-item .read-more, .card-view, .title-view').on('click', function() {
             let index = $(this).data('post-delta');
+            if (undefined === index) {
+                index = $(this).parent().parent().data('post-delta');
+            }
             if (posts[index]) {
                 currentPost = index;
                 $('.overlay-content').html(renderDetailView(posts[index], false, true));

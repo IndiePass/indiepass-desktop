@@ -276,6 +276,9 @@ function setAutocomplete(categories) {
 $(document).ready(function() {
 
     snackbarElement = $('.snackbar');
+    $('.dismiss', snackbarElement).on('click', function() {
+        snackbarElement.hide();
+    })
 
     $('.external-link').on('click', function(e) {
         e.preventDefault();
@@ -868,14 +871,23 @@ function loadMedia() {
 function snackbar(message, type) {
     type = (typeof type !== 'undefined') ? type : 'success';
 
-    snackbarElement.html(message).fadeIn(500);
+    $('.message', snackbarElement).html(message).fadeIn(500);
     snackbarElement.removeClass('error', 'success');
     snackbarElement.addClass(type);
-    setTimeout(function() {
-        snackbarElement.hide('slow');
-    }, 3000);
-}
 
+    if (type !== 'error') {
+        setTimeout(function () {
+            snackbarElement.hide();
+        }, 5000);
+    }
+    // TODO trigger webtools, and add a message?
+    /*else if (configGet('debug')) {
+        $('.debug', snackbarElement).show().on('click', function() {
+            //mainWindow.webContents.openDevTools()
+        });
+    }*/
+
+}
 /**
  * Get the display.
  */

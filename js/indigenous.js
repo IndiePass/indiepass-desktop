@@ -1546,6 +1546,29 @@ function renderTitleView(item) {
         post += '<div class="published-on">' + dayjs(item.published).format('DD/MM/YYYY HH:mm') + '</div>';
     }
 
+    // Author.
+    let authorName = "";
+    let authorUrl = "";
+    if (item.author) {
+        if (item.author.name && item.author.name.length > 0) {
+            authorName = item.author.name;
+        }
+
+        if (item.author.url && item.author.url.length > 0) {
+            authorUrl = item.author.url;
+        }
+    }
+
+    // Author name.
+    if (authorName.length > 0) {
+        post += '<div class="author-name">' + authorName + '</div>';
+    }
+
+    // Author url.
+    if (authorUrl.length > 0) {
+        post += '<div class="url">' + authorUrl + '</div>';
+    }
+
     // Closing wrapper.
     post += '</div>';
 
@@ -1564,16 +1587,15 @@ function renderCardView(item) {
 
     // Author.
     let authorName = "";
+    let authorUrl = "";
     post += '<div>';
     if (item.author) {
         if (item.author.name && item.author.name.length > 0) {
             authorName = item.author.name;
         }
-        else if (item.author.url && item.author.url.length > 0) {
-            authorName = item.author.url;
-        }
-        else {
-            post += defaultAuthorCard;
+
+        if (item.author.url && item.author.url.length > 0) {
+            authorUrl = item.author.url;
         }
     }
     else {
@@ -1594,6 +1616,11 @@ function renderCardView(item) {
     // Author name.
     if (authorName.length > 0) {
         post += '<div class="author-name">' + authorName + '</div>';
+    }
+
+    // Author url.
+    if (authorUrl.length > 0) {
+        post += '<div class="url">' + authorUrl + '</div>';
     }
 
     // Published time.
@@ -1652,19 +1679,23 @@ function renderDetailView(item, truncate, actionsAtTop) {
         post += renderActions(item, type, true);
     }
 
+    // TODO harmonize this in a function
     // Author.
     let authorName = "";
+    let authorUrl = "";
     post += '<div class="author-wrapper">';
     if (item.author) {
+
         if (item.author.name && item.author.name.length > 0) {
             authorName = item.author.name;
         }
-        else if (item.author.url && item.author.url.length > 0) {
-            authorName = item.author.url;
+
+        if (item.author.url && item.author.url.length > 0) {
+            authorUrl = item.author.url;
         }
 
         if (item.author.photo) {
-            post += '<div class="author-avatar"><img class="avatar" src="' + item.author.photo + '" width="80" height="80" /></div>';
+            post += '<div class="author-avatar"><img alt="' + authorName + '" class="avatar" src="' + item.author.photo + '" width="80" height="80" /></div>';
         }
         else {
             post += defaultAuthor;
@@ -1696,6 +1727,11 @@ function renderDetailView(item, truncate, actionsAtTop) {
             sourceAttributes = ' data-source-id="' + item._source + '"';
         }
         post += '<div class="author-name"' + sourceAttributes + '>' + authorName + '</div>';
+    }
+
+    // Author url.
+    if (authorUrl.length > 0) {
+        post += '<div class="url">' + authorUrl + '</div>';
     }
 
     // Published time.

@@ -310,7 +310,7 @@ $(document).ready(function() {
                         instance.close();
                         if (displaySelect.val() !== display) {
                             configSave('timeline.display.' + loadedChannel, displaySelect.val());
-                            snackbar("Saved. Restart app to see the changes.");
+                            reloadTimeline();
                         }
                     });
                 }
@@ -1083,24 +1083,7 @@ function loadChannels() {
         });
 
         $('.channel').click(function() {
-            loadedSource = null;
-            resetSearch();
-            $('.channel').removeClass('channel-highlight');
-            $(this).addClass('channel-highlight');
-            let url = $(this).data('link');
-            if ($(this).hasClass('global-unread-channel')) {
-                url = baseUrl;
-                isGlobalUnread = true;
-                $('.mark-read').hide();
-            }
-            else {
-                isGlobalUnread = false;
-                $('.mark-read').css('display', 'inline-block');
-            }
-            $('.reader-sub-title').hide();
-            clearContainer(".timeline-item");
-            loadedChannel = $(this).data('channel');
-            loadTimeline(url, "");
+            renderChannel($(this));
         });
 
         // Load global if configured.
@@ -1153,6 +1136,41 @@ function markRead() {
     .fail(function() {
         snackbar('Something went wrong marking the timeline as read', 'error');
     });
+}
+
+/**
+ * Render a channel
+ *
+ * @param channel
+ *   The channel element.
+ */
+function renderChannel(channel) {
+    loadedSource = null;
+    resetSearch();
+    $('.channel').removeClass('channel-highlight');
+    channel.addClass('channel-highlight');
+    let url = channel.data('link');
+    if (channel.hasClass('global-unread-channel')) {
+        url = getMicrosubEndpoint();
+        isGlobalUnread = true;
+        $('.mark-read').hide();
+    }
+    else {
+        isGlobalUnread = false;
+        $('.mark-read').css('display', 'inline-block');
+    }
+    $('.reader-sub-title').hide();
+    clearContainer(".timeline-item");
+    loadedChannel = channel.data('channel');
+    loadTimeline(url, "");
+}
+
+/**
+ * Reload a timeline.
+ */
+function reloadTimeline() {
+    let c = $('.channel-highlight');
+    renderChannel(c);
 }
 
 /**

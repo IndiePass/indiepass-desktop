@@ -1007,6 +1007,12 @@ function doRequest(properties, type, element) {
         contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
     })
     .done(function() {
+
+        // Change channel counter.
+        if (type === 'unread' || type === 'read') {
+            changeChannelCount(type);
+        }
+
         if (type === 'read-of') {
             type = 'read';
         }
@@ -1015,10 +1021,31 @@ function doRequest(properties, type, element) {
         }
         let backgroundImage = 'images/button_' + type + '_pressed.png';
         element.css('background-image', 'url(' + backgroundImage + ')');
+
     })
     .fail(function() {
         snackbar('Something went wrong with this action', 'error');
     });
+}
+
+/**
+ * Change channel count.
+ *
+ * @param type
+ */
+function changeChannelCount(type) {
+    let el = $('.channel-indicator-' + loadedChannel);
+    let unread = parseInt(el.html()) || 0;
+    if (unread === 0 && type === 'unread') {
+        el.html(1)
+    }
+
+    if (type === 'read') {
+        el.html(unread - 1);
+    }
+    if (type === 'unread') {
+        el.html(unread + 1);
+    }
 }
 
 /**
@@ -1063,7 +1090,7 @@ function loadChannels() {
                 return;
             }
 
-            let indicator = "";
+            let indicator = '&nbsp;<span class="indicator channel-indicator-' + item.uid + '"></span>';
             if (undefined !== item.unread) {
                 if (typeof(item.unread) === "boolean") {
                     if (item.unread) {

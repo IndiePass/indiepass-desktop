@@ -1076,6 +1076,8 @@ function loadChannels() {
         $('.channel').click(function() {
             loadedSource = null;
             resetSearch();
+            $('.channel').removeClass('channel-highlight');
+            $(this).addClass('channel-highlight');
             let url = $(this).data('link');
             if ($(this).hasClass('global-unread-channel')) {
                 url = baseUrl;
@@ -1097,6 +1099,7 @@ function loadChannels() {
             isGlobalUnread = true;
             loadedChannel = 'global';
             loadTimeline(baseUrl, "");
+            $('.global-unread-channel').addClass('channel-highlight');
         }
 
     })

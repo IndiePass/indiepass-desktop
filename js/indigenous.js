@@ -23,6 +23,7 @@ let posts = [];
 let anonymousMicrosubEndpoint = 'https://indigenous.realize.be/indieweb/microsub';
 let defaultAuthor = '<div class="author-avatar"><img class="avatar" src="./images/avatar_small.png" width="80" height="80" /></div>';
 let defaultAuthorCard = '';
+let overlayLoadmore = false;
 
 /**
  * Get a value from storage.
@@ -777,10 +778,11 @@ function addMouseBindings() {
 
         if (isDetail) {
             if (posts[currentPost + 1]) {
-                $('.overlay-content').html(renderDetailView(posts[currentPost + 1], false, true));
-                bindActions();
-                catchExternalLinks();
-                currentPost++;
+                renderNextPostInOverlay();
+            }
+            else if ($('.next').length > 0) {
+                overlayLoadmore = true;
+                $('.next').click();
             }
         }
 
@@ -825,6 +827,13 @@ function addMouseBindings() {
     Mousetrap.bind(['c', 'esc'], function() {
         $('.overlay-close').click();
     });
+}
+
+function renderNextPostInOverlay() {
+    $('.overlay-content').html(renderDetailView(posts[currentPost + 1], false, true));
+    bindActions();
+    catchExternalLinks();
+    currentPost++;
 }
 
 /**
@@ -1231,6 +1240,11 @@ function loadTimeline(timelineUrl, after) {
                 postDelta++;
             }
         });
+
+        if (overlayLoadmore) {
+            overlayLoadmore = false;
+            renderNextPostInOverlay();
+        }
 
         // Pager.
         if (undefined !== data.paging && undefined !== data.paging.after) {

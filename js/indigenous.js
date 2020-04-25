@@ -1659,7 +1659,7 @@ function renderCardView(item) {
         }
 
         if (content.length > 0) {
-            post += '<div class="content-card-view">' + content.substr(0, 300) + ' ...</div>';
+            post += '<div class="content-card-view">' + $.trim($('<div>').html(content).text().substr(0, 300)) + ' ...</div>';
         }
 
     }

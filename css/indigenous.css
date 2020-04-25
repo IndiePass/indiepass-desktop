@@ -412,8 +412,12 @@ input {
     mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
 }
 
-.content-truncated img {
+.content-truncated img, .content-card-view img {
     display: none;
+}
+
+.card-view img {
+    max-height: 300px;
 }
 
 .reference {

@@ -2,18 +2,30 @@ const {app, BrowserWindow, Menu} = require('electron');
 const path = require('path');
 const shell = require('electron').shell;
 const contextMenu = require('electron-context-menu');
+const windowStateKeeper = require('electron-window-state');
 
 function createWindow () {
+
+  // Load the previous state with fallback to defaults
+  let mainWindowState = windowStateKeeper({
+    defaultWidth: 1200,
+    defaultHeight: 900
+  });
+
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 1200,
-    height: 900,
+    x: mainWindowState.x,
+    y: mainWindowState.y,
+    width: mainWindowState.width,
+    height: mainWindowState.height,
     title: 'Indigenous',
     icon: __dirname + '/images/icon-big.png',
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
     }
   });
+
+  mainWindowState.manage(mainWindow);
 
   let application_menu = [
     {

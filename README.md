@@ -99,6 +99,7 @@ This app uses following libraries:
 - https://craig.is/killing/mice
 - https://github.com/zeusdeux/isInViewport
 - https://github.com/sindresorhus/electron-context-menu
+- https://github.com/mawie81/electron-window-state
 
 ## Other Micropub and Microsub clients
 

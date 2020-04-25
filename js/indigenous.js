@@ -818,11 +818,11 @@ function addMouseBindings() {
 
     Mousetrap.bind('r', function() {
         if (isReader && currentPost >= 0) {
-            $('.post-' + currentPost + ' .read-more').click();
+            $('.post-' + currentPost).click();
         }
     });
 
-    Mousetrap.bind('c', function() {
+    Mousetrap.bind(['c', 'esc'], function() {
         $('.overlay-close').click();
     });
 }
@@ -1221,6 +1221,11 @@ function loadTimeline(timelineUrl, after) {
                 else {
                     postClasses += " feed-view";
                 }
+
+                if (postDelta === 0) {
+                    postClasses += " highlight";
+                }
+
                 let post = '<div class="' + postClasses + '" data-post-delta="' + postDelta + '">' + renderedPost + '</div>';
                 postsContainer.append(post);
                 postDelta++;
@@ -1259,7 +1264,7 @@ function loadTimeline(timelineUrl, after) {
         catchExternalLinks('.timeline-item a');
 
         // Read more.
-        $('.timeline-item .read-more, .card-view, .title-view').on('click', function() {
+        $('.feed-view, .card-view, .title-view').on('click', function() {
             let index = $(this).data('post-delta');
             if (undefined === index) {
                 index = $(this).parent().parent().data('post-delta');
@@ -1308,7 +1313,8 @@ function bindActions() {
         isDetail = false;
     });
 
-    $('.action').on('click', function() {
+    $('.action').on('click', function(e) {
+        e.stopPropagation();
         let url = $(this).parent().parent().data('url');
         let entry = $(this).parent().parent().data('entry');
         if (url.length > 0) {
@@ -1653,7 +1659,7 @@ function renderCardView(item) {
         }
 
         if (content.length > 0) {
-            post += '<div class="content-truncated">' + content.substr(0, 300) + ' ...</div>';
+            post += '<div class="content-card-view">' + content.substr(0, 300) + ' ...</div>';
         }
 
     }
@@ -1774,9 +1780,8 @@ function renderDetailView(item, truncate, actionsAtTop) {
     }
 
     if (content.length > 0) {
-        if (truncate && content.length > 1000) {
-            post += '<div class="content-truncated">' + content.substr(0, 300) + ' ...</div>';
-            post += '<div class="read-more"><span class="button">Read more</span></div>';
+        if (truncate && content.length > 800) {
+            post += '<div class="content-truncated">' + content + ' ...</div>';
         }
         else {
             post += '<div class="content">' + content + '</div>';

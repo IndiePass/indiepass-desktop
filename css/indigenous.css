@@ -147,7 +147,7 @@ p {
 
 #timeline-container {
     flex-flow: row;
-    margin-left: 190px;
+    margin-left: 200px;
     margin-top: 80px;
 }
 
@@ -243,6 +243,7 @@ p {
 .author-wrapper {
     min-width: 90px;
     display: inline-block;
+    margin-left: 10px;
 }
 
 .posts {
@@ -254,6 +255,7 @@ p {
 
 .feed-view {
     width: 100%;
+    cursor: pointer;
 }
 
 .card-view {
@@ -303,7 +305,6 @@ p {
 }
 
 .read-more {
-    margin-bottom: 10px;
 }
 
 #overlay-container {
@@ -389,6 +390,7 @@ input {
     display: inline-block;
     margin-right: 15px;
     cursor: pointer;
+    z-index: 10;
 }
 
 .text-align-right {
@@ -401,6 +403,17 @@ input {
 
 .post-type {
     font-size: 15px;
+}
+
+.content-truncated {
+    max-height: 200px;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+}
+
+.content-truncated img {
+    display: none;
 }
 
 .reference {

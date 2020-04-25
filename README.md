@@ -29,9 +29,9 @@ Looking for the Android client? See https://github.com/swentel/indigenous-androi
   - Delete or move posts, with default channel for moving
   - Multiple displays: feed, card and titles.
   - Navigate posts with keyboard shortcuts:
-    - p: previous post in overlay
-    - n: next post in overlay, trigger 'More posts' at end
-    - r: when a post has a read more button, open the overlay
+    - p: previous post in feed or overlay
+    - n: next post in feed or overlay, trigger 'More posts' at end
+    - r: read the post in the overlay
     - c or esc: close overlay when opened
   - Context menu: right click when selecting text to search DuckDuckGo, or save
     an image, or copy the link and so on.

@@ -260,6 +260,7 @@ p {
 .reader-sub-title {
     display: none;
     font-size: 18px;
+    margin-left: 10px;
 }
 
 .content-wrapper, .overlay-wrapper {

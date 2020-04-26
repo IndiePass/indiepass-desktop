@@ -18,17 +18,36 @@
       </div>
   </div>
 
-  <div class="page">
-      <div id="header">
+  <div id="main">
+
+    <sidebar id="sidebar">
+        <nav id="nav">
+            <section>
+                <a href="#" class="reader">Reader</a>
+                <a href="#" class="post">Post</a>
+                <a href="#" class="media">Media</a>
+                <a href="#" class="settings">Settings</a>
+                <a href="#" class="about">About</a>
+            </section>
+        </nav>
+
+        <nav id="channels">
+            <div class="channel-wrapper"></div>
+        </nav>
+    </sidebar>
+
+    <div id="views">
+
+      <!--<div id="header">
         <div class="reader float-left menu selected">Reader</div>
         <div class="post float-left menu">Post</div>
         <div class="media float-left menu">Media</div>
         <div class="settings float-left menu">Settings</div>
         <div class="about float-left menu">About</div>
-      </div>
+      </div>-->
 
-        <div id="reader-container" class="body-margin">
-            <div class="reader-top body-margin">
+        <div id="reader-container">
+            <div class="reader-top ">
                 <div class="search-wrapper"><form id="search-form"><input type="text" class="search-field text" placeholder="search"></form></div>
                 <div class="reader-global-actions">
                     <div class="mark-read" title="Mark all read">Mark all read</div>
@@ -37,17 +56,15 @@
             </div>
 
             <div class="reader-wrapper">
-                <div class="channel-wrapper body-margin"></div>
                 <div id="timeline-container">
                     <div class="reader-sub-title"></div>
                     <div class="posts"></div>
                     <div class="pager"></div>
                 </div>
             </div>
-
         </div>
 
-        <div id="settings-container" class="body-margin">
+        <div id="settings-container">
             <div>
                 <label for="like-direct">Like without confirmation</label>
                 <input type="checkbox" name="like_direct" id="like-direct" class="checkbox" />
@@ -117,7 +134,7 @@
             </div>
         </div>
 
-        <div id="posts-container" class="body-margin">
+        <div id="posts-container">
             <div class="title">
                 <label for="title">Title</label><br />
                 <input type="text" name="title" id="title" class="text" />
@@ -156,7 +173,7 @@
             </div>
         </div>
 
-        <div id="media-container" class="body-margin">
+        <div id="media-container">
           <p>Upload a file to your media endpoint. On success, the URL will be printed underneath.</p>
           <div class="media-url"></div>
           <div>
@@ -168,7 +185,7 @@
           </div>
       </div>
 
-        <div id="about-container" class="body-margin">
+        <div id="about-container">
           <h3>Keyboard shortcuts</h3>
           <ul>
               <li>Reader
@@ -183,7 +200,10 @@
 
           <p>Found a bug? Don't hesitate to submit an issue at <a href="https://github.com/swentel/indigenous-desktop" class="external-link">https://github.com/swentel/indigenous-desktop</a></p>
       </div>
+
     </div>
+
+  </div>
 
   <div class="snackbar"><div class="message"></div><div class="dismiss">Dismiss</div><div class="debug">Debug</div></div>
   </body>

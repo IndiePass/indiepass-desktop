@@ -326,7 +326,7 @@ $(document).ready(function() {
                 // noinspection CssInvalidPseudoSelector
                 if (!ignoreScroll) {
                     // noinspection CssInvalidPseudoSelector
-                    let elements = $('.timeline-item:in-viewport(200)');
+                    let elements = $('.timeline-item:in-viewport(120)');
                     if (elements.length > 0) {
                         $('.timeline-item').removeClass('highlight', 'none');
                         $(elements[0]).addClass('highlight');
@@ -765,7 +765,7 @@ function addMouseBindings() {
             if ($('.post-' + (currentPost + 1)).length > 0) {
                 currentPost++;
                 $('html,body').animate({
-                    scrollTop: $(".post-" + currentPost).offset().top - 160
+                    scrollTop: $(".post-" + currentPost).offset().top - 90
                 }, 'slow', function() {
                     $(".post-" + (currentPost - 1)).removeClass('highlight');
                     $(".post-" + currentPost).addClass('highlight');
@@ -795,7 +795,7 @@ function addMouseBindings() {
             currentPost--;
             if (currentPost >= 0) {
                 $('html,body').animate({
-                    scrollTop: $(".post-" + currentPost).offset().top - 160
+                    scrollTop: $(".post-" + currentPost).offset().top - 90
                 }, 'slow', function() {
                     $(".post-" + (currentPost + 1)).removeClass('highlight');
                     $(".post-" + currentPost).addClass('highlight')
@@ -1076,7 +1076,7 @@ function loadChannels() {
     .done(function(data) {
 
         debug(data);
-        let channels = $('#reader-container .channel-wrapper');
+        let channels = $('.channel-wrapper');
 
         if (configGet('global_unread')) {
             let channel = '<div class="channel global-unread-channel" data-channel="global" data-link="">Home</div>';

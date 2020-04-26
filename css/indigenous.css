@@ -18,6 +18,10 @@
 html {
     color: #333;
     font-size: 112.5%;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex: 1;
 }
 
 body {
@@ -25,14 +29,11 @@ body {
     font-size: 18px;
     font: caption;
     line-height: 28px;
-}
-
-.page {
-    margin-top: 80px;
-}
-
-.body-margin {
-    padding: 10px;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex: 1;
+    overflow: hidden;
 }
 
 .no-connection {
@@ -129,26 +130,22 @@ p {
 .channel-wrapper {
     padding-right: 20px;
     min-width: 190px;
-    position: fixed;
-    left: 0;
-    top: 160px;
 }
 
 .reader-top {
-    display: block;
     position: fixed;
     width: 100%;
-    background-color: #fff;
-    left: 0;
-    top: 70px;
+    background: #fff;
     z-index: 100;
-    box-shadow: 0 1px 1px #666;
+    top: 0;
+    padding: 10px 0;
+    display: flex;
+    flex-direction: row;
 }
 
 #timeline-container {
     flex-flow: row;
-    margin-left: 200px;
-    margin-top: 80px;
+    margin-top: 70px;
 }
 
 .channel {
@@ -209,23 +206,13 @@ p {
 }
 
 .search-wrapper {
-    display: inline-block;
+    margin-left: 10px;
+    flex-grow: 1;
 }
 
 .reader-global-actions {
-    float: right;
-    display: inline-block;
-    margin-right: 10px;
-}
-
-.timeline-item {
-    padding: var(--list-item-padding) 0;
-    border-bottom: 1px solid var(--list-divider-color);
-    display: flex;
-}
-
-.highlight {
-    background-color: #f2f2f2;
+    margin-top: 10px;
+    flex: 1;
 }
 
 .title {
@@ -243,7 +230,6 @@ p {
 .author-wrapper {
     min-width: 90px;
     display: inline-block;
-    margin-left: 10px;
 }
 
 .posts {
@@ -258,19 +244,8 @@ p {
     cursor: pointer;
 }
 
-.card-view {
-    width: 27%;
-    padding: 20px;
-}
-
 .title-view {
     width: 100%;
-}
-
-.post-content-wrapper {
-    display: inline-block;
-    margin-left: 10px;
-    flex-grow: 1;
 }
 
 .post-content-wrapper img, .overlay-content img {
@@ -371,7 +346,7 @@ input {
 .text {
     width: 450px;
     max-width: 100%;
-    border: 1px solid #333;
+    border: 1px solid #d4d4d4;
     padding: 12px;
 }
 
@@ -398,7 +373,7 @@ input {
 }
 
 .next {
-    margin: 10px 0;
+    margin: 10px;
 }
 
 .post-type {
@@ -559,4 +534,113 @@ input {
 
 .syndication-targets-wrapper, .media-url {
     display: none;
+}
+
+/**
+
+Based on
+https://xel-toolkit.org/elements/x-box
+
+**/
+
+#main {
+    position: relative;
+    display: flex;
+    flex-flow: row;
+    width: 100%;
+    height: 100%;
+}
+
+#sidebar {
+    background: #fdfdfd;
+    position: relative;
+    width: 270px;
+    overflow: auto;
+    box-shadow: 0 2px 1px -1px rgba(0,0,0,0.2), 0 1px 1px 0 rgba(0,0,0,0.14), 0 1px 3px 0 rgba(0,0,0,0.12);
+    z-index: 100;
+}
+
+#views {
+    padding: 10px;
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-width: 20px;
+    min-height: 20px;
+    position: relative;
+    flex: 1;
+}
+
+#views > div {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    overflow: auto;
+}
+
+.card-view .post-content-wrapper {
+    display: inline-block;
+    padding: 10px;
+    margin: 10px;
+    background: #fff;
+    border: 1px solid #d4d4d4;
+    width: 100%;
+}
+
+.card-view {
+    width: 33%;
+    flex-grow: 1;
+}
+
+/*.highlight {
+    background-color: #f2f2f2;
+}*/
+
+.card-view.highlight .post-content-wrapper {
+    background: #f7f7f7;
+}
+
+.feed-view.timeline-item.highlight {
+    background: #f7f7f7;
+}
+
+.timeline-item {
+    /*padding: var(--list-item-padding) 0;*/
+    /*border-bottom: 1px solid var(--list-divider-color);*/
+    display: flex;
+}
+
+.timeline-item .feed-view {
+    /*padding: var(--list-item-padding) 0;*/
+    /*border-bottom: 1px solid var(--list-divider-color);*/
+    width: 100%;
+}
+
+.feed-view .post-content-wrapper {
+    width: 100%;
+}
+
+.feed-view.timeline-item, .title-view.timeline-item {
+    padding: 10px;
+    margin: 10px;
+    background: #fff;
+    border: 1px solid #d4d4d4;
+    width: 100%;
+}
+
+#nav section {
+    margin: 15px 0;
+}
+
+#nav a {
+    display: block;
+    padding: 8px 30px;
+    --ripple-background: white;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-weight: 500;
+    font-size: 15px;
+    text-align: start;
+    text-decoration: none;
 }

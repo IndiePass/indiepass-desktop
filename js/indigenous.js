@@ -1189,6 +1189,7 @@ function renderChannel(channel) {
     $('.reader-sub-title').hide();
     clearContainer(".timeline-item");
     loadedChannel = channel.data('channel');
+    $(window).scrollTop(0);
     loadTimeline(url, "");
 }
 

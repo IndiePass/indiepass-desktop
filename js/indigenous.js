@@ -1356,6 +1356,7 @@ function loadTimeline(timelineUrl, after) {
 function catchExternalLinks(selector) {
     $(selector).on('click', function(e) {
         e.preventDefault();
+        e.stopPropagation();
         shell.openExternal(this.href);
     });
 }

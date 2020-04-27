@@ -216,6 +216,7 @@ p {
 
 .image img, video {
     max-width: 60%;
+    max-height: 60vh;
 }
 
 .author-wrapper {
@@ -241,6 +242,7 @@ p {
 
 .post-content-wrapper img {
     max-width: 60%;
+    max-height: 60vh;
 }
 
 .overlay-content .actions {

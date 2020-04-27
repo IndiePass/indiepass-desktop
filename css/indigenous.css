@@ -239,7 +239,7 @@ p {
     width: 100%;
 }
 
-.post-content-wrapper img, .overlay-content img {
+.post-content-wrapper img {
     max-width: 60%;
 }
 

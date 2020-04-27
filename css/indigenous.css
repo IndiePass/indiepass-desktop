@@ -215,7 +215,7 @@ p {
 }
 
 .image img, video {
-    max-width: 100%;
+    max-width: 60%;
 }
 
 .author-wrapper {
@@ -240,7 +240,7 @@ p {
 }
 
 .post-content-wrapper img, .overlay-content img {
-    max-width: 100%;
+    max-width: 60%;
 }
 
 .overlay-content .actions {

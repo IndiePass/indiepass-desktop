@@ -135,13 +135,18 @@ p {
 
 .reader-top {
     position: fixed;
-    width: 100%;
     background: #fff;
     z-index: 100;
     top: 0;
+    left: 279px;
+    right: 0;
     padding: 10px 0;
     display: flex;
     flex-direction: row;
+}
+
+.reader-top .text {
+    width: 300px;
 }
 
 #timeline-container {
@@ -178,10 +183,6 @@ p {
     cursor: pointer;
 }
 
-.reader-global-actions {
-    padding-top: 10px;
-}
-
 .mark-read {
     display: none;
     margin-left: 20px;
@@ -202,6 +203,8 @@ p {
 }
 
 .reader-global-actions {
+    padding-top: 10px;
+    text-align: end;
     margin-top: 10px;
     flex: 1;
 }
@@ -476,13 +479,15 @@ input {
 
 .snackbar {
     bottom: 0;
+    left: 0;
+    right: 0;
     height: 24px;
     text-align: center;
     position: fixed;
-    width: 100%;
     color: #fff;
     display: flex;
     flex-direction: row;
+    z-index: 101;
 }
 
 .snackbar.success {

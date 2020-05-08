@@ -33,7 +33,6 @@ body {
     width: 100%;
     height: 100%;
     flex: 1;
-    /*overflow: hidden;*/
 }
 
 .no-connection {
@@ -139,7 +138,7 @@ p {
     z-index: 100;
     top: 0;
     left: 279px;
-    right: 0;
+    right: 20px;
     padding: 10px 0;
     display: flex;
     flex-direction: row;
@@ -273,7 +272,7 @@ p {
 }
 
 .overlay-wrapper {
-    overflow: auto;
+    /*overflow: auto;*/
 }
 
 .read-more {
@@ -485,9 +484,13 @@ input {
     text-align: center;
     position: fixed;
     color: #fff;
+    z-index: 101;
+    display: none;
+}
+
+.snackbar-wrapper {
     display: flex;
     flex-direction: row;
-    z-index: 101;
 }
 
 .snackbar.success {
@@ -578,7 +581,6 @@ https://xel-toolkit.org/elements/x-box
     width: 100%;
     height: 100%;
     box-sizing: border-box;
-    /*overflow: auto;*/
 }
 
 .card-view .post-content-wrapper {

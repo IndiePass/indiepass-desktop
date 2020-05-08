@@ -17,10 +17,10 @@
   "author": "swentel",
   "license": "GPL-3.0",
   "devDependencies": {
-    "electron": "^8.2.0"
+    "electron": "^8.2.4"
   },
   "dependencies": {
-    "dayjs": "^1.8.23",
+    "dayjs": "^1.8.26",
     "electron-context-menu": "^0.16.0",
     "electron-store": "^5.1.1",
     "electron-window-state": "^5.0.3",

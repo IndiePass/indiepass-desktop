@@ -880,13 +880,14 @@ function loadMedia() {
 function snackbar(message, type) {
     type = (typeof type !== 'undefined') ? type : 'success';
 
-    $('.message', snackbarElement).html(message).fadeIn(500);
+    snackbarElement.show('fast');
+    $('.message', snackbarElement).html(message);
     snackbarElement.removeClass('error', 'success');
     snackbarElement.addClass(type);
 
     if (type !== 'error') {
         setTimeout(function () {
-            snackbarElement.hide();
+            snackbarElement.hide('slow');
         }, 5000);
     }
     // TODO trigger webtools, and add a message?

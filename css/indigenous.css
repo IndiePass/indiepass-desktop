@@ -249,20 +249,22 @@ p {
 
 .mfp-container {
     background-color: #fff;
-    padding: 20px;
     border: 20px solid rgba(0,0,0,0.6);
     height: auto;
+    min-height: 100%;
+    padding: 0 20px 20px 20px;
 }
 
 .mfp-content {
-    margin-top: 50px;
     height: 100%;
+    min-height: 100%;
 }
 
 .mfp-content .actions {
-    position: fixed;
+    position: sticky;
     background-color: #fff;
     border-bottom: 1px solid #ddd;
+    margin-bottom: 10px;
     top: 0;
     left: 20px;
     right: 35px;

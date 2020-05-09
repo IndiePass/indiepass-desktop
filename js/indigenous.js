@@ -795,7 +795,7 @@ function addMouseBindings() {
         if (isDetail) {
             ignoreScroll = true;
             if (posts[currentPost - 1]) {
-                $('.mpf-content').html(renderDetailView(posts[currentPost - 1], false, true));
+                $('.mfp-content').html(renderDetailView(posts[currentPost - 1], false, true));
                 bindActions();
                 catchExternalLinks();
                 currentPost--;

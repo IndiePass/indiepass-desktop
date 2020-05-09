@@ -319,24 +319,7 @@ $(document).ready(function() {
 
     });
 
-    $(window).scroll(function () {
-        if (isReader) {
-            clearTimeout( $.data( this, "scrollCheck" ) );
-            $.data( this, "scrollCheck", setTimeout(function() {
-                // noinspection CssInvalidPseudoSelector
-                if (!ignoreScroll) {
-                    // noinspection CssInvalidPseudoSelector
-                    let elements = $('.timeline-item:in-viewport(120)');
-                    if (elements.length > 0) {
-                        $('.timeline-item').removeClass('highlight', 'none');
-                        $(elements[0]).addClass('highlight');
-                        currentPost = parseInt($(elements[0]).data('post-delta'));
-                    }
-                }
-                ignoreScroll = false;
-            }, 250) );
-        }
-    });
+    setupScrollListener();
 
     if (!navigator.onLine) { isOnline = false; }
     window.addEventListener('offline', function(e) { isOnline = false; });
@@ -695,6 +678,27 @@ $(document).ready(function() {
 
 });
 
+function setupScrollListener() {
+    $(window).scroll(function () {
+        if (isReader) {
+            clearTimeout( $.data( this, "scrollCheck" ) );
+            $.data( this, "scrollCheck", setTimeout(function() {
+                // noinspection CssInvalidPseudoSelector
+                if (!ignoreScroll) {
+                    // noinspection CssInvalidPseudoSelector
+                    let elements = $('.timeline-item:in-viewport(120)');
+                    if (elements.length > 0) {
+                        $('.timeline-item').removeClass('highlight', 'none');
+                        $(elements[0]).addClass('highlight');
+                        currentPost = parseInt($(elements[0]).data('post-delta'));
+                    }
+                }
+                ignoreScroll = false;
+            }, 250) );
+        }
+    });
+}
+
 /**
  * Reset search.
  */
@@ -728,24 +732,6 @@ function checkMicropubSettings(calledFromSettings) {
         $('.media').hide();
     }
 
-}
-
-/**
- * Set scrolling state.
- *
- * @param enabled
- */
-function setScrollingState(enabled) {
-    if (enabled) {
-        $('html, body').css({
-            overflow: 'auto'
-        });
-    }
-    else {
-        $('html, body').css({
-            overflow: 'hidden'
-        });
-    }
 }
 
 /**
@@ -809,7 +795,7 @@ function addMouseBindings() {
         if (isDetail) {
             ignoreScroll = true;
             if (posts[currentPost - 1]) {
-                $('.overlay-content').html(renderDetailView(posts[currentPost - 1], false, true));
+                $('.mpf-content').html(renderDetailView(posts[currentPost - 1], false, true));
                 bindActions();
                 catchExternalLinks();
                 currentPost--;
@@ -830,7 +816,7 @@ function addMouseBindings() {
 }
 
 function renderNextPostInOverlay() {
-    $('.overlay-content').html(renderDetailView(posts[currentPost + 1], false, true));
+    $('.mfp-content').html(renderDetailView(posts[currentPost + 1], false, true));
     bindActions();
     catchExternalLinks();
     currentPost++;
@@ -1332,12 +1318,19 @@ function loadTimeline(timelineUrl, after) {
             }
             if (posts[index]) {
                 currentPost = index;
-                $('.overlay-content').html(renderDetailView(posts[index], false, true));
+                let content = renderDetailView(posts[index], false, true);
                 isReader = false;
                 isDetail = true;
-                showContainer('#overlay-container');
-                setScrollingState(false);
-                catchExternalLinks('.overlay-content a');
+                $.magnificPopup.open({
+                    items: {src: content},
+                    closeOnBgClick: false,
+                    enableEscapeKey: false,
+                    showCloseBtn: false,
+                    closeBtnInside: false
+                    // You may add options here, they're exactly the same as for $.fn.magnificPopup call
+                    // Note that some settings that rely on click event (like disableOn or midClick) will not work here
+                }, 0);
+                catchExternalLinks('.mfp-content a');
                 bindActions();
             }
         });
@@ -1368,9 +1361,7 @@ function catchExternalLinks(selector) {
 function bindActions() {
 
     $('.overlay-close').on('click', function() {
-        hideContainer('#overlay-container');
-        $('.overlay-content').html('');
-        setScrollingState(true);
+        $.magnificPopup.close();
         isReader = true;
         isDetail = false;
     });
@@ -1926,7 +1917,7 @@ function renderActions(item, type, renderClose) {
             }
         }
         actions += '</div>';
-        actions += '<div class="actions-column text-align-right">';
+        actions += '<div class="actions-column">';
 
         actions += '<div class="action action-delete" data-action="delete" title="Delete"></div>';
         if (configGet('post_move')) {

@@ -183,7 +183,7 @@ p {
 }
 
 .mark-read {
-    display: none;
+    display: inline-block;
     margin-left: 20px;
 }
 

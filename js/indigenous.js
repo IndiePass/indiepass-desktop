@@ -832,7 +832,6 @@ function loadReader() {
         clearContainer(".timeline-item");
         refreshReader = false;
         loadChannels();
-        $('.mark-read').hide();
     }
     resetSearch();
     $('.menu').removeClass('selected');
@@ -1131,10 +1130,22 @@ function markRead() {
     let data = {
         'action': 'timeline',
         'method': 'mark_read',
-        // TODO fix this, although this works for Drupal, I guess other microsub servers behave differently.
-        'last_read_entry': 'everything',
         'channel': loadedChannel,
     };
+
+    let entries = [];
+    if (isGlobalUnread) {
+        $.each(posts, function(i, item) {
+           entries.push(item._id);
+        });
+        data.entry = entries;
+        $('.indicator').html('');
+    }
+    else {
+        // TODO fix this, although this works for Drupal,
+        //  I guess other microsub servers behave differently.
+        data.last_read_entry = 'everything';
+    }
 
     $.ajax({
         type: 'POST',
@@ -1167,7 +1178,6 @@ function renderChannel(channel) {
     if (channel.hasClass('global-unread-channel')) {
         url = getMicrosubEndpoint();
         isGlobalUnread = true;
-        $('.mark-read').hide();
     }
     else {
         isGlobalUnread = false;

@@ -1064,8 +1064,9 @@ function loadChannels() {
         debug(data);
         let channels = $('.channel-wrapper');
 
+        let total = 0;
         if (configGet('global_unread')) {
-            let channel = '<div class="channel global-unread-channel" data-channel="global" data-link="">Home</div>';
+            let channel = '<div class="channel global-unread-channel" data-channel="global" data-link="">Home&nbsp;<span class="indicator channel-indicator-global"></span></div>';
             channels.append(channel);
         }
 
@@ -1085,6 +1086,7 @@ function loadChannels() {
                 }
                 else {
                     if (item.unread > 0) {
+                        total += item.unread;
                         indicator = '&nbsp;<span class="indicator channel-indicator-' + item.uid + '">' + item.unread +  '</span>'
                     }
                 }
@@ -1094,6 +1096,10 @@ function loadChannels() {
             let channel = '<div class="' + channelClasses + '" data-channel="' + item.uid + '" data-link="' + timeline_url + '">' + item.name + indicator + '</div>';
             channels.append(channel);
         });
+
+        if (total > 0 && configGet('global_unread')) {
+            $('.channel-indicator-global').html(total);
+        }
 
         $('.channel').click(function() {
             renderChannel($(this));

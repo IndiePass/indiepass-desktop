@@ -16,18 +16,18 @@ Looking for the Android client? See https://github.com/swentel/indigenous-androi
   - Screen state: remember position, fullscreen etc
   - Developer: view response of microsub requests in console
 - Microsub
-  - Starts with default anonymous account with the reader connected to  https://indigenous.realize.be
+  - Starts with default anonymous account with the reader connected to https://indigenous.realize.be
   - Allow for global unread start screen if the server supports it
+  - Different displays: Cards, titles and feed with overlay view
+  - Autoload more posts
   - Read channels and posts per timeline
   - Inline reply, like, bookmark, read and repost with or without confirmation
   - Inline RSVP on events
   - Listen to audio or watch video
-  - Long articles open in an overlay
   - Mark all read button, or per item.
   - View individual feed via author name
   - Search in all channels and feeds
   - Delete or move posts, with default channel for moving
-  - Multiple displays: feed, card and titles.
   - Navigate posts with keyboard shortcuts:
     - p: previous post in feed or overlay
     - n: next post in feed or overlay, trigger 'More posts' at end
@@ -35,7 +35,7 @@ Looking for the Android client? See https://github.com/swentel/indigenous-androi
     - c or esc: close overlay when opened
   - Context menu: right click when selecting text to search DuckDuckGo, or save
     an image, or copy the link and so on.
-  - External links in posts are opened in your system browser
+  - External links in posts open in your system browser
 - Micropub
   - Post types: note/article
   - Single photo upload
@@ -101,6 +101,7 @@ This app uses following libraries:
 - https://github.com/zeusdeux/isInViewport
 - https://github.com/sindresorhus/electron-context-menu
 - https://github.com/mawie81/electron-window-state
+- https://github.com/dimsemenov/Magnific-Popup
 
 ## Other Micropub and Microsub clients
 

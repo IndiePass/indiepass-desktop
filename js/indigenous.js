@@ -20,6 +20,7 @@ let ignoreScroll = false;
 let mouseBindingsAdded = false;
 let channelResponse = [];
 let posts = [];
+let autoloadClicked = false;
 let anonymousMicrosubEndpoint = 'https://indigenous.realize.be/indieweb/microsub';
 let defaultAuthor = '<div class="author-avatar"><img class="avatar" src="./images/avatar_small.png" width="80" height="80" /></div>';
 let defaultAuthorCard = '';
@@ -408,6 +409,9 @@ $(document).ready(function() {
         if (configGet('global_unread')) {
             $('#global-unread').prop('checked', true);
         }
+        if (configGet('autoload_more')) {
+            $('#autoload-more').prop('checked', true);
+        }
         if (configGet('debug')) {
             $('#debug-message').prop('checked', true);
         }
@@ -456,6 +460,7 @@ $(document).ready(function() {
         configSave('search', $('#search').is(':checked'));
         configSave('post_move', $('#post-move').is(':checked'));
         configSave('global_unread', $('#global-unread').is(':checked'));
+        configSave('autoload_more', $('#autoload-more').is(':checked'));
         configSave('debug', $('#debug-message').is(':checked'));
         configSave('hide_notifications', $('#hide-notifications-channel').is(':checked'));
         configSave('post_move_default', $('#post-move-default').val());
@@ -519,6 +524,7 @@ $(document).ready(function() {
         configDelete('post_move');
         configDelete('post_move_default');
         configDelete('global_unread');
+        configDelete('autoload_more');
         configDelete('hide_notifications');
         configDelete('debug');
         configDelete('micropub_endpoint');
@@ -694,7 +700,16 @@ function setupScrollListener() {
                     }
                 }
                 ignoreScroll = false;
-            }, 250) );
+
+                if (configGet('autoload_more') && !autoloadClicked) {
+                    let next = $('.next:in-viewport');
+                    if (next.length > 0) {
+                        $('.next').click();
+                        autoloadClicked = true;
+                    }
+                }
+
+            }, 250));
         }
     });
 }
@@ -1300,6 +1315,7 @@ function loadTimeline(timelineUrl, after) {
             pagerContainer.show();
             let next = '<span class="next">More posts</span>';
             pagerContainer.html(next);
+            autoloadClicked = false;
             $('.next').on('click', function() {
                 loadTimeline(timelineUrl, data.paging.after.toString());
             });

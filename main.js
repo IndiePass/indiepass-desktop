@@ -43,22 +43,12 @@ function createWindow () {
     {
       label: 'Window',
       role: 'windowMenu',
-    },
-    {
-      label: 'Help',
-      submenu: [
-        {
-          label: 'Search issues',
-          click() {
-            shell.openExternal("https://github.com/swentel/indigenous-desktop");
-          }
-        }
-      ]
     }
   ];
 
   let menu = Menu.buildFromTemplate(application_menu);
   Menu.setApplicationMenu(menu);
+  mainWindow.setMenuBarVisibility(false);
 
   contextMenu({
     prepend: (defaultActions, params, browserWindow) => [

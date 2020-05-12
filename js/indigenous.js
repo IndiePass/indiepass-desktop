@@ -1033,18 +1033,29 @@ function doRequest(properties, type, element) {
  * Change channel count.
  *
  * @param type
+ * @param channel
  */
-function changeChannelCount(type) {
-    let el = $('.channel-indicator-' + loadedChannel);
+function changeChannelCount(type, channel) {
+    let el = $('.channel-indicator-' + channel);
     let unread = parseInt(el.html()) || 0;
+
     if (unread === 0 && type === 'unread') {
         el.html(1)
     }
 
-    if (type === 'read') {
+    else if (type === 'global_read') {
+        let gel = $('.channel-indicator-global');
+        let gUnread = parseInt(gel.html()) || 0;
+        if (unread > 0) {
+            gel.html(gUnread - unread);
+        }
+    }
+
+    else if (type === 'read') {
         el.html(unread - 1);
     }
-    if (type === 'unread') {
+
+    else if (type === 'unread') {
         el.html(unread + 1);
     }
 }
@@ -1176,6 +1187,11 @@ function markRead() {
     })
     .done(function(data) {
         $('.new').hide();
+
+        if (configGet('global_unread') && loadedChannel !== 'global') {
+            changeChannelCount('global_read', loadedChannel);
+        }
+
         $('.channel-indicator-' + loadedChannel).html("");
         snackbar('All items marked as read');
     })

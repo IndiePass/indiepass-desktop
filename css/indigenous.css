@@ -246,7 +246,7 @@ p {
 
 .feed-view {
     width: 100%;
-    cursor: pointer;
+    position: relative;
 }
 
 .title-view {
@@ -279,6 +279,19 @@ p {
 
 .author-name {
     cursor: pointer;
+    display: inline-block;
+}
+
+.zoom {
+    cursor: pointer;
+    background-image: url('../images/button_zoom_idle.png');
+    background-size: 30px;
+    background-repeat: no-repeat;
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    right: 10px;
+    top: 10px;
 }
 
 .reader-sub-title {

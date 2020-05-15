@@ -1365,11 +1365,15 @@ function loadTimeline(timelineUrl, after) {
         // Catch all links.
         catchExternalLinks('.timeline-item a');
 
-        // Read more.
-        $('.feed-view, .card-view, .title-view').on('click', function() {
+        // Overlay click.
+        $('.zoom, .card-view, .title-view').on('click', function() {
             let index = $(this).data('post-delta');
+            // TODO better detection
             if (undefined === index) {
                 index = $(this).parent().parent().data('post-delta');
+            }
+            if (undefined === index) {
+                index = $(this).parent().data('post-delta');
             }
             if (posts[index]) {
                 currentPost = index;
@@ -1796,6 +1800,11 @@ function renderDetailView(item, truncate, actionsAtTop) {
         post += renderActions(item, type, true);
     }
 
+    // Zoom
+    if (!actionsAtTop) {
+        post += '<div class="zoom"></div>';
+    }
+
     // TODO harmonize this in a function
     // Author.
     let authorName = "";
@@ -1843,7 +1852,13 @@ function renderDetailView(item, truncate, actionsAtTop) {
         if (undefined !== item._source) {
             sourceAttributes = ' data-source-id="' + item._source + '"';
         }
-        post += '<div class="author-name"' + sourceAttributes + '>' + authorName + '</div>';
+
+        let classes = "";
+        if (!actionsAtTop) {
+            classes = 'class="author-name" ';
+        }
+
+        post += '<div ' + classes + sourceAttributes + '>' + authorName + '</div>';
     }
 
     // Author url.

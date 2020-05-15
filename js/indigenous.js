@@ -1293,9 +1293,16 @@ function loadTimeline(timelineUrl, after) {
 
         let display = getDisplay();
 
-        // Posts.
         let postsContainer = $('#timeline-container .posts');
         let pagerContainer = $('#timeline-container .pager');
+
+        // Empty items.
+        if (data.items.length === 0) {
+            let empty = '<div class="timeline-item empty-view">You have read everything!</div>'
+            postsContainer.append(empty);
+        }
+
+        // Posts.
         $.each(data.items, function(i, item) {
             let renderedPost = renderPost(item, display);
             if (renderedPost.length > 0) {

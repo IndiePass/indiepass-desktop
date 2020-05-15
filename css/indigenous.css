@@ -238,6 +238,12 @@ p {
     flex-direction: row;
 }
 
+.empty-view.timeline-item {
+    width: 100%;
+    padding: 10px;
+    font-size: 20px;
+}
+
 .feed-view {
     width: 100%;
     cursor: pointer;
@@ -557,7 +563,7 @@ https://xel-toolkit.org/elements/x-box
     margin-left: 270px;
     padding: 10px;
     display: block;
-    height: 100%;
+    /*height: 100%;*/
     min-width: 20px;
     min-height: 20px;
     position: relative;

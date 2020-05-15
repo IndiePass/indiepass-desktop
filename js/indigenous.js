@@ -1027,7 +1027,7 @@ function doRequest(properties, type, element) {
         // Change channel counter.
         if (type === 'unread' || type === 'read') {
             if (configGet('global_unread')) {
-                changeChannelCount('read', 'global');
+                changeChannelCount(type, 'global');
             }
             changeChannelCount(type, properties.channel);
         }
@@ -1083,12 +1083,20 @@ function changeChannelCount(type, channel) {
         let gel = $('.channel-indicator-global');
         let gUnread = parseInt(gel.html()) || 0;
         if (unread > 0) {
-            gel.html(gUnread - unread);
+            let value = gUnread - unread;
+            if (value === 0) {
+                value = '';
+            }
+            gel.html(value);
         }
     }
 
     else if (type === 'read') {
-        el.html(unread - 1);
+        let value = unread - 1;
+        if (value === 0) {
+            value = '';
+        }
+        el.html(value);
     }
 
     else if (type === 'unread') {

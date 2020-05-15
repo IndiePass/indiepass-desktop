@@ -25,17 +25,16 @@ Looking for the Android client? See https://github.com/swentel/indigenous-androi
   - Different displays: Cards, titles and feed with overlay view
   - Autoload more posts
   - Read channels and posts per timeline
-  - Inline reply, like, bookmark, read and repost with or without confirmation
-  - Inline RSVP on events
+  - Inline responses with or without confirmation
   - Listen to audio or watch video
-  - Mark all read button, or per item.
+  - Mark all read button, per item and optionally when viewing detail
   - View individual feed via author name
   - Search in all channels and feeds
   - Delete or move posts, with default channel for moving
   - Navigate posts with keyboard shortcuts:
     - p: previous post in feed or overlay
     - n: next post in feed or overlay, trigger 'More posts' at end
-    - r: read the post in the overlay
+    - r or z: read the post in the overlay
     - c or esc: close overlay when opened
   - Context menu: right click when selecting text to search DuckDuckGo, or save
     an image, or copy the link and so on.

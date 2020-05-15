@@ -70,17 +70,27 @@
                 <div class="description">If not enabled, a confirmation dialog will show up first</div>
             </div>
             <div>
-                <label for="search">Enable search</label>
-                <input type="checkbox" name="search" id="search" class="checkbox" />
-                <div class="description">Leave disabled if your Microsub server does not support this.</div>
-            </div>
-            <div>
                 <label for="global-unread">Global unread</label>
                 <input type="checkbox" name="global_unread" id="global-unread" class="checkbox" />
                 <div class="description">Start screen of reader will show all unread items in card view.</div>
             </div>
             <div>
-                <label for="global-unread">Autoload more posts</label>
+                <label for="mark-read-direct">Mark (un)read without confirmation</label>
+                <input type="checkbox" name="mark_read_direct" id="mark-read-direct" class="checkbox" />
+                <div class="description">If not enabled, a confirmation dialog will show up first</div>
+            </div>
+            <div>
+                <label for="mark-read-overlay">Auto mark read in overlay</label>
+                <input type="checkbox" name="mark_read_overlay" id="mark-read-overlay" class="checkbox" />
+                <div class="description">Marks items read when reading in the overlay and clicking next/previous</div>
+            </div>
+            <div>
+                <label for="search">Enable search</label>
+                <input type="checkbox" name="search" id="search" class="checkbox" />
+                <div class="description">Leave disabled if your Microsub server does not support this.</div>
+            </div>
+            <div>
+                <label for="autoload-more">Autoload more posts</label>
                 <input type="checkbox" name="autoload_more" id="autoload-more" class="checkbox" />
                 <div class="description">Autoload more posts when the link comes in the viewport.</div>
             </div>
@@ -186,7 +196,7 @@
                   <ul>
                       <li>p: previous post in feed or overlay
                       <li>n: next post in feed or overlay, triggers 'More posts' at end
-                      <li>r: read the post in the overlay
+                      <li>r or z: read the post in the overlay
                       <li>c or esc: close overlay when opened
                   </ul>
               </li>

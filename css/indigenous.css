@@ -433,11 +433,11 @@ input {
 }
 
 .action-unread {
-    background-image: url('../images/button_unread_idle.png');
+    background-image: url('../images/button_unread.png');
 }
 
 .action-read {
-    background-image: url('../images/button_unread_idle.png');
+    background-image: url('../images/button_read.png');
 }
 
 .action-external {
@@ -601,6 +601,22 @@ https://xel-toolkit.org/elements/x-box
 .card-view {
     width: 33%;
     flex-grow: 1;
+    position: relative;
+}
+
+.mini-actions {
+    display:none;
+    position: absolute;
+    bottom: 11px;
+    background:rgba(255,255,255,0.9);
+    z-index: 100;
+    left: 11px;
+    right: 20px;
+    padding: 5px 0 5px 10px;
+}
+
+.card-view:hover .mini-actions {
+    display: block;
 }
 
 /*.highlight {

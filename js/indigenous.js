@@ -400,6 +400,12 @@ $(document).ready(function() {
         if (configGet('bookmark_no_confirm')) {
             $('#bookmark-direct').prop('checked', true);
         }
+        if (configGet('mark_read_no_confirm')) {
+            $('#mark-read-direct').prop('checked', true);
+        }
+        if (configGet('mark_read_overlay')) {
+            $('#mark-read-overlay').prop('checked', true);
+        }
         if (configGet('search')) {
             $('#search').prop('checked', true);
         }
@@ -457,6 +463,8 @@ $(document).ready(function() {
         configSave('like_no_confirm', $('#like-direct').is(':checked'));
         configSave('repost_no_confirm', $('#repost-direct').is(':checked'));
         configSave('bookmark_no_confirm', $('#bookmark-direct').is(':checked'));
+        configSave('mark_read_no_confirm', $('#mark-read-direct').is(':checked'));
+        configSave('mark_read_overlay', $('#mark-read-overlay').is(':checked'));
         configSave('search', $('#search').is(':checked'));
         configSave('post_move', $('#post-move').is(':checked'));
         configSave('global_unread', $('#global-unread').is(':checked'));
@@ -520,6 +528,8 @@ $(document).ready(function() {
         configDelete('like_no_confirm');
         configDelete('repost_no_confirm');
         configDelete('bookmark_no_confirm');
+        configDelete('mark_read_no_confirm');
+        configDelete('mark_read_overlay');
         configDelete('search');
         configDelete('post_move');
         configDelete('post_move_default');
@@ -819,7 +829,7 @@ function addMouseBindings() {
 
     });
 
-    Mousetrap.bind('r', function() {
+    Mousetrap.bind(['r', 'z'], function() {
         if (isReader && currentPost >= 0) {
             $('.post-' + currentPost).click();
         }
@@ -1011,17 +1021,38 @@ function doRequest(properties, type, element) {
 
         // Change channel counter.
         if (type === 'unread' || type === 'read') {
-            changeChannelCount(type);
+            if (configGet('global_unread')) {
+                changeChannelCount('read', 'global');
+            }
+            changeChannelCount(type, properties.channel);
         }
 
-        if (type === 'read-of') {
-            type = 'read';
+        if (element != null) {
+
+            let originalType = type;
+            if (type === 'read-of') {
+                type = 'read';
+            }
+
+            let backgroundImage = 'images/button_' + type + '_pressed.png';
+
+            if (type === 'read' && originalType !== 'read-of') {
+                backgroundImage = 'images/button_unread.png';
+                element.attr('data-action', 'unread');
+                element.data('action', 'unread');
+                element.removeClass('action-read');
+                element.addClass('action-unread');
+            }
+            if (type === 'unread') {
+                element.attr('data-action', 'read');
+                element.data('action', 'read');
+                element.removeClass('action-unread');
+                element.addClass('action-read');
+                backgroundImage = 'images/button_read.png';
+            }
+
+            element.css('background-image', 'url(' + backgroundImage + ')');
         }
-        if (type === 'read') {
-            type = 'unread';
-        }
-        let backgroundImage = 'images/button_' + type + '_pressed.png';
-        element.css('background-image', 'url(' + backgroundImage + ')');
 
     })
     .fail(function() {
@@ -1429,6 +1460,7 @@ function bindActions() {
         e.stopPropagation();
         let url = $(this).parent().parent().data('url');
         let entry = $(this).parent().parent().data('entry');
+        let channel = $(this).parent().parent().data('channel');
         if (url.length > 0) {
             let type = $(this).data('action');
             let element = $(this);
@@ -1517,29 +1549,34 @@ function bindActions() {
             }
             else if (type === 'like' || type === 'repost' || type === 'bookmark' || type === 'delete' || type === 'unread' || type === 'read') {
                 let properties = {};
+                let noConfirmKey = type + '_no_confirm';
                 if (type === 'delete') {
                     properties["entry"] = entry;
                     properties["action"] = "timeline";
                     properties["method"] = "remove";
-                    properties["channel"] = loadedChannel;
+                    properties["channel"] = channel;
                 }
                 else if (type === 'unread') {
+                    noConfirmKey = 'mark_read_no_confirm';
                     properties["entry[]"] = entry;
                     properties["action"] = "timeline";
                     properties["method"] = "mark_unread";
-                    properties["channel"] = loadedChannel;
+                    properties["channel"] = channel;
                 }
                 else if (type === 'read') {
+                    noConfirmKey = 'mark_read_no_confirm';
                     properties["entry[]"] = entry;
                     properties["action"] = "timeline";
                     properties["method"] = "mark_read";
-                    properties["channel"] = loadedChannel;
+                    properties["channel"] = channel;
                 }
                 else {
                     let prop = type + '-of';
                     properties[prop] = url;
                 }
-                if (configGet(type + '_no_confirm')) {
+
+
+                if (configGet(noConfirmKey)) {
                     doRequest(properties, type, element);
                 }
                 else {
@@ -1706,6 +1743,8 @@ function renderTitleView(item) {
 function renderCardView(item) {
     let post = "";
 
+    post += renderMiniActions(item);
+
     // Author.
     let authorName = "";
     let authorUrl = "";
@@ -1798,6 +1837,16 @@ function renderDetailView(item, truncate, actionsAtTop) {
     // Actions.
     if (actionsAtTop) {
         post += renderActions(item, type, true);
+    }
+
+    // Auto mark read.
+    if (actionsAtTop && configGet('mark_read_overlay') && item._is_read === false) {
+        let properties = {};
+        properties["entry[]"] = item._id;
+        properties["action"] = "timeline";
+        properties["method"] = "mark_read";
+        properties["channel"] = item._channel.id;
+        doRequest(properties, 'read', null);
     }
 
     // Zoom
@@ -1947,7 +1996,7 @@ function renderDetailView(item, truncate, actionsAtTop) {
 
     // Actions.
     if (!actionsAtTop) {
-        post += renderActions(item, type, false);
+        post += renderActions(item, postType, false);
     }
 
     // Closing wrapper.
@@ -1974,7 +2023,7 @@ function renderActions(item, type, renderClose) {
             url = item.url;
         }
 
-        actions += '<div class="actions" data-url="' + url + '" data-entry="' + item._id + '">';
+        actions += '<div class="actions" data-url="' + url + '" data-entry="' + item._id + '" data-channel="' + item._channel.id + '">';
         actions += '<div class="actions-column">';
         if (getMicropubEndpoint().length > 0) {
             actions += '<div class="action action-reply" data-action="reply" title="Reply"></div>';
@@ -1989,10 +2038,6 @@ function renderActions(item, type, renderClose) {
         actions += '</div>';
         actions += '<div class="actions-column">';
 
-        actions += '<div class="action action-delete" data-action="delete" title="Delete"></div>';
-        if (configGet('post_move')) {
-            actions += '<div class="action action-move" data-action="move" title="Move"></div>';
-        }
         if (item._is_read !== false) {
             actions += '<div class="action action-unread" data-action="unread" title="Mark unread"></div>';
         }
@@ -2000,11 +2045,49 @@ function renderActions(item, type, renderClose) {
             actions += '<div class="action action-read" data-action="read" title="Mark read"></div>';
         }
         actions += '<div class="action action-external" data-action="external" title="Visit site"></div>';
+        if (configGet('post_move')) {
+            actions += '<div class="action action-move" data-action="move" title="Move"></div>';
+        }
+        actions += '<div class="action action-delete" data-action="delete" title="Delete"></div>';
 
         if (renderClose) {
             actions += '<div class="overlay-close" title="Close overlay"></div>'
         }
 
+        actions += '</div></div>';
+    }
+
+    return actions;
+}
+
+/**
+ * Renders mini actions.
+ *
+ * @param {Object} item
+ *
+ * @returns {string}
+ */
+function renderMiniActions(item) {
+    let actions = "";
+
+    if (!isDefaultMicrosubEndpoint() && item.url) {
+        let url = "";
+        if (item.url.length > 0) {
+            url = item.url;
+        }
+
+        actions += '<div class="actions mini-actions" data-url="' + url + '" data-entry="' + item._id + '" data-channel="' + item._channel.id + '">';
+        actions += '<div class="actions-column">';
+        if (item._is_read !== false) {
+            actions += '<div class="action action-unread" data-action="unread" title="Mark unread"></div>';
+        }
+        else {
+            actions += '<div class="action action-read" data-action="read" title="Mark read"></div>';
+        }
+        actions += '<div class="action action-external" data-action="external" title="Visit site"></div>';
+        if (configGet('post_move')) {
+            actions += '<div class="action action-move" data-action="move" title="Move"></div>';
+        }
         actions += '</div></div>';
     }
 

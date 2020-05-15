@@ -1950,17 +1950,17 @@ function renderDetailView(item, truncate, actionsAtTop) {
     let content = "";
     let hasContent = false;
     if (item.content !== undefined) {
-        if (item.content.html !== undefined) {
+        if (item.content.html !== undefined && item.content.html.length > 0) {
             hasContent = true;
             content = item.content.html;
         }
-        else if (item.content.text !== undefined) {
+        else if (item.content.text !== undefined && item.content.text.length > 0) {
             hasContent = true;
             content = item.content.text;
         }
     }
 
-    if (!hasContent && item.summary !== undefined) {
+    if (!hasContent && item.summary !== undefined && item.summary.length > 0) {
         content = item.summary;
     }
 

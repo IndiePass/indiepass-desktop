@@ -10,7 +10,7 @@ Looking for the Android client? See https://github.com/swentel/indigenous-androi
 
 ## Screenshot
 
-<img src="https://realize.be/sites/default/files/indigenous-desktop-timeline.png" width="600" />
+<img src="https://realize.be/sites/default/files/indigenous-desktop-timeline.png" width="800" />
 
 ## Functionality
 

@@ -8,6 +8,10 @@ the Android version. The main focus is on the most common features used on a dai
 
 Looking for the Android client? See https://github.com/swentel/indigenous-android
 
+## Screenshot
+
+<img src="https://realize.be/sites/default/files/indigenous-desktop-timeline.png" width="400" />
+
 ## Functionality
 
 - General

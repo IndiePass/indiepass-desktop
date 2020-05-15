@@ -831,7 +831,12 @@ function addMouseBindings() {
 
     Mousetrap.bind(['r', 'z'], function() {
         if (isReader && currentPost >= 0) {
-            $('.post-' + currentPost).click();
+            if ($('.post-' + currentPost + ' .zoom').length > 0) {
+                $('.post-' + currentPost + ' .zoom').click();
+            }
+            else {
+                $('.post-' + currentPost).click();
+            }
         }
     });
 

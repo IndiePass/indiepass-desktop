@@ -369,6 +369,7 @@ $(document).ready(function() {
         hideContainer('#reader-container');
         hideContainer('#posts-container');
         hideContainer('#settings-container');
+        catchExternalLinks('a');
     })
 
     $('.settings').on('click', function() {

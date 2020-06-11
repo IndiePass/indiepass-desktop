@@ -866,6 +866,13 @@ function loadReader() {
     resetSearch();
     $('.menu').removeClass('selected');
     $('.reader').addClass('selected');
+    showReader();
+}
+
+/**
+ * Shows the reader.
+ */
+function showReader() {
     hideContainer('#about-container');
     hideContainer('#media-container');
     hideContainer('#settings-container');
@@ -1172,6 +1179,11 @@ function loadChannels() {
         }
 
         $('.channel').click(function() {
+
+            if (!$('#reader-container').is(':visible')) {
+                showReader()
+            }
+
             renderChannel($(this));
         });
 

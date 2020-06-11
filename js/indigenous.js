@@ -1802,7 +1802,7 @@ function renderCardView(item) {
     }
 
     if (item.photo !== undefined) {
-        post += '<div class="image"><img src="' + item.photo[0] + '" /></div>';
+        post += '<div class="image"><img loading="lazy" src="' + item.photo[0] + '" /></div>';
     }
     else {
         let content = "";
@@ -1883,7 +1883,7 @@ function renderDetailView(item, truncate, actionsAtTop) {
         }
 
         if (item.author.photo) {
-            post += '<div class="author-avatar"><img alt="' + authorName + '" class="avatar" src="' + item.author.photo + '" width="80" height="80" /></div>';
+            post += '<div class="author-avatar"><img loading="lazy" alt="' + authorName + '" class="avatar" src="' + item.author.photo + '" width="80" height="80" /></div>';
         }
         else {
             post += defaultAuthor;
@@ -1983,28 +1983,28 @@ function renderDetailView(item, truncate, actionsAtTop) {
         }
 
         if (undefined !== ref.video) {
-            post += '<div class="video"> <video controls> <source src="' + ref.video[0] + '"> </video> </div>';
+            post += '<div class="video"> <video controls preload="none"> <source src="' + ref.video[0] + '"> </video> </div>';
         }
 
         if (undefined !== ref.photo) {
             for (let i = 0; i < ref.photo.length; i++) {
-                post += '<div class="image"><img src="' + ref.photo[i] + '" /></div>';
+                post += '<div class="image"><img loading="lazy" src="' + ref.photo[i] + '" /></div>';
             }
         }
     }
 
     if (item.photo !== undefined) {
         for (let i = 0; i < item.photo.length; i++) {
-            post += '<div class="image"><img src="' + item.photo[i] + '" /></div>';
+            post += '<div class="image"><img loading="lazy" src="' + item.photo[i] + '" /></div>';
         }
     }
 
     if (item.video !== undefined) {
-        post += '<div class="video"> <video controls> <source src="' + item.video[0] + '"> </video> </div>';
+        post += '<div class="video"> <video controls preload="none"> <source src="' + item.video[0] + '"> </video> </div>';
     }
 
     if (item.audio !== undefined) {
-        post += '<div class="audio"> <audio controls> <source src="' + item.audio[0] + '"> </audio> </div>';
+        post += '<div class="audio"> <audio controls preload="none"> <source src="' + item.audio[0] + '"> </audio> </div>';
     }
 
     // Actions.

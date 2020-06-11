@@ -105,6 +105,7 @@ This app uses following libraries:
 - https://github.com/sindresorhus/electron-context-menu
 - https://github.com/mawie81/electron-window-state
 - https://github.com/dimsemenov/Magnific-Popup
+- https://github.com/HubSpot/pace
 
 ## Other Micropub and Microsub clients
 

@@ -296,11 +296,11 @@ $(document).ready(function() {
     });
 
     $('.timeline-display').on('click', function(e) {
-        let content = '<div class="tooltip-display-wrapper"><div class="display"><select class="timeline-display-select">';
-        content += '<option value="title">Titles</option>';
-        content += '<option value="card">Cards</option>';
-        content += '<option value="feed">Feed</option>';
-        content += '</select></div><div class="button tooltip-send">Change</div></div>';
+        let content = '<div class="tooltip-display-wrapper"><div class="display">';
+        content += '<input type="radio" id="display-title" value="title" name="display" /> <label for="display-title">Titles</label><br />';
+        content += '<input type="radio" id="display-card" value="card" name="display" /> <label for="display-card">Cards</label><br />';
+        content += '<input type="radio" id="display-feed" value="feed" name="display" /> <label for="display-feed">Feed</label>';
+        content += '</div><div class="button tooltip-send">Save</div></div>';
         $(this)
             .tooltipster({
                 animation: 'slide',
@@ -312,13 +312,16 @@ $(document).ready(function() {
                 functionReady: function(instance, helper) {
 
                     let display = getDisplay();
-                    let displaySelect = $('.timeline-display-select');
-                    displaySelect.val(display);
+                    let $radios = $('input:radio[name=display]');
+                    if ($radios.is(':checked') === false) {
+                        $radios.filter('[value=' + display + ']').prop('checked', true);
+                    }
 
                     $('.tooltip-send').on('click', function() {
                         instance.close();
-                        if (displaySelect.val() !== display) {
-                            configSave('timeline.display.' + loadedChannel, displaySelect.val());
+                        let selected = ($('input[name=display]:checked').val());
+                        if (selected !== display) {
+                            configSave('timeline.display.' + loadedChannel, selected);
                             reloadTimeline();
                         }
                     });

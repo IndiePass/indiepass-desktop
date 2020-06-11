@@ -15,6 +15,10 @@
     --list-divider-color: #e2e6e9;
 }
 
+.tooltip-display-wrapper label {
+    cursor: pointer;
+}
+
 html {
     color: #333;
     font-size: 112.5%;

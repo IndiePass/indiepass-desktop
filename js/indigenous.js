@@ -559,6 +559,8 @@ $(document).ready(function() {
             return;
         }
 
+        showLoading();
+
         let mediaEndpoint = getMediaEndpoint();
         if (mediaEndpoint.length > 0) {
 
@@ -606,6 +608,8 @@ $(document).ready(function() {
         else {
             snackbar('You need to configure a media endpoint in Settings', 'error');
         }
+
+        hideLoading();
     });
 
 
@@ -614,6 +618,8 @@ $(document).ready(function() {
        if (noConnection(true, '')) {
             return;
        }
+
+       showLoading();
 
        let micropubEndpoint = getMicropubEndpoint();
        if (micropubEndpoint.length > 0) {
@@ -699,6 +705,8 @@ $(document).ready(function() {
        else {
            snackbar('You need to configure a micropub endpoint in Settings', 'error');
        }
+
+       hideLoading();
     });
 
 });

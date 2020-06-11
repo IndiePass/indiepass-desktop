@@ -1874,6 +1874,7 @@ function renderDetailView(item, truncate, actionsAtTop) {
     // Auto mark read.
     if (actionsAtTop && configGet('mark_read_overlay') && item._is_read === false) {
         let properties = {};
+        item._is_read = true;
         properties["entry[]"] = item._id;
         properties["action"] = "timeline";
         properties["method"] = "mark_read";

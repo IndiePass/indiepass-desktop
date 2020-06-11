@@ -296,7 +296,7 @@ $(document).ready(function() {
     });
 
     $('.timeline-display').on('click', function(e) {
-        let content = '<div class="tooltip-display-wrapper"><div class="display">';
+        let content = '<div class="tooltip-display-wrapper tooltip-wrapper"><div class="display">';
         content += '<input type="radio" id="display-title" value="title" name="display" /> <label for="display-title">Titles</label><br />';
         content += '<input type="radio" id="display-card" value="card" name="display" /> <label for="display-card">Cards</label><br />';
         content += '<input type="radio" id="display-feed" value="feed" name="display" /> <label for="display-feed">Feed</label>';
@@ -1528,7 +1528,12 @@ function bindActions() {
                     .tooltipster({
                         animation: 'slide',
                         trigger: 'click',
-                        content: '<div class="tooltip-read-wrapper"><div class="inline-read"><select class="read-response"><option value="">Omit status</option><option value="to-read">To read</option><option value="reading">Reading</option><option value="finished">Finished</option></select></div><div class="button tooltip-send">Send</div></div>',
+                        content: '<div class="tooltip-read-wrapper tooltip-wrapper"><div class="inline-read">' +
+                            '<input type="radio" id="read-omit" name="readResponse" value="" /> <label for="read-omit">Omit status</label><br />' +
+                            '<input type="radio" id="read-to" name="readResponse" value="to-read" checked> <label for="read-to">To read</label><br />' +
+                            '<input type="radio" id="read-ing" name="readResponse" value="reading"> <label for="read-ing">Reading</label><br />' +
+                            '<input type="radio" id="read-finished" name="readResponse" value="finished"> <label for="read-finished">Finished</label>' +
+                            '</div><div class="button tooltip-send">Send</div></div>',
                         contentAsHTML: true,
                         interactive: true,
                         side: ['left', 'right'],
@@ -1538,7 +1543,7 @@ function bindActions() {
                                 let prop = 'read-of';
                                 let properties = {};
                                 properties[prop] = url;
-                                let readResponse = $('.read-response').val();
+                                let readResponse = $('input[name=readResponse]:checked').val();
                                 if (readResponse.length > 0) {
                                     properties['read-status'] = readResponse;
                                 }
@@ -1553,7 +1558,12 @@ function bindActions() {
                     .tooltipster({
                         animation: 'slide',
                         trigger: 'click',
-                        content: '<div class="tooltip-rsvp-wrapper"><div class="inline-rsvp"><select class="rsvp-response"><option value="yes">I\'m going!</option><option value="maybe">Maybe</option><option value="interested">Interested</option><option value="no">Can not attend</option></select></div><div class="button tooltip-send">RSVP</div></div>',
+                        content: '<div class="tooltip-rsvp-wrapper tooltip-wrapper"><div class="inline-rsvp">' +
+                            '<input type="radio" id="rsvp-yes" name="rsvp" value="yes" checked> <label for="rsvp-yes">I\'m going!</label><br />' +
+                            '<input type="radio" id="rsvp-maybe" name="rsvp" value="maybe"> <label for="rsvp-maybe">Maybe</label><br />' +
+                            '<input type="radio" id="rsvp-interested" name="rsvp" value="interested"> <label for="rsvp-interested">Interested</label><br />' +
+                            '<input type="radio" id="rsvp-no" name="rsvp" value="no"> <label for="rsvp-no">Can not attend</label>' +
+                            '</div><div class="button tooltip-send">RSVP</div></div>',
                         contentAsHTML: true,
                         interactive: true,
                         side: ['left', 'right'],
@@ -1563,7 +1573,7 @@ function bindActions() {
                                 let prop = 'in-reply-to';
                                 let properties = {};
                                 properties[prop] = url;
-                                properties.rsvp = $('.rsvp-response').val();
+                                properties.rsvp = $('input[name=rsvp]:checked').val();
                                 doRequest(properties, type, element);
                             });
                         }
@@ -1572,15 +1582,15 @@ function bindActions() {
             }
             else if (type === 'move') {
                 let defaultChannel = configGet('post_move_default');
-                let content = '<div class="tooltip-move-wrapper"><div class="inline-move"><select class="move-channel">';
+                let content = '<div class="tooltip-move-wrapper tooltip-wrapper"><div class="inline-move">';
                 $.each(channelResponse, function (i, item) {
                     let selected = "";
                     if (item.uid === defaultChannel) {
-                        selected = " selected";
+                        selected = " checked";
                     }
-                    content += '<option value="' + item.uid + '"' + selected + '>' + item.name + '</option>';
+                    content += '<input type="radio" name="moveChannel" id="' + item.uid + '" value="' + item.uid + '"' + selected + '> <label for="' + item.uid + '">' + item.name + '</label><br />';
                 });
-                content += '</select></div><div class="button tooltip-send">Move</div></div>';
+                content += '</div><div class="button tooltip-send">Move</div></div>';
                 $(this)
                     .tooltipster({
                         animation: 'slide',
@@ -1596,7 +1606,7 @@ function bindActions() {
                                 properties["entry"] = entry;
                                 properties["action"] = "timeline";
                                 properties["method"] = "move";
-                                properties["channel"] = $('.move-channel').val();
+                                properties["channel"] = $('input[name=moveChannel]:checked').val();
                                 doRequest(properties, type, element);
                             });
                         }

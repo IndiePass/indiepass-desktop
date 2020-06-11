@@ -26,6 +26,14 @@ let defaultAuthor = '<div class="author-avatar"><img class="avatar" src="./image
 let defaultAuthorCard = '';
 let overlayLoadmore = false;
 
+function showLoading() {
+    Pace.start();
+}
+
+function hideLoading() {
+    Pace.stop();
+}
+
 /**
  * Get a value from storage.
  *
@@ -1118,8 +1126,10 @@ function changeChannelCount(type, channel) {
  * Load channels.
  */
 function loadChannels() {
+    showLoading();
 
     if (noConnection(false, '#reader-container')) {
+        hideLoading();
         return;
     }
 
@@ -1183,11 +1193,13 @@ function loadChannels() {
 
         $('.channel').click(function() {
 
+            showLoading();
             if (!$('#reader-container').is(':visible')) {
-                showReader()
+                showReader();
             }
 
             renderChannel($(this));
+            hideLoading();
         });
 
         // Load global if configured.
@@ -1203,6 +1215,7 @@ function loadChannels() {
         snackbar('Something went wrong loading the channels', 'error');
     });
 
+    hideLoading();
 }
 
 /**

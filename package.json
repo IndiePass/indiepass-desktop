@@ -28,6 +28,7 @@
     "jquery": "^3.5.0",
     "magnific-popup": "^1.1.0",
     "mousetrap": "^1.6.5",
+    "pace-js": "^1.0.2",
     "tooltipster": "^4.2.7"
   }
 }

@@ -821,6 +821,7 @@ function addMouseBindings() {
         if (isDetail) {
             ignoreScroll = true;
             if (posts[currentPost - 1]) {
+                $('.mfp-wrap').scrollTop(0);
                 $('.mfp-content').html(renderDetailView(posts[currentPost - 1], false, true));
                 bindActions();
                 catchExternalLinks();
@@ -847,6 +848,7 @@ function addMouseBindings() {
 }
 
 function renderNextPostInOverlay() {
+    $('.mfp-wrap').scrollTop(0);
     $('.mfp-content').html(renderDetailView(posts[currentPost + 1], false, true));
     bindActions();
     catchExternalLinks();

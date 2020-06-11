@@ -1321,6 +1321,10 @@ function loadTimeline(timelineUrl, after) {
         finalTimelineUrl += "?action=timeline&channel=global&is_read=false"
     }
 
+    if (finalTimelineUrl.indexOf('?') === -1) {
+        finalTimelineUrl += '?';
+    }
+
     if (after.length > 0) {
         finalTimelineUrl += '&after=' + after;
     }

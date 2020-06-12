@@ -3,6 +3,7 @@ const store = new Store();
 const shell = require('electron').shell;
 const dayjs = require('dayjs');
 
+// todo make an object with these properties.
 let snackbarElement;
 let refreshReader = false;
 let loadedChannel = 0;
@@ -26,10 +27,16 @@ let defaultAuthor = '<div class="author-avatar"><img class="avatar" src="./image
 let defaultAuthorCard = '';
 let overlayLoadmore = false;
 
+/**
+ * Show loading bar.
+ */
 function showLoading() {
     Pace.start();
 }
 
+/**
+ * Hide loading bar.
+ */
 function hideLoading() {
     Pace.stop();
 }

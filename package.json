@@ -6,7 +6,9 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "packages": "electron-packager . --platform=win32,linux --icon=images/icon"
+    "packages": "electron-packager . --platform=win32,linux --icon=images/icon",
+    "compile-styles": "node-sass --watch --output-style expanded --precision 6 css/indigenous.scss dist/styles.css",
+    "css-minify": "cleancss --level 1 --format breaksWith=lf --output dist/styles.min.css dist/styles.css"
   },
   "repository": "https://github.com/swentel/indieweb-desktop",
   "keywords": [

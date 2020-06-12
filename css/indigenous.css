@@ -8,19 +8,28 @@
     --color-error: #dc3545;
     --color-success: #28a745;
 
-    --text-color: #666666;
+    --text-color: #333333;
     --list-row-color: #ffffff;
     --list-background-color: #f5f5f5;
     --list-item-padding: 10px;
     --list-divider-color: #e2e6e9;
 }
 
+/*[data-theme="dark"] {
+    --primary-color: #9A97F3;
+    --secondary-color: #818cab;
+    --font-color: #e1e1ff;
+    --bg-color: #161625;
+    --heading-color: #818cab;
+    --list-background-color: #9A97F3;
+}*/
+
 .tooltip-wrapper label {
     cursor: pointer;
 }
 
 html {
-    color: #333;
+    color: var(--text-color);;
     font-size: 112.5%;
     width: 100%;
     height: 100%;
@@ -682,6 +691,10 @@ https://xel-toolkit.org/elements/x-box
 #nav a:hover {
     color: var(--primary-color-accent);
     background-color: var(--list-background-color);
+}
+
+h3 {
+    margin-top: 0;
 }
 
 nav h3 {

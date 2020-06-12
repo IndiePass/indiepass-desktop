@@ -55,6 +55,7 @@
         </div>
 
         <div id="settings-container">
+            <h3>Reader</h3>
             <div>
                 <label for="like-direct">Like without confirmation</label>
                 <input type="checkbox" name="like_direct" id="like-direct" class="checkbox" />
@@ -110,11 +111,18 @@
                 <select name="post_move_default" id="post-move-default"><option value="">No default</option></select>
                 <div class="description">Set a default channel when moving posts.</div>
             </div>
+            <h3>General</h3>
+            <div>
+                <label for="dark-theme">Dark theme</label>
+                <input type="checkbox" name="dark_theme" id="dark-theme" class="checkbox" />
+                <div class="description">Sets the style of the application to the dark theme.</div>
+            </div>
             <div>
                 <label for="debug-message">Debug messages</label>
                 <input type="checkbox" name="debug_message" id="debug-message" class="checkbox" />
                 <div class="description">Renders the response of requests in the console</div>
             </div>
+            <h3>Account</h3>
             <div>
                 <label for="micropub-endpoint">Post endpoint</label><br />
                 <input type="text" name="micropub_endpoint" id="micropub-endpoint" class="text" />
@@ -140,6 +148,7 @@
         </div>
 
         <div id="posts-container">
+            <h3>Create a post</h3>
             <div class="title">
                 <label for="title">Title</label><br />
                 <input type="text" name="title" id="title" class="text" />
@@ -179,7 +188,8 @@
         </div>
 
         <div id="media-container">
-          <p>Upload a file to your media endpoint. On success, the URL will be printed underneath.</p>
+            <h3>Media</h3>
+            <p>Upload a file to your media endpoint. On success, the URL will be printed underneath.</p>
           <div class="media-url"></div>
           <div>
               <label for="file">Select a file:</label>

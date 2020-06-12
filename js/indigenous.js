@@ -283,7 +283,18 @@ function setAutocomplete(categories) {
     }
 }
 
+function setTheme() {
+    if (configGet('dark_theme')) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+    }
+    else {
+        document.documentElement.setAttribute('data-theme', 'light');
+    }
+}
+
 $(document).ready(function() {
+
+    setTheme();
 
     snackbarElement = $('.snackbar');
     $('.dismiss', snackbarElement).on('click', function() {
@@ -436,6 +447,9 @@ $(document).ready(function() {
         if (configGet('hide_notifications')) {
             $('#hide-notifications-channel').prop('checked', true);
         }
+        if (configGet('dark_theme')) {
+            $('#dark-theme').prop('checked', true);
+        }
 
         let defaultMoveChannel = configGet('post_move_default');
         let defaultMoveSelect = $('#post-move-default');
@@ -484,7 +498,9 @@ $(document).ready(function() {
         configSave('debug', $('#debug-message').is(':checked'));
         configSave('hide_notifications', $('#hide-notifications-channel').is(':checked'));
         configSave('post_move_default', $('#post-move-default').val());
+        configSave('dark_theme', $('#dark-theme').is(':checked'));
 
+        setTheme();
         // TODO - fix this
         /*if ($('#hide-notifications-channel').is(':checked') !== configGet('hide_notifications')) {
             refreshReader = true;
@@ -553,6 +569,8 @@ $(document).ready(function() {
         configDelete('microsub_endpoint');
         configDelete('media_endpoint');
         configDelete('token');
+        configDelete('dark_theme');
+        setTheme();
         snackbar('Settings have been reset to default');
     });
 

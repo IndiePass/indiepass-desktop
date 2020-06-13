@@ -387,7 +387,7 @@ p {
   font-size: 16px;
 }
 
-input {
+input, textarea {
   margin: 10px 0;
   color: var(--input-color);
   background-color: var(--input-background-color);
@@ -709,5 +709,5 @@ nav {
 
 :focus {
   /*outline: -webkit-focus-ring-color auto 1px;*/
-  outline: none;
+  //outline: none;
 }

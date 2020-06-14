@@ -877,8 +877,9 @@ function addMouseBindings() {
 
     Mousetrap.bind(['r', 'z'], function() {
         if (isReader && currentPost >= 0) {
-            if ($('.post-' + currentPost + ' .zoom').length > 0) {
-                $('.post-' + currentPost + ' .zoom').click();
+            let elementZoom = $('.post-' + currentPost + ' .zoom');
+            if (elementZoom.length > 0) {
+                elementZoom.click();
             }
             else {
                 $('.post-' + currentPost).click();
@@ -1192,7 +1193,7 @@ function loadChannels() {
 
         let total = 0;
         if (configGet('global_unread')) {
-            let channel = '<div class="channel global-unread-channel" data-channel="global" data-link="">Home&nbsp;<span class="indicator channel-indicator-global"></span></div>';
+            let channel = '<a href="#" tabindex="1" class="channel global-unread-channel" data-channel="global" data-link="">Home&nbsp;<span class="indicator channel-indicator-global"></span></a>';
             channels.append(channel);
         }
 
@@ -1219,7 +1220,7 @@ function loadChannels() {
             }
             let timeline_url = baseUrl + '?action=timeline&channel=' + item.uid;
             let channelClasses = "channel channel-" + i;
-            let channel = '<div class="' + channelClasses + '" data-channel="' + item.uid + '" data-link="' + timeline_url + '">' + item.name + indicator + '</div>';
+            let channel = '<a href="#" title="Read posts in ' + item.name + '" tabindex="1" class="' + channelClasses + '" data-channel="' + item.uid + '" data-link="' + timeline_url + '">' + item.name + indicator + '</a>';
             channels.append(channel);
         });
 

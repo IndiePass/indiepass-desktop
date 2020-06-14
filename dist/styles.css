@@ -649,6 +649,7 @@ a {
 }
 
 #nav a, #nav .channel {
+  color: var(--text-color);
   padding: 5px 0 5px 20px;
   display: block;
   font-size: 19px;
@@ -685,5 +686,5 @@ nav hr {
 }
 
 :focus {
-  /*outline: -webkit-focus-ring-color auto 1px;*/
+  outline: var(--list-divider-color) auto 0.5px;
 }

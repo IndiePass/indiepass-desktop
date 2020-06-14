@@ -189,6 +189,7 @@ p {
   padding: 10px 0;
   display: flex;
   flex-direction: row;
+  user-select: none;
 
   .text {
     width: 300px;
@@ -658,6 +659,9 @@ a {
 }
 
 #nav {
+
+  user-select: none;
+
   section {
     margin: 15px 0;
   }

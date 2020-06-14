@@ -10,6 +10,7 @@
   --minimum-text: #666;
   --reader-top-color: #fff;
   --nav-h3-color: #000;
+  --color-idle: #666666;
 
   --color-error: #DD645E;
   --color-success: #28a745;
@@ -38,6 +39,7 @@
   --reader-top-color: #202531;
   --nav-h3-color: #f1f1f1;
   --mini-action-color: 33.7,33.7,33.7;
+  --color-idle: #f1f1f1;
 
   --primary-color: #7bb6ff;
   --list-background-color: #2d3445;
@@ -409,13 +411,6 @@ input, textarea {
   flex-grow: 1;
 }
 
-.action {
-  display: inline-block;
-  margin-right: 15px;
-  cursor: pointer;
-  z-index: 10;
-}
-
 .next {
   margin: 10px;
 }
@@ -445,8 +440,12 @@ input, textarea {
 .action {
   width: 30px;
   height: 30px;
-  background-size: 30px;
+  display: inline-block;
+  margin-right: 15px;
+  cursor: pointer;
+  z-index: 10;
   background-repeat: no-repeat;
+  background-size: 30px;
 }
 
 .action-reply {

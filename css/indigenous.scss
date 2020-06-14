@@ -37,7 +37,7 @@
   --minimum-text: #c0c2c8;
   --reader-top-color: #202531;
   --nav-h3-color: #f1f1f1;
-  --mini-action-color: 17.6,21.6,21.1;
+  --mini-action-color: 33.7,33.7,33.7;
 
   --primary-color: #7bb6ff;
   --list-background-color: #2d3445;
@@ -613,7 +613,7 @@ input, textarea {
   background: rgba(var(--mini-action-color), 0.9);
   z-index: 100;
   left: 11px;
-  right: 20px;
+  right: 11px;
   padding: 13px 0 5px 10px;
 }
 

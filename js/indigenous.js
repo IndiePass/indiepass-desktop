@@ -1989,8 +1989,9 @@ function renderDetailView(item, truncate, actionsAtTop) {
     }
 
     // Author name.
-    if (authorName.length > 0) {
+    if (authorName.length > 0 || authorUrl.length > 0) {
         let sourceAttributes = "";
+        let render = "";
         if (undefined !== item._source) {
             sourceAttributes = ' data-source-id="' + item._source + '"';
         }
@@ -2000,12 +2001,14 @@ function renderDetailView(item, truncate, actionsAtTop) {
             classes = 'class="author-name" ';
         }
 
-        post += '<div ' + classes + sourceAttributes + '>' + authorName + '</div>';
-    }
+        if (authorName.length > 0) {
+            render = authorName + '<br />';
+        }
+        if (authorUrl.length > 0) {
+            render += authorUrl;
+        }
 
-    // Author url.
-    if (authorUrl.length > 0) {
-        post += '<div class="url">' + authorUrl + '</div>';
+        post += '<div ' + classes + sourceAttributes + '>' + render + '</div>';
     }
 
     // Published time.

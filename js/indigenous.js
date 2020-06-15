@@ -1926,11 +1926,6 @@ function renderDetailView(item, truncate, actionsAtTop) {
     let post = "";
     let type = "entry";
 
-    // Actions.
-    if (actionsAtTop) {
-        post += renderActions(item, type, true);
-    }
-
     // Auto mark read.
     if (actionsAtTop && configGet('mark_read_overlay') && item._is_read === false) {
         let properties = {};
@@ -1939,7 +1934,12 @@ function renderDetailView(item, truncate, actionsAtTop) {
         properties["action"] = "timeline";
         properties["method"] = "mark_read";
         properties["channel"] = item._channel.id;
-        doRequest(properties, 'read', null);
+        doRequest(properties, 'read', $('.post-' + currentPost + ' .action-read'));
+    }
+
+    // Actions.
+    if (actionsAtTop) {
+        post += renderActions(item, type, true);
     }
 
     // Zoom
@@ -1971,10 +1971,6 @@ function renderDetailView(item, truncate, actionsAtTop) {
     }
     else {
         post += defaultAuthor;
-    }
-
-    if (item._is_read === false) {
-        post += '<div class="new">New</div>'
     }
 
     // End author wrapper.

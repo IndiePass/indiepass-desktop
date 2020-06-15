@@ -1934,6 +1934,7 @@ function renderDetailView(item, truncate, actionsAtTop) {
         properties["action"] = "timeline";
         properties["method"] = "mark_read";
         properties["channel"] = item._channel.id;
+        $('.post-' + currentPost + ' .new').hide();
         doRequest(properties, 'read', $('.post-' + currentPost + ' .action-read'));
     }
 
@@ -1971,6 +1972,10 @@ function renderDetailView(item, truncate, actionsAtTop) {
     }
     else {
         post += defaultAuthor;
+    }
+
+    if (item._is_read === false) {
+      post += '<div class="new">New</div>'
     }
 
     // End author wrapper.

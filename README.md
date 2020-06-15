@@ -49,6 +49,17 @@ Looking for the Android client? See https://github.com/swentel/indigenous-androi
 
 Video of first release: https://www.youtube.com/watch?v=7egdRBg70XA
 
+## Roadmap
+
+There are a few outstanding feaures coming somewhere in the near future:
+
+- Use media endpoint to upload image, and allow multiple
+- Show all sources (if the microsub supports method=tree)
+- Figure out automatic builds and updates
+
+Note that currently multiple accounts or using the IndieAuth flow is
+not on the roadmap. Pull requests welcome of course :)
+
 ## Installation
 
 See the releases page: https://github.com/swentel/indigenous-desktop/releases

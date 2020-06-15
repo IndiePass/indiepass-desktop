@@ -16,7 +16,7 @@ Looking for the Android client? See https://github.com/swentel/indigenous-androi
 
 - General
   - Uses the font of your system
-  - Accounts: configure endpoints and token
+  - Account: configure endpoints and token
   - Screen state: remember position, fullscreen etc
   - Developer: view response of microsub requests in console
 - Microsub
@@ -52,6 +52,15 @@ Video of first release: https://www.youtube.com/watch?v=7egdRBg70XA
 ## Installation
 
 See the releases page: https://github.com/swentel/indigenous-desktop/releases
+
+## Token generation in Wordpress
+
+When you generate a token on Wordpress and using Aperture as your Microsub
+server, make sure the 'me' value of the token is set to the same as used
+in Aperture. Usually, this is just the URL of your website. To make sure
+that the 'me' value is set to that, fill in the Website on your profile
+and set the 'Set User to Represent Site URL' value to your user on the
+IndieAuth settings page.
 
 ## Launcher on Linux
 

@@ -9,7 +9,6 @@
   --minimum-text: #666;
   --reader-top-color: #fff;
   --nav-h3-color: #000;
-  --color-idle: #666666;
   --color-error: #DD645E;
   --color-success: #28a745;
   --text-color: #333333;
@@ -33,8 +32,7 @@
   --minimum-text: #c0c2c8;
   --reader-top-color: #202531;
   --nav-h3-color: #f1f1f1;
-  --mini-action-color: 33.7,33.7,33.7;
-  --color-idle: #f1f1f1;
+  --mini-action-color: 17.6,20.4,27.1;
   --primary-color: #7bb6ff;
   --list-background-color: #2d3445;
   --input-color: #7bb6ff;
@@ -335,6 +333,10 @@ p {
   top: 10px;
 }
 
+.zoom:hover {
+  background-image: url("../images/button_zoom_pressed.png");
+}
+
 .reader-sub-title {
   display: none;
   font-size: 18px;
@@ -441,44 +443,88 @@ input, textarea {
   background-image: url("../images/button_reply_idle.png");
 }
 
+.action-reply:hover {
+  background-image: url("../images/button_reply_pressed.png");
+}
+
 .action-like {
   background-image: url("../images/button_like_idle.png");
+}
+
+.action-like:hover {
+  background-image: url("../images/button_like_pressed.png");
 }
 
 .action-repost {
   background-image: url("../images/button_repost_idle.png");
 }
 
+.action-repost:hover {
+  background-image: url("../images/button_repost_pressed.png");
+}
+
 .action-bookmark {
   background-image: url("../images/button_bookmark_idle.png");
+}
+
+.action-bookmark:hover {
+  background-image: url("../images/button_bookmark_pressed.png");
 }
 
 .action-read-of {
   background-image: url("../images/button_read_idle.png");
 }
 
+.action-read-of:hover {
+  background-image: url("../images/button_read_pressed.png");
+}
+
 .action-unread {
   background-image: url("../images/button_unread.png");
+}
+
+.action-unread:hover {
+  background-image: url("../images/button_unread_hover.png");
 }
 
 .action-read {
   background-image: url("../images/button_read.png");
 }
 
+.action-read:hover {
+  background-image: url("../images/button_read_hover.png");
+}
+
 .action-external {
   background-image: url("../images/button_external_idle.png");
+}
+
+.action-external:hover {
+  background-image: url("../images/button_external_pressed.png");
 }
 
 .action-move {
   background-image: url("../images/button_move_idle.png");
 }
 
+.action-move:hover {
+  background-image: url("../images/button_move_pressed.png");
+}
+
 .action-delete {
   background-image: url("../images/button_delete_idle.png");
 }
 
+.action-delete:hover {
+  background-image: url("../images/button_delete_pressed.png");
+}
+
 .action-rsvp {
   background-image: url("../images/button_rsvp_idle.png");
+}
+
+.action-rsvp:hover {
+  background-image: url("../images/button_rsvp_pressed.png");
 }
 
 .tooltipster-base {

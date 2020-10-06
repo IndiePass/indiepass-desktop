@@ -19,7 +19,7 @@
   "author": "swentel",
   "license": "GPL-3.0",
   "devDependencies": {
-    "electron": "^8.5.1"
+    "electron": "^8.5.2"
   },
   "dependencies": {
     "dayjs": "^1.8.26",

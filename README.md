@@ -21,7 +21,7 @@ iOS: https://github.com/swentel/indigenous-ios
   - Screen state: remember position, fullscreen etc
   - Developer: view response of microsub requests in console
 - Microsub
-  - Starts with default anonymous account with the reader connected to https://indigenous.realize.be
+  - You can use https://indigenous.realize.be to test the reader
   - Allow for global unread start screen if the server supports it
   - Different displays: Cards, titles and feed with overlay view
   - Autoload more posts

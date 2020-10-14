@@ -993,7 +993,7 @@ function getMicrosubEndpoint() {
         return microsub_endpoint;
     }
     else {
-        return anonymousMicrosubEndpoint;
+        return "";
     }
 }
 
@@ -1171,9 +1171,13 @@ function loadChannels() {
     }
 
     isReader = true;
+    let baseUrl = getMicrosubEndpoint();
+    if (baseUrl.length === 0) {
+        snackbar('No reader endpoint has been configured yet, go to settings.');
+        return;
+    }
 
     let disableNotificationChannel = configGet('hide_notifications');
-    let baseUrl = getMicrosubEndpoint();
     let token = configGet('token');
     let headers = {
         'Accept': 'application/json'

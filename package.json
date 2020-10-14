@@ -1,7 +1,7 @@
 {
   "name": "indigenous-desktop",
   "productName": "Indigenous",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "An IndieWeb desktop application",
   "main": "main.js",
   "scripts": {
@@ -22,15 +22,15 @@
     "electron": "^8.5.2"
   },
   "dependencies": {
-    "dayjs": "^1.8.26",
+    "dayjs": "^1.9.3",
     "electron-context-menu": "^0.16.0",
-    "electron-store": "^5.1.1",
+    "electron-store": "^5.2.0",
     "electron-window-state": "^5.0.3",
     "is-in-viewport": "^3.0.4",
-    "jquery": "^3.5.0",
+    "jquery": "^3.5.1",
     "magnific-popup": "^1.1.0",
     "mousetrap": "^1.6.5",
     "pace-js": "^1.0.2",
-    "tooltipster": "^4.2.7"
+    "tooltipster": "^4.2.8"
   }
 }

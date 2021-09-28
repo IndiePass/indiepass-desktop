@@ -1,5 +1,15 @@
 # Indigenous for Desktop
 
+## September 2021 Update
+
+Firstly thanks to [@swentel](https://github.com/swentel) for the work they've done so far in building and maintaing the desktop version of the app.
+
+Indigenous for Desktop and iOS is now being maintained and developed by @marksuth.
+
+I'm currently going through and getting up to speed with the status of both this, and the desktop versions of the app, and will update soon with my plans for bringing everything up to parity with the excellent Android version, which can be found here: https://github.com/swentel/indigenous-android
+
+----
+
 An IndieWeb app with extensions for sharing information to micropub endpoints and reading 
 from microsub endpoints. Written in Electron, so available for Windows, MacOS and Linux.
 
@@ -7,7 +17,7 @@ The philosophy at the moment of the app is that it will not be a full blown clie
 the Android version. The main focus is on the most common features used on a daily basis.
 
 Android: https://github.com/swentel/indigenous-android  
-iOS: https://github.com/swentel/indigenous-ios
+iOS: https://github.com/marksuth/indigenous-ios
 
 ## Screenshot
 

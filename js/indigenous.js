@@ -23,7 +23,7 @@ let channelResponse = [];
 let posts = [];
 let autoloadClicked = false;
 let anonymousMicrosubEndpoint = 'https://indigenous.realize.be/indieweb/microsub';
-let defaultAuthor = '<div class="author-avatar"><img class="avatar" src="./images/avatar_small.png" width="80" height="80" /></div>';
+let defaultAuthor = '<div class="author-avatar"><i class="fa fa-user-circle fa-fw default-avatar fa-2x"></i></div>';
 let defaultAuthorCard = '';
 let overlayLoadmore = false;
 
@@ -101,7 +101,7 @@ function noConnection(snackbarMessage, element) {
         }
         else {
             message += '<br />Click here to retry.';
-            message = '<div class="no-connection"><img src="./images/no_connection.png" class="no-connection" /><br />' + message + ' </div>';
+            message = '<div class="no-connection"><i class="fa fa-ellipsis-h fa-fw"></i><br />' + message + ' </div>';
             $(element).html(message);
         }
 

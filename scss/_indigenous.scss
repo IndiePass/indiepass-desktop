@@ -1,4 +1,5 @@
 /** Variables **/
+
 :root {
   --primary-color: #DD645E;
   --primary-color-accent: #DD645E;
@@ -9,20 +10,24 @@
   --minimum-text: #666;
   --reader-top-color: #fff;
   --nav-h3-color: #000;
+
   --color-error: #DD645E;
   --color-success: #28a745;
+
   --text-color: #333333;
   --list-row-color: #ffffff;
   --list-background-color: #f5f5f5;
   --list-item-padding: 10px;
   --list-divider-color: #e2e6e9;
   --mini-action-color: 255,255,255;
+
   --input-color: #333333;
   --input-border-color: #d4d4d4;
   --input-background-color: #ffffff;
 }
 
 [data-theme="dark"] {
+
   --background-color: #202531;
   --text-color: #f1f1f1;
   --primary-color-accent: #f1f1f1;
@@ -33,16 +38,22 @@
   --reader-top-color: #202531;
   --nav-h3-color: #f1f1f1;
   --mini-action-color: 17.6,20.4,27.1;
+
   --primary-color: #7bb6ff;
   --list-background-color: #2d3445;
+
   --input-color: #7bb6ff;
   --input-border-color: #c0c2c8;
   --input-background-color: #474d5c;
+
   --color-error: #DD645E;
   --color-success: #28a745;
 }
 
 /** End variables **/
+
+
+
 html {
   color: var(--text-color);
   font-size: 112.5%;
@@ -55,9 +66,9 @@ html {
 body {
   background-color: var(--background-color);
   margin: 0;
-  font-size: 18px;
+  font-size: 16px;
   font: caption;
-  line-height: 28px;
+  line-height: 1.5;
   display: flex;
   width: 100%;
   height: 100%;
@@ -85,15 +96,16 @@ p {
   position: fixed;
   left: 0;
   top: 0;
-  width: 270px;
+  width: 210px;
   overflow: auto;
-  box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 1px -1px rgba(0,0,0,0.2), 0 1px 1px 0 rgba(0,0,0,0.14), 0 1px 3px 0 rgba(0,0,0,0.12);
+  background-color: #fefefe;
   z-index: 100;
   height: 100%;
 }
 
 #views {
-  margin-left: 270px;
+  margin-left: 210px;
   padding: 10px;
   display: block;
   /*height: 100%;*/
@@ -101,15 +113,16 @@ p {
   min-height: 20px;
   position: relative;
   flex: 1;
-}
 
-#views > div {
-  width: 100%;
-  height: 100%;
-  box-sizing: border-box;
+  > div {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+  }
 }
 
 /** end based on x-box **/
+
 .no-connection {
   margin-top: 20px;
   text-align: center;
@@ -145,11 +158,10 @@ p {
 
 .settings-button-wrapper {
   margin: 20px 0;
-}
-
-.settings-button-wrapper .button-wrapper {
-  display: inline-block;
-  margin-right: 20px;
+  .button-wrapper {
+    display: inline-block;
+    margin-right: 20px;
+  }
 }
 
 #reader-container {
@@ -181,10 +193,10 @@ p {
   display: flex;
   flex-direction: row;
   user-select: none;
-}
 
-.reader-top .text {
-  width: 300px;
+  .text {
+    width: 300px;
+  }
 }
 
 #timeline-container {
@@ -293,27 +305,29 @@ p {
 }
 
 .mfp-container {
-  border: 20px solid rgba(0, 0, 0, 0.6);
+  border: 20px solid rgba(0,0,0,0.6);
   height: auto;
   min-height: 100%;
   padding: 0 20px 20px 20px;
   background: var(--background-color);
 }
 
-.mfp-content {
+.mfp-content  {
+
   height: 100%;
   min-height: 100%;
-}
 
-.mfp-content .actions {
-  position: sticky;
-  background-color: var(--background-color);
-  border-bottom: 1px solid var(--list-divider-color);
-  margin-bottom: 10px;
-  top: 0;
-  left: 20px;
-  right: 35px;
-  padding: 10px 10px 5px 10px;
+  .actions {
+    position: sticky;
+    background-color: var(--background-color);
+    border-bottom: 1px solid var(--list-divider-color);
+    margin-bottom: 10px;
+    top: 0;
+    left: 20px;
+    right: 35px;
+    padding: 10px 10px 5px 10px;
+  }
+
 }
 
 .author-name {
@@ -323,7 +337,7 @@ p {
 
 .zoom {
   cursor: pointer;
-  background-image: url("../images/button_zoom_idle.png");
+  background-image: url('../images/button_zoom_idle.png');
   background-size: 30px;
   background-repeat: no-repeat;
   width: 30px;
@@ -331,10 +345,10 @@ p {
   position: absolute;
   right: 10px;
   top: 10px;
-}
 
-.zoom:hover {
-  background-image: url("../images/button_zoom_pressed.png");
+  &:hover {
+    background-image: url('../images/button_zoom_pressed.png');
+  }
 }
 
 .reader-sub-title {
@@ -350,7 +364,7 @@ p {
 .overlay-close {
   cursor: pointer;
   display: inline-block;
-  background-image: url("../images/button_close.png");
+  background-image: url('../images/button_close.png');
   width: 30px;
   height: 30px;
   background-size: 30px;
@@ -364,7 +378,7 @@ p {
 .button {
   cursor: pointer;
   text-align: center;
-  background-color: #dd645e;
+  background-color: rgb(221, 100, 94);
   color: #fff;
   padding: 10px 25px;
   border: 0 none;
@@ -440,99 +454,90 @@ input, textarea {
 }
 
 .action-reply {
-  background-image: url("../images/button_reply_idle.png");
-}
-
-.action-reply:hover {
-  background-image: url("../images/button_reply_pressed.png");
+  background-image: url('../images/button_reply_idle.png');
+  &:hover {
+    background-image: url('../images/button_reply_pressed.png');
+  }
 }
 
 .action-like {
-  background-image: url("../images/button_like_idle.png");
-}
-
-.action-like:hover {
-  background-image: url("../images/button_like_pressed.png");
+  background-image: url('../images/button_like_idle.png');
+  &:hover {
+    background-image: url('../images/button_like_pressed.png');
+  }
 }
 
 .action-repost {
-  background-image: url("../images/button_repost_idle.png");
-}
-
-.action-repost:hover {
-  background-image: url("../images/button_repost_pressed.png");
+  background-image: url('../images/button_repost_idle.png');
+  &:hover {
+    background-image: url('../images/button_repost_pressed.png');
+  }
 }
 
 .action-bookmark {
-  background-image: url("../images/button_bookmark_idle.png");
-}
-
-.action-bookmark:hover {
-  background-image: url("../images/button_bookmark_pressed.png");
+  background-image: url('../images/button_bookmark_idle.png');
+  &:hover {
+    background-image: url('../images/button_bookmark_pressed.png');
+  }
 }
 
 .action-read-of {
-  background-image: url("../images/button_read_idle.png");
-}
-
-.action-read-of:hover {
-  background-image: url("../images/button_read_pressed.png");
+  background-image: url('../images/button_read_idle.png');
+  &:hover {
+    background-image: url('../images/button_read_pressed.png');
+  }
 }
 
 .action-unread {
-  background-image: url("../images/button_unread.png");
-}
-
-.action-unread:hover {
-  background-image: url("../images/button_unread_hover.png");
+  background-image: url('../images/button_unread.png');
+  &:hover {
+    background-image: url('../images/button_unread_hover.png');
+  }
 }
 
 .action-read {
-  background-image: url("../images/button_read.png");
-}
-
-.action-read:hover {
-  background-image: url("../images/button_read_hover.png");
+  background-image: url('../images/button_read.png');
+  &:hover {
+    background-image: url('../images/button_read_hover.png');
+  }
 }
 
 .action-external {
-  background-image: url("../images/button_external_idle.png");
-}
-
-.action-external:hover {
-  background-image: url("../images/button_external_pressed.png");
+  background-image: url('../images/button_external_idle.png');
+  &:hover {
+    background-image: url('../images/button_external_pressed.png');
+  }
 }
 
 .action-move {
-  background-image: url("../images/button_move_idle.png");
-}
-
-.action-move:hover {
-  background-image: url("../images/button_move_pressed.png");
+  background-image: url('../images/button_move_idle.png');
+  &:hover {
+    background-image: url('../images/button_move_pressed.png');
+  }
 }
 
 .action-delete {
-  background-image: url("../images/button_delete_idle.png");
-}
-
-.action-delete:hover {
-  background-image: url("../images/button_delete_pressed.png");
+  background-image: url('../images/button_delete_idle.png');
+  &:hover {
+    background-image: url('../images/button_delete_pressed.png');
+  }
 }
 
 .action-rsvp {
-  background-image: url("../images/button_rsvp_idle.png");
-}
-
-.action-rsvp:hover {
-  background-image: url("../images/button_rsvp_pressed.png");
+  background-image: url('../images/button_rsvp_idle.png');
+  &:hover {
+    background-image: url('../images/button_rsvp_pressed.png');
+  }
 }
 
 .tooltipster-base {
   margin-left: 3px;
 }
 
-.tooltip-wrapper label {
-  cursor: pointer;
+.tooltip-wrapper {
+  label {
+    cursor: pointer;
+  }
 }
 
 .text {
@@ -575,39 +580,40 @@ input, textarea {
   color: #fff;
   z-index: 101;
   display: none;
-}
 
-.snackbar.success {
-  padding: 10px;
-  background: var(--color-success);
-}
+  &.success {
+    padding: 10px;
+    background: var(--color-success);
+  }
 
-.snackbar.error {
-  padding: 10px;
-  background: var(--primary-color);
-}
+  &.error {
+    padding: 10px;
+    background: var(--primary-color);
+  }
 
-.snackbar .snackbar-wrapper {
-  display: flex;
-  flex-direction: row;
-}
+  .snackbar-wrapper {
+    display: flex;
+    flex-direction: row;
+  }
 
-.snackbar .message {
-  text-align: center;
-  flex-grow: 1;
-}
+  .message {
+    text-align: center;
+    flex-grow: 1;
+  }
 
-.snackbar .dismiss {
-  margin: 0 20px 0 0;
-  font-size: 14px;
-  cursor: pointer;
-}
+  .dismiss {
+    margin: 0 20px 0 0;
+    font-size: 14px;
+    cursor: pointer;
+  }
 
-.snackbar .debug {
-  margin: 0 20px 0 0;
-  font-size: 14px;
-  cursor: pointer;
-  display: none;
+  .debug {
+    margin: 0 20px 0 0;
+    font-size: 14px;
+    cursor: pointer;
+    display: none;
+  }
+
 }
 
 /** jQuery UI autocomplete */
@@ -617,7 +623,6 @@ input, textarea {
   /* prevent horizontal scrollbar */
   overflow-x: hidden;
 }
-
 /* IE 6 doesn't support max-height
  * we use height instead, but this forces the menu to always be this tall
  */
@@ -629,18 +634,18 @@ input, textarea {
   width: 33%;
   flex-grow: 1;
   position: relative;
-}
 
-.card-view .post-content-wrapper {
-  display: inline-block;
-  padding: 10px;
-  margin: 10px;
-  border: 1px solid var(--border-color);
-  width: 100%;
+  .post-content-wrapper {
+    display: inline-block;
+    padding: 10px;
+    margin: 10px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+  }
 }
 
 .mini-actions {
-  display: none;
+  display:none;
   position: absolute;
   bottom: 11px;
   background: rgba(var(--mini-action-color), 0.9);
@@ -655,6 +660,7 @@ input, textarea {
 }
 
 .card-view.highlight .post-content-wrapper {
+  // TODO other highlight?
   background: var(--highlight-color);
 }
 
@@ -664,14 +670,17 @@ input, textarea {
 
 .timeline-item {
   display: flex;
+
+  .feed-view {
+    width: 100%;
+  }
+
 }
 
-.timeline-item .feed-view {
-  width: 100%;
-}
-
-.feed-view .post-content-wrapper {
-  width: 100%;
+.feed-view {
+  .post-content-wrapper {
+    width: 100%;
+  }
 }
 
 .feed-view.timeline-item, .title-view.timeline-item {
@@ -687,52 +696,60 @@ a {
 }
 
 #nav {
+
   user-select: none;
+
+  section {
+    margin: 15px 0;
+  }
+
+  #menu {
+    font-size: 14px;
+    a {
+      font-weight: 500;
+      line-height: 2;
+      color: var(--text-color);
+    }
+  }
+
+  a, .channel {
+    color: var(--text-color);
+    padding: 5px 0 5px 20px;
+    display: block;
+    font-size: 14px;
+    box-shadow: none;
+    text-transform: none;
+    border-radius: 0;
+    overflow: hidden;
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: var(--primary-color-accent);
+    background-color: var(--list-background-color);
+  }
 }
 
-#nav section {
-  margin: 15px 0;
-}
+nav {
+  h3 {
+    color: rgba(var(--nav-h3-color), var(--nav-h3-color), var(--nav-h3-color), 0.45);
+    margin: 0 20px;
+    padding: 0;
+    font-size: 12px;
+    line-height: 1.5;
+    font-weight: bold;
+    text-transform: uppercase;
+    user-select: none;
+    cursor: default;
+  }
 
-#nav .menu a {
-  color: var(--text-color);
-}
-
-#nav a, #nav .channel {
-  color: var(--text-color);
-  padding: 5px 0 5px 20px;
-  display: block;
-  font-size: 19px;
-  box-shadow: none;
-  text-transform: none;
-  border-radius: 0;
-  overflow: hidden;
-  text-decoration: none;
-}
-
-#nav a:hover {
-  color: var(--primary-color-accent);
-  background-color: var(--list-background-color);
-}
-
-nav h3 {
-  color: rgba(var(--nav-h3-color), var(--nav-h3-color), var(--nav-h3-color), 0.45);
-  margin: 0 0 0 20px;
-  padding: 0;
-  font-size: 12px;
-  font-weight: 500;
-  text-transform: uppercase;
-  user-select: none;
-  cursor: default;
-}
-
-nav hr {
-  margin: 0 10px;
-  background: rgba(0, 0, 0, 0.12);
-  border: none;
-  height: 1px;
-  min-height: 1px;
-  box-sizing: border-box;
+  hr {
+    background: rgba(0, 0, 0, 0.12);
+    border: none;
+    height: 1px;
+    min-height: 1px;
+    box-sizing: border-box;
+  }
 }
 
 :focus {

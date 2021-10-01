@@ -1,11 +1,16 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline'; img-src *; connect-src *; media-src *; frame-src https://*.youtube.com https://*.vimeo.com">
-    <meta http-equiv="X-Content-Security-Policy" content="default-src 'self' 'unsafe-inline'; img-src *; connect-src *; media-src *; frame-src https://*.youtube.com https://*.vimeo.com">
-    <link rel="stylesheet" href="node_modules/magnific-popup/dist/magnific-popup.css" />
-    <link rel="stylesheet" href="node_modules/pace-js/themes/red/pace-theme-minimal.css" />
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline'; img-src * 'self' data: https:; connect-src *; media-src *; frame-src https://*.youtube.com https://*.vimeo.com">
+    <link
+      rel="stylesheet"
+      href="node_modules/magnific-popup/dist/magnific-popup.css"
+    />
+    <link
+      rel="stylesheet"
+      href="node_modules/pace-js/themes/red/pace-theme-minimal.css"
+    />
     <link rel="stylesheet" href="css/tooltipster.bundle.min.css" />
     <link rel="stylesheet" href="css/jquery-ui.structure.css" />
     <link rel="stylesheet" href="css/jquery-ui.theme.min.css" />
@@ -13,222 +18,499 @@
     <title>Indigenous</title>
   </head>
   <body>
-
-  <div id="main">
-
-    <sidebar id="sidebar">
+    <div id="main">
+      <sidebar id="sidebar">
         <nav id="nav">
-            <section id="menu">
-                <a tabindex="0" href="#" class="reader" title="Reader"><i class="fa fa-fw fa-lg fa-book"></i> Reader</a>
-                <a tabindex="0" href="#" class="post" title="Create a post"><i class="fa fa-fw fa-lg fa-pen"></i> Post</a>
-                <a tabindex="0" href="#" class="media" title="Upload media"><i class="fa fa-fw fa-lg fa-image"></i> Media</a>
-                <a tabindex="0" href="#" class="settings" title="Settings"><i class="fa fa-fw fa-lg fa-cog"></i> Settings</a>
-            </section>
-            <hr />
-            <section id="channels">
-                <h3>Channels</h3>
-                <div class="channel-wrapper"></div>
-            </section>
+          <section id="menu">
+            <a tabindex="0" href="#" class="reader" title="Reader"
+              ><i class="fa fa-fw fa-lg fa-book"></i> Reader</a
+            >
+            <a tabindex="0" href="#" class="post" title="Create a post"
+              ><i class="fa fa-fw fa-lg fa-pen"></i> Post</a
+            >
+            <a tabindex="0" href="#" class="media" title="Upload media"
+              ><i class="fa fa-fw fa-lg fa-image"></i> Media</a
+            >
+            <a tabindex="0" href="#" class="settings" title="Settings"
+              ><i class="fa fa-fw fa-lg fa-cog"></i> Settings</a
+            >
+          </section>
+          <section id="channels">
+            <h3>Channels</h3>
+            <div class="channel-wrapper"></div>
+          </section>
         </nav>
-    </sidebar>
+      </sidebar>
 
-    <div id="views">
-
+      <div id="views">
         <div id="reader-container">
-            <div class="reader-top">
-                <div class="search-wrapper"><form id="search-form"><input type="text" class="search-field text" placeholder="search"></form></div>
-                <div class="reader-global-actions">
-                    <div class="mark-read" title="Mark all read">Mark all read</div>
-                    <div class="timeline-display" title="Change display">Display</div>
-                </div>
+          <div class="reader-top">
+            <div class="search-wrapper">
+              <form id="search-form">
+                <input
+                  type="text"
+                  class="search-field text"
+                  placeholder="search"
+                />
+              </form>
             </div>
+            <div class="reader-global-actions">
+              <div class="mark-read" title="Mark all read">Mark all read</div>
+              <div class="timeline-display" title="Change display">Display</div>
+            </div>
+          </div>
 
-            <div class="reader-wrapper">
-                <div id="timeline-container">
-                    <div class="reader-sub-title"></div>
-                    <div class="posts"></div>
-                    <div class="pager"></div>
-                </div>
+          <div class="reader-wrapper">
+            <div id="timeline-container">
+              <div class="reader-sub-title"></div>
+              <div class="posts"></div>
+              <div class="pager"></div>
             </div>
+          </div>
         </div>
 
-        <div id="settings-container">
-            <h2>Settings</h2>
-            <section id="settings-reader">
-            <h3>Reader</h3>
-            <div>
-                <label for="like-direct">Like without confirmation</label>
-                <input type="checkbox" name="like_direct" id="like-direct" class="checkbox" />
-                <div class="description">If not enabled, a confirmation dialog will show up first</div>
+        <div id="settings-container" class="container-fluid">
+          <div class="row">
+            <div class="col-2">
+              <div class="sticky-top pt-3">
+                <h2>Settings</h2>
+                <ul class="nav flex-column">
+                  <li class="nav-item">
+                    <a class="nav-link" href="#settings-general">General</a>
+                  </li>
+                  <li class="nav-item">
+                    <a
+                      class="nav-link"
+                      aria-current="page"
+                      href="#settings-reader"
+                      >Reader</a
+                    >
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#settings-account">Account</a>
+                  </li>
+                </ul>
+              </div>
             </div>
-            <div>
-                <label for="repost-direct">Repost without confirmation</label>
-                <input type="checkbox" name="repost_direct" id="repost-direct" class="checkbox" />
-                <div class="description">If not enabled, a confirmation dialog will show up first</div>
+            <div class="col-10">
+              <section id="settings-general" class="pt-3">
+                <h3>General</h3>
+                <div class="ms-5">
+                  <div class="row">
+                    <div class="col-2 pt-3">
+                      <label for="post-move-default">App Theme</label>
+                    </div>
+                    <div class="col-4">
+                      <select
+                        class="form-select"
+                        aria-label="Default move channel"
+                      >
+                        <option value="" disabled>Match system theme</option>
+                        <option value="">Light theme</option>
+                        <option value="dark-theme">Dark theme</option>
+                        <option value="" disabled>High contrast theme</option>
+                      </select>
+                      <p class="form-text">Select a theme.</p>
+                    </div>
+                  </div>
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      name="debug_message"
+                      id="debug-message"
+                    />
+                    <label class="form-check-label" for="debug-message">
+                      Debug messages
+                    </label>
+                    <p class="form-text">
+                      Renders the response of requests in the console
+                    </p>
+                  </div>
+                </div>
+              </section>
+              <section id="settings-reader" class="pt-3">
+                <h3>Reader</h3>
+                <div class="ms-5">
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      name="like_direct"
+                      id="like-direct"
+                    />
+                    <label class="form-check-label" for="like-direct">
+                      Like without confirmation
+                    </label>
+                    <p class="form-text">
+                      If not enabled, a confirmation dialog will show up first
+                    </p>
+                  </div>
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      name="repost_direct"
+                      id="repost-direct"
+                    />
+                    <label class="form-check-label" for="repost-direct">
+                      Repost without confirmation
+                    </label>
+                    <p class="form-text">
+                      If not enabled, a confirmation dialog will show up first
+                    </p>
+                  </div>
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      name="bookmark_direct"
+                      id="bookmark-direct"
+                    />
+                    <label class="form-check-label" for="bookmark-direct">
+                      Bookmark without confirmation
+                    </label>
+                    <p class="form-text">
+                      If not enabled, a confirmation dialog will show up first
+                    </p>
+                  </div>
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      name="global_unread"
+                      id="global-unread"
+                    />
+                    <label class="form-check-label" for="global-unread">
+                      Global unread
+                    </label>
+                    <p class="form-text">
+                      Start screen of reader will show all unread items in card
+                      view.
+                    </p>
+                  </div>
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      name="mark_read_direct"
+                      id="mark-read-direct"
+                    />
+                    <label class="form-check-label" for="mark-read-direct">
+                      Mark (un)read without confirmation
+                    </label>
+                    <p class="form-text">
+                      If not enabled, a confirmation dialog will show up first
+                    </p>
+                  </div>
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      name="mark_read_overlay"
+                      id="mark-read-overlay"
+                    />
+                    <label class="form-check-label" for="mark-read-overlay">
+                      Auto mark read in overlay
+                    </label>
+                    <p class="form-text">
+                      Marks items read when reading in the overlay and clicking
+                      next/previous
+                    </p>
+                  </div>
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      name="search"
+                      id="search"
+                    />
+                    <label class="form-check-label" for="search">
+                      Enable search
+                    </label>
+                    <p class="form-text">
+                      Leave disabled if your Microsub server does not support
+                      this.
+                    </p>
+                  </div>
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      name="autoload_more"
+                      id="autoload-more"
+                    />
+                    <label class="form-check-label" for="autoload-more">
+                      Autoload more posts
+                    </label>
+                    <p class="form-text">
+                      Autoload more posts when the link comes in the viewport.
+                    </p>
+                  </div>
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      name="hide_notifications"
+                      id="hide-notifications-channel"
+                    />
+                    <label
+                      class="form-check-label"
+                      for="hide-notifications-channel"
+                    >
+                      Hide notifications channel
+                    </label>
+                    <p class="form-text">
+                      Leave disabled if your Microsub server does not support
+                      this channel.
+                    </p>
+                  </div>
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      name="post_move"
+                      id="post-move"
+                    />
+                    <label class="form-check-label" for="post-move">
+                      Enable move action
+                    </label>
+                    <p class="form-text">
+                      Allows moving posts from one channel to another. Leave
+                      disabled if your Microsub server does not support this.
+                    </p>
+                  </div>
+                  <div class="row">
+                    <div class="col-2 pt-3">
+                      <label for="post-move-default"
+                        >Default move channel</label
+                      >
+                    </div>
+                    <div class="col-4">
+                      <select
+                        class="form-select"
+                        aria-label="Default move channel"
+                      >
+                        <option value="">No default</option>
+                      </select>
+                      <p class="form-text">
+                        Set a default channel when moving posts.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </section>
+              <section id="settings-account" class="pt-3">
+                <h3>Account</h3>
+                <div class="ms-5">
+                  <div class="row mb-3">
+                    <div class="col-2 pt-3">
+                      <label for="micropub-endpoint" class="form-label"
+                        >Post endpoint</label
+                      >
+                    </div>
+                    <div class="col-6">
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="micropub_endpoint"
+                        id="micropub-endpoint"
+                      />
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <div class="col-2">
+                      <label for="media-endpoint" class="form-label"
+                        >Media endpoint</label
+                      >
+                    </div>
+                    <div class="col-6">
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="media_endpoint"
+                        id="media-endpoint"
+                      />
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <div class="col-2">
+                      <label for="microsub-endpoint" class="form-label"
+                        >Reader endpoint</label
+                      >
+                    </div>
+                    <div class="col-6">
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="microsub_endpoint"
+                        id="microsub-endpoint"
+                      />
+                      <p class="form-text">
+                        You can use
+                        https://indigenous.realize.be/indieweb/microsub to get a
+                        feeling of how a Microsub server works.<br />It returns
+                        some default channels and content.
+                      </p>
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <div class="col-2">
+                      <label for="token">The token for both endpoints</label>
+                    </div>
+                    <div class="col-6">
+                      <textarea
+                        name="token"
+                        id="token"
+                        rows="10"
+                        class="form-control"
+                      ></textarea>
+                      <p class="form-text">
+                        This token will be sent in the Authentication header.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </section>
+              <section id="settings-save" class="mb-3">
+                <div class="row">
+                    <div class="col-6">
+                    <span class="save-settings btn btn-primary" id="edit-submit">Save settings</span
+                    >
+                  </div>
+                  <div class="col-6 justify-content-end">
+                    <span
+                      class="reset-settings btn btn-sm btn-link"
+                      id="edit-reset"
+                      >Reset all settings</span
+                    >
+                  </div>
+                </div>
+              </section>
             </div>
-            <div>
-                <label for="bookmark-direct">Bookmark without confirmation</label>
-                <input type="checkbox" name="bookmark_direct" id="bookmark-direct" class="checkbox" />
-                <div class="description">If not enabled, a confirmation dialog will show up first</div>
-            </div>
-            <div>
-                <label for="global-unread">Global unread</label>
-                <input type="checkbox" name="global_unread" id="global-unread" class="checkbox" />
-                <div class="description">Start screen of reader will show all unread items in card view.</div>
-            </div>
-            <div>
-                <label for="mark-read-direct">Mark (un)read without confirmation</label>
-                <input type="checkbox" name="mark_read_direct" id="mark-read-direct" class="checkbox" />
-                <div class="description">If not enabled, a confirmation dialog will show up first</div>
-            </div>
-            <div>
-                <label for="mark-read-overlay">Auto mark read in overlay</label>
-                <input type="checkbox" name="mark_read_overlay" id="mark-read-overlay" class="checkbox" />
-                <div class="description">Marks items read when reading in the overlay and clicking next/previous</div>
-            </div>
-            <div>
-                <label for="search">Enable search</label>
-                <input type="checkbox" name="search" id="search" class="checkbox" />
-                <div class="description">Leave disabled if your Microsub server does not support this.</div>
-            </div>
-            <div>
-                <label for="autoload-more">Autoload more posts</label>
-                <input type="checkbox" name="autoload_more" id="autoload-more" class="checkbox" />
-                <div class="description">Autoload more posts when the link comes in the viewport.</div>
-            </div>
-            <div>
-                <label for="hide-notifications-channel">Hide notifications channel</label>
-                <input type="checkbox" name="hide_notifications" id="hide-notifications-channel" class="checkbox" />
-                <div class="description">Leave disabled if your Microsub server does not support this channel.</div>
-            </div>
-            <div>
-                <label for="post-move">Enable move action</label>
-                <input type="checkbox" name="post_move" id="post-move" class="checkbox" />
-                <div class="description">Allows moving posts from one channel to another. Leave disabled if your Microsub server does not support this.</div>
-            </div>
-            <div>
-                <label for="post-move-default">Default move channel</label>
-                <select name="post_move_default" id="post-move-default"><option value="">No default</option></select>
-                <div class="description">Set a default channel when moving posts.</div>
-            </div>
-            </section>
-            <section id="settings-general">
-            <h3>General</h3>
-            <div>
-                <label for="dark-theme">Dark theme</label>
-                <input type="checkbox" name="dark_theme" id="dark-theme" class="checkbox" />
-                <div class="description">Switch to dark mode.</div>
-            </div>
-            <div>
-                <label for="debug-message">Debug messages</label>
-                <input type="checkbox" name="debug_message" id="debug-message" class="checkbox" />
-                <div class="description">Renders the response of requests in the console</div>
-            </div>
-            </section>
-            <section id="settings-account">
-            <h3>Account</h3>
-            <div>
-                <label for="micropub-endpoint">Post endpoint</label><br />
-                <input type="text" name="micropub_endpoint" id="micropub-endpoint" class="text" />
-            </div>
-            <div>
-                <label for="media-endpoint">Media endpoint</label><br />
-                <input type="text" name="media_endpoint" id="media-endpoint" class="text" />
-            </div>
-            <div>
-                <label for="microsub-endpoint">Reader endpoint</label><br />
-                <input type="text" name="microsub_endpoint" id="microsub-endpoint" class="text" /><br />
-                <div class="description">You can use https://indigenous.realize.be/indieweb/microsub to get a feeling of how a Microsub server works.<br />It returns some default channels and content.</div>
-            </div>
-            <div>
-                <label for="token">The token for both endpoints</label>
-                <div><textarea name="token" id="token" cols="80" rows="10" class="text"></textarea></div>
-                <div class="description token-description">This token will be send in the Authentication header.</div>
-            </div>
-            </section>
-            <section id="settings-save">
-            <div class="settings-button-wrapper">
-                <div class="button-wrapper"><span class="save-settings button" id="edit-submit">Save settings</span></div>
-                <div class="button-wrapper"><span class="reset-settings button" id="edit-reset">Reset</span></div>
-            </div>
-            </section>
+          </div>
         </div>
 
         <div id="posts-container">
-            <h3>Create a post</h3>
-            <div class="title">
-                <label for="title">Title</label><br />
-                <input type="text" name="title" id="title" class="text" />
-            </div>
-            <div class="published">
-                <label for="published">Publish date</label><br />
-                <input type="datetime-local" name="published" id="published" class="text" />
-                <div class="description">Leave empty for 'now'</div>
-            </div>
+          <h3>Create a post</h3>
+          <div class="title">
+            <label for="title">Title</label><br />
+            <input type="text" name="title" id="title" class="text" />
+          </div>
+          <div class="published">
+            <label for="published">Publish date</label><br />
+            <input
+              type="datetime-local"
+              name="published"
+              id="published"
+              class="text"
+            />
+            <div class="description">Leave empty for 'now'</div>
+          </div>
+          <div>
+            <label for="post-content">Content</label>
             <div>
-                <label for="post-content">Content</label>
-                <div>
-                    <textarea name="post_content" id="post-content" cols="80" rows="10" class="text"></textarea>
-                </div>
+              <textarea
+                name="post_content"
+                id="post-content"
+                cols="80"
+                rows="10"
+                class="text"
+              ></textarea>
             </div>
-            <div class="tags">
-                <label for="tags">Tags</label><br />
-                <input type="text" name="tags" id="tags" class="text" /> <span class="reload-tags button">Reload</span>
-                <div class="description">Separate multiple tags by comma. Click "Reload" to update categories from the server.</div>
+          </div>
+          <div class="tags">
+            <label for="tags">Tags</label><br />
+            <input type="text" name="tags" id="tags" class="text" />
+            <span class="reload-tags button">Reload</span>
+            <div class="description">
+              Separate multiple tags by comma. Click "Reload" to update
+              categories from the server.
             </div>
-            <div class="syndication-targets-wrapper">
-                <label>Syndicate to</label>
-                <div class="targets"></div>
-            </div>
-            <div>
-                <label for="photo">Select a file:</label>
-                <input type="file" id="photo" name="photo">
-            </div>
-            <div>
-                <input type="checkbox" id="post-status" name="post_status">
-                <label for="post-status">Published</label>
-            </div>
-            <div class="post-buttons-wrapper">
-                <span class="send-post button" id="send-post">Send post</span>
-                <span class="reload-config button">Reload configuration</span>
-            </div>
+          </div>
+          <div class="syndication-targets-wrapper">
+            <label>Syndicate to</label>
+            <div class="targets"></div>
+          </div>
+          <div>
+            <label for="photo">Select a file:</label>
+            <input type="file" id="photo" name="photo" />
+          </div>
+          <div>
+            <input type="checkbox" id="post-status" name="post_status" />
+            <label for="post-status">Published</label>
+          </div>
+          <div class="post-buttons-wrapper">
+            <span class="send-post button" id="send-post">Send post</span>
+            <span class="reload-config button">Reload configuration</span>
+          </div>
         </div>
 
         <div id="media-container">
-            <h3>Media</h3>
-            <p>Upload a file to your media endpoint. On success, the URL will be printed underneath.</p>
+          <h3>Media</h3>
+          <p>
+            Upload a file to your media endpoint. On success, the URL will be
+            printed underneath.
+          </p>
           <div class="media-url"></div>
           <div>
-              <label for="file">Select a file:</label>
-              <input type="file" id="file" name="file">
+            <label for="file">Select a file:</label>
+            <input type="file" id="file" name="file" />
           </div>
           <div class="post-buttons-wrapper">
-              <span class="send-media button" id="send-media">Upload</span>
+            <span class="send-media button" id="send-media">Upload</span>
           </div>
-      </div>
+        </div>
 
         <div id="about-container">
           <h3>About</h3>
-            <p>Indigenous allows you to engage with the internet as you do on social media sites, but posts it all on your website.</p>
-            <p>Use the built-in reader to read and respond to posts across the internet.</p><p>Indigenous doesn't track or store any of your information. You choose a service you trust or host it yourself.</p>
+          <p>
+            Indigenous allows you to engage with the internet as you do on
+            social media sites, but posts it all on your website.
+          </p>
+          <p>
+            Use the built-in reader to read and respond to posts across the
+            internet.
+          </p>
+          <p>
+            Indigenous doesn't track or store any of your information. You
+            choose a service you trust or host it yourself.
+          </p>
 
           <h3>Keyboard shortcuts</h3>
           <ul>
-              <li>Reader
-                  <ul>
-                      <li>p: previous post in feed or overlay
-                      <li>n: next post in feed or overlay, triggers 'More posts' at end
-                      <li>r or z: read the post in the overlay
-                      <li>c or esc: close overlay when opened
-                  </ul>
-              </li>
+            <li>
+              Reader
+              <ul>
+                <li>p: previous post in feed or overlay</li>
+                <li>
+                  n: next post in feed or overlay, triggers 'More posts' at end
+                </li>
+                <li>r or z: read the post in the overlay</li>
+                <li>c or esc: close overlay when opened</li>
+              </ul>
+            </li>
           </ul>
 
-          <p>Have a feature suggestion, or found a bug? feel free to submit an issue on <a href="https://github.com/marksuth/indigenous-desktop" class="external-link">GitHub</a></p>
+          <p>
+            Have a feature suggestion, or found a bug? feel free to submit an
+            issue on
+            <a
+              href="https://github.com/marksuth/indigenous-desktop"
+              class="external-link"
+              >GitHub</a
+            >
+          </p>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class="snackbar"><div class="snackbar-wrapper"><div class="message"></div><div class="dismiss">Dismiss</div><div class="debug">Debug</div></div></div>
+    <div class="snackbar">
+      <div class="snackbar-wrapper">
+        <div class="message"></div>
+        <div class="dismiss">Dismiss</div>
+        <div class="debug">Debug</div>
+      </div>
+    </div>
   </body>
 </html>

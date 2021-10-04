@@ -73,11 +73,11 @@ not on the roadmap. Pull requests welcome of course :)
 
 ## Installation
 
-See the releases page: https://github.com/swentel/indigenous-desktop/releases
+See the releases page: https://github.com/marksuth/indigenous-desktop/releases
 
-## Token generation in Wordpress
+## Token generation in WordPress
 
-When you generate a token on Wordpress and using Aperture as your Microsub
+When you generate a token on WordPress and using Aperture as your Microsub
 server, make sure the 'me' value of the token is set to the same as used
 in Aperture. Usually, this is just the URL of your website. To make sure
 that the 'me' value is set to that, fill in the Website on your profile
@@ -113,7 +113,7 @@ installed on your computer. From your command line:
 
 ```bash
 # Clone this repository
-git clone https://github.com/swentel/indigenous-desktop
+git clone https://github.com/marksuth/indigenous-desktop
 # Go into the repository
 cd indigenous-desktop
 # Install dependencies

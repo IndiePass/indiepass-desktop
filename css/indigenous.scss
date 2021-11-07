@@ -155,6 +155,7 @@ p {
 
 .settings-button-wrapper {
   margin: 20px 0;
+  padding-bottom: 20px;
   .button-wrapper {
     display: inline-block;
     margin-right: 20px;
@@ -375,7 +376,7 @@ p {
 .button {
   cursor: pointer;
   text-align: center;
-  background-color: rgb(221, 100, 94);
+  background-color: var(--primary-color);
   color: #fff;
   padding: 10px 25px;
   border: 0 none;
@@ -719,7 +720,7 @@ a {
   }
 
   a:hover {
-    color: var(--primary-color-accent);
+    color: var(--primary-color);
     background-color: var(--list-background-color);
   }
 }

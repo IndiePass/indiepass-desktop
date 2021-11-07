@@ -32,22 +32,43 @@
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
-            "name": "indigenous_desktop"
+            "name": "Indigenous",
+            "author": "marksuth.dev",
+            "loadingGif": "./images/loading.gif"
           }
         },
         {
           "name": "@electron-forge/maker-zip",
           "platforms": [
-            "darwin"
+            "darwin", "win32", "linux"
           ]
         },
         {
           "name": "@electron-forge/maker-deb",
-          "config": {}
+          "config": {
+            "options": {
+              "name": "Indigenous",
+              "version": "1.3.0",
+              "arch": "amd64",
+              "maintainer": "marksuth.dev",
+              "description": "An IndieWeb desktop application",
+              "homepage": "https://indigenous.marksuth.dev"
+            }
+
+          }
         },
         {
           "name": "@electron-forge/maker-rpm",
-          "config": {}
+          "config": {
+            "options": {
+              "name": "Indigenous",
+              "version": "1.3.0",
+              "arch": "amd64",
+              "maintainer": "marksuth.dev",
+              "description": "An IndieWeb desktop application",
+              "homepage": "https://indigenous.marksuth.dev"
+            }
+          }
         },
         {
           "name": "@electron-forge/maker-dmg",

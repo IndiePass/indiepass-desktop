@@ -1,5 +1,5 @@
 {
-  "name": "indigenous-desktop",
+  "name": "indigenous",
   "version": "1.3.0",
   "description": "An IndieWeb desktop application",
   "keywords": [
@@ -7,7 +7,7 @@
     "IndieWeb",
     "Indigenous"
   ],
-  "repository": "https://github.com/marksuth/indieweb-desktop",
+  "repository": "https://github.com/marksuth/indigenous-desktop",
   "license": "GPL-3.0",
   "author": "marksuth",
   "main": "main.js",
@@ -20,8 +20,8 @@
   "config": {
     "forge": {
       "packagerConfig": {
-        "appId": "indieweb-desktop",
-        "productName": "Indigenous",
+        "productName": "indigenous",
+        "executableName": "indigenous",
         "plugins": [
           "@electron-forge/plugin-electronegativity",
           "@electron-forge/plugin-auto-unpack-natives"
@@ -46,28 +46,17 @@
         {
           "name": "@electron-forge/maker-deb",
           "config": {
-            "options": {
-              "name": "Indigenous",
-              "version": "1.3.0",
-              "arch": "amd64",
-              "maintainer": "marksuth.dev",
-              "description": "An IndieWeb desktop application",
-              "homepage": "https://indigenous.marksuth.dev"
-            }
-
+            "maintainer": "marksuth.dev",
+            "homepage": "https://indigenous.marksuth.dev",
+            "icon": "./images/icon.png"
           }
         },
         {
           "name": "@electron-forge/maker-rpm",
           "config": {
-            "options": {
-              "name": "Indigenous",
-              "version": "1.3.0",
-              "arch": "amd64",
-              "maintainer": "marksuth.dev",
-              "description": "An IndieWeb desktop application",
-              "homepage": "https://indigenous.marksuth.dev"
-            }
+            "maintainer": "marksuth.dev",
+            "homepage": "https://indigenous.marksuth.dev",
+            "icon": "./images/icon.png"
           }
         },
         {

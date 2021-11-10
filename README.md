@@ -80,24 +80,6 @@ that the 'me' value is set to that, fill in the Website on your profile
 and set the 'Set User to Represent Site URL' value to your user on the
 IndieAuth settings page.
 
-## Launcher on Linux
-
-You create a launcher by creating a file called 'Indigenous.desktop and place
-it in /usr/share/applications or ~/.local/share/applications
-
-```
-[Desktop Entry]
-Name=Indigenous
-Comment=IndieWeb for desktop
-Exec=/home/other/indigenous-desktop-packages/Indigenous-linux-x64/Indigenous
-Terminal=false
-Type=Application
-Icon=/home/other/indigenous-desktop-packages/Indigenous-linux-x64/resources/app/images/icon.png
-```
-
-This should at least work for Fedora and Ubuntu, it might be different on other
-linux distributions.
-
 ## Development or installation from source
 
 You can also run this application if you are familiar with development tools. Make sure

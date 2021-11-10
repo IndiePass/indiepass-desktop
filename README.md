@@ -11,7 +11,7 @@ I'm currently going through and getting up to speed with the status of both this
 ----
 
 An IndieWeb app with extensions for sharing information to micropub endpoints and reading 
-from microsub endpoints. Written in Electron, so available for Windows, MacOS and Linux.
+from microsub endpoints. Written in Electron, so available for Windows, macOS and Linux.
 
 The philosophy at the moment of the app is that it will not be a full blown client like
 the Android version. The main focus is on the most common features used on a daily basis.
@@ -20,8 +20,7 @@ Android: https://github.com/swentel/indigenous-android
 iOS: https://github.com/marksuth/indigenous-ios
 
 ## Screenshot
-
-<img src="https://realize.be/sites/default/files/indigenous-desktop-timeline.png" width="800" />
+![Indigenous on Desktop](https://indigenous.marksuth.dev/images/indigenous-desktop-screenshot.png "Indigenous Desktop")
 
 ## Functionality
 
@@ -31,7 +30,6 @@ iOS: https://github.com/marksuth/indigenous-ios
   - Screen state: remember position, fullscreen etc
   - Developer: view response of microsub requests in console
 - Microsub
-  - You can use https://indigenous.realize.be to test the reader
   - Allow for global unread start screen if the server supports it
   - Different displays: Cards, titles and feed with overlay view
   - Autoload more posts
@@ -57,8 +55,6 @@ iOS: https://github.com/marksuth/indigenous-ios
   - Publish date and status
   - Tags, with autocomplete
   - Upload a file to media endpoint (soon in posts)
-
-Video of first release: https://www.youtube.com/watch?v=7egdRBg70XA
 
 ## Roadmap
 
@@ -137,6 +133,7 @@ This app uses following libraries:
 - https://github.com/mawie81/electron-window-state
 - https://github.com/dimsemenov/Magnific-Popup
 - https://github.com/HubSpot/pace
+- https://github.com/electron-userland/electron-forge
 
 ## Other Micropub and Microsub clients
 

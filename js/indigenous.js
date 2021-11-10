@@ -22,7 +22,7 @@ let mouseBindingsAdded = false;
 let channelResponse = [];
 let posts = [];
 let autoloadClicked = false;
-let anonymousMicrosubEndpoint = 'https://indigenous.realize.be/indieweb/microsub';
+let anonymousMicrosubEndpoint = '';
 let defaultAuthor = '<div class="author-avatar"><img class="avatar" src="./images/avatar_small.png" width="80" height="80" /></div>';
 let defaultAuthorCard = '';
 let overlayLoadmore = false;

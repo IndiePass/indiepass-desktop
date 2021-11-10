@@ -1,8 +1,8 @@
-/** Variables **/
+//Variables
 
 :root {
-  --primary-color: #DD645E;
-  --primary-color-accent: #DD645E;
+  --primary-color: #D54049;
+  --primary-color-accent: #D54049;
   --background-color: #fdfdfd;
   --highlight-color: #f7f7f7;
   --link-color: #0000ff;
@@ -11,7 +11,7 @@
   --reader-top-color: #fff;
   --nav-h3-color: #000;
 
-  --color-error: #DD645E;
+  --color-error: #D54049;
   --color-success: #28a745;
 
   --text-color: #333333;
@@ -46,11 +46,11 @@
   --input-border-color: #c0c2c8;
   --input-background-color: #474d5c;
 
-  --color-error: #DD645E;
+  --color-error: #D54049;
   --color-success: #28a745;
 }
 
-/** End variables **/
+//End variables
 
 html {
   color: var(--text-color);
@@ -81,7 +81,7 @@ p {
   margin: 0 0 1em 0;
 }
 
-/** Based on https://xel-toolkit.org/elements/x-box **/
+//Based on https://xel-toolkit.org/elements/x-box
 #main {
   position: relative;
   display: flex;
@@ -118,7 +118,7 @@ p {
   }
 }
 
-/** end based on x-box **/
+//end based on x-box
 
 .no-connection {
   margin-top: 20px;
@@ -155,6 +155,7 @@ p {
 
 .settings-button-wrapper {
   margin: 20px 0;
+  padding-bottom: 20px;
   .button-wrapper {
     display: inline-block;
     margin-right: 20px;
@@ -375,7 +376,7 @@ p {
 .button {
   cursor: pointer;
   text-align: center;
-  background-color: rgb(221, 100, 94);
+  background-color: var(--primary-color);
   color: #fff;
   padding: 10px 25px;
   border: 0 none;
@@ -613,7 +614,7 @@ input, textarea {
 
 }
 
-/** jQuery UI autocomplete */
+//jQuery UI autocomplete */
 .ui-autocomplete {
   max-height: 150px;
   overflow-y: auto;
@@ -719,7 +720,7 @@ a {
   }
 
   a:hover {
-    color: var(--primary-color-accent);
+    color: var(--primary-color);
     background-color: var(--list-background-color);
   }
 }

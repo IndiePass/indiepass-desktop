@@ -697,17 +697,21 @@ a {
 
   user-select: none;
 
-  section {
+  .nav-section {
     margin: 15px 0;
   }
 
   .menu {
-    a {
+    button {
       color: var(--text-color);
+      border: none;
+      background-color: transparent;
+      width: 100%;
+      text-align: start;
     }
   }
 
-  a, .channel {
+  button, a, .channel {
     color: var(--text-color);
     padding: 5px 0 5px 20px;
     display: block;
@@ -719,13 +723,13 @@ a {
     text-decoration: none;
   }
 
-  a:hover {
+  button:hover, a:hover {
     color: var(--primary-color);
     background-color: var(--list-background-color);
   }
 }
 
-nav {
+#nav {
   h3 {
     color: rgba(var(--nav-h3-color), var(--nav-h3-color), var(--nav-h3-color), 0.45);
     margin: 0 0 0 20px;

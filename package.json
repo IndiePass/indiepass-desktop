@@ -78,7 +78,7 @@
     "electron-window-state": "^5.0.3",
     "is-in-viewport": "^3.0.4",
     "jquery": "^3.6.0",
-    "jquery-ui": "^1.13.0",
+    "jquery-ui": "^1.13.2",
     "magnific-popup": "^1.1.0",
     "mousetrap": "^1.6.5",
     "normalize.css": "^8.0.1",

@@ -1,14 +1,4 @@
-# Indigenous for Desktop
-
-## September 2021 Update
-
-Firstly thanks to [@swentel](https://github.com/swentel) for the work they've done so far in building and maintaing the desktop version of the app.
-
-Indigenous for Desktop and iOS is now being maintained and developed by @marksuth.
-
-I'm currently going through and getting up to speed with the status of both this, and the desktop versions of the app, and will update soon with my plans for bringing everything up to parity with the excellent Android version, which can be found here: https://github.com/swentel/indigenous-android
-
-----
+# IndiePass for Desktop
 
 An IndieWeb app with extensions for sharing information to micropub endpoints and reading 
 from microsub endpoints. Written in Electron, so available for Windows, macOS and Linux.
@@ -16,11 +6,10 @@ from microsub endpoints. Written in Electron, so available for Windows, macOS an
 The philosophy at the moment of the app is that it will not be a full blown client like
 the Android version. The main focus is on the most common features used on a daily basis.
 
-Android: https://github.com/swentel/indigenous-android  
-iOS: https://github.com/marksuth/indigenous-ios
+Android: https://github.com/marksuth/indigenous-android
 
 ## Screenshot
-![Indigenous on Desktop](https://indigenous.marksuth.dev/images/indigenous-desktop-screenshot.png "Indigenous Desktop")
+![IndiePass on Desktop](https://indiepass.app/images/indigenous-desktop-screenshot.png "IndiePass Desktop")
 
 ## Functionality
 
@@ -69,7 +58,7 @@ not on the roadmap. Pull requests welcome of course :)
 
 ## Installation
 
-See the releases page: https://github.com/marksuth/indigenous-desktop/releases
+See the releases page: https://github.com/indiepass/indigenous-desktop/releases
 
 ## Token generation in WordPress
 
@@ -91,7 +80,7 @@ installed on your computer. From your command line:
 
 ```bash
 # Clone this repository
-git clone https://github.com/marksuth/indigenous-desktop
+git clone https://github.com/indiepass/indigenous-desktop
 # Go into the repository
 cd indigenous-desktop
 # Install dependencies

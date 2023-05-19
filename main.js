@@ -18,7 +18,7 @@ function createWindow () {
     y: mainWindowState.y,
     width: mainWindowState.width,
     height: mainWindowState.height,
-    title: 'Indigenous',
+    title: 'IndiePass',
     icon: __dirname + '/images/icon-big.png',
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),

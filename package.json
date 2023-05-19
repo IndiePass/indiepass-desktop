@@ -1,18 +1,18 @@
 {
-  "name": "indigenous",
-  "version": "1.3.0",
+  "name": "indiepass",
+  "version": "1.4.0",
   "description": "An IndieWeb desktop application",
   "keywords": [
     "Electron",
     "IndieWeb",
-    "Indigenous"
+    "IndiePass"
   ],
   "repository": "https://github.com/marksuth/indigenous-desktop",
   "license": "GPL-3.0",
   "author": "marksuth",
   "main": "main.js",
   "scripts": {
-    "compile-styles": "sass css/indigenous.scss dist/styles.css --style compressed",
+    "compile-styles": "sass css/styles.scss dist/styles.css --style compressed",
     "make": "electron-forge make",
     "package": "electron-forge package",
     "start": "electron-forge start"
@@ -20,8 +20,8 @@
   "config": {
     "forge": {
       "packagerConfig": {
-        "productName": "indigenous",
-        "executableName": "indigenous",
+        "productName": "indiepass",
+        "executableName": "indiepass",
         "plugins": [
           "@electron-forge/plugin-electronegativity",
           "@electron-forge/plugin-auto-unpack-natives"
@@ -32,7 +32,7 @@
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
-            "name": "Indigenous",
+            "name": "IndiePass",
             "author": "marksuth.dev",
             "loadingGif": "./images/loading.gif"
           }
@@ -47,7 +47,7 @@
           "name": "@electron-forge/maker-deb",
           "config": {
             "maintainer": "marksuth.dev",
-            "homepage": "https://indigenous.marksuth.dev",
+            "homepage": "https://indiepass.app",
             "icon": "./images/icon.png"
           }
         },
@@ -55,7 +55,7 @@
           "name": "@electron-forge/maker-rpm",
           "config": {
             "maintainer": "marksuth.dev",
-            "homepage": "https://indigenous.marksuth.dev",
+            "homepage": "https://indiepass.app",
             "icon": "./images/icon.png"
           }
         },
@@ -71,31 +71,31 @@
     }
   },
   "dependencies": {
-    "dayjs": "^1.10.7",
-    "electron-context-menu": "^3.1.1",
+    "dayjs": "^1.11.7",
+    "electron-context-menu": "^3.6.1",
     "electron-squirrel-startup": "^1.0.0",
-    "electron-store": "^8.0.1",
+    "electron-store": "^8.1.0",
     "electron-window-state": "^5.0.3",
     "is-in-viewport": "^3.0.4",
-    "jquery": "^3.6.0",
-    "jquery-ui": "^1.13.0",
+    "jquery": "^3.7.0",
+    "jquery-ui": "^1.13.2",
     "magnific-popup": "^1.1.0",
     "mousetrap": "^1.6.5",
     "normalize.css": "^8.0.1",
     "pace-js": "^1.2.4",
-    "sass": "^1.43.4",
+    "sass": "^1.62.1",
     "tooltipster": "^4.2.8"
   },
   "devDependencies": {
-    "@electron-forge/cli": "^6.0.0-beta.61",
-    "@electron-forge/maker-deb": "^6.0.0-beta.61",
-    "@electron-forge/maker-dmg": "6.0.0-beta.61",
-    "@electron-forge/maker-rpm": "^6.0.0-beta.61",
-    "@electron-forge/maker-squirrel": "^6.0.0-beta.61",
-    "@electron-forge/maker-zip": "^6.0.0-beta.61",
-    "@electron-forge/plugin-auto-unpack-natives": "^6.0.0-beta.61",
-    "@electron-forge/plugin-electronegativity": "^6.0.0-beta.61",
-    "electron": "^15.3.0"
+    "@electron-forge/cli": "^6.1.1",
+    "@electron-forge/maker-deb": "^6.1.1",
+    "@electron-forge/maker-dmg": "6.1.1",
+    "@electron-forge/maker-rpm": "^6.1.1",
+    "@electron-forge/maker-squirrel": "^6.1.1",
+    "@electron-forge/maker-zip": "^6.1.1",
+    "@electron-forge/plugin-auto-unpack-natives": "^6.1.1",
+    "@electron-forge/plugin-electronegativity": "^6.1.1",
+    "electron": "^19.1.1"
   },
-  "productName": "Indigenous"
+  "productName": "IndiePass"
 }

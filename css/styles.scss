@@ -1,8 +1,9 @@
 //Variables
-
+@import "fonts";
+@import "../node_modules/normalize.css/normalize.css";
 :root {
-  --primary-color: #D54049;
-  --primary-color-accent: #D54049;
+  --primary-color: #C62828;
+  --primary-color-accent: #C62828;
   --background-color: #fdfdfd;
   --highlight-color: #f7f7f7;
   --link-color: #0000ff;
@@ -11,7 +12,7 @@
   --reader-top-color: #fff;
   --nav-h3-color: #000;
 
-  --color-error: #D54049;
+  --color-error: #C62828;
   --color-success: #28a745;
 
   --text-color: #333333;
@@ -32,21 +33,21 @@
   --text-color: #f1f1f1;
   --primary-color-accent: #f1f1f1;
   --highlight-color: #2d3445;
-  --link-color: #7bb6ff;
+  --link-color: #C62828;
   --border-color: #474d5c;
   --minimum-text: #c0c2c8;
   --reader-top-color: #202531;
   --nav-h3-color: #f1f1f1;
   --mini-action-color: 17.6,20.4,27.1;
 
-  --primary-color: #7bb6ff;
+  --primary-color: #C62828;
   --list-background-color: #2d3445;
 
   --input-color: #7bb6ff;
   --input-border-color: #c0c2c8;
   --input-background-color: #474d5c;
 
-  --color-error: #D54049;
+  --color-error: #C62828;
   --color-success: #28a745;
 }
 
@@ -65,7 +66,7 @@ body {
   background-color: var(--background-color);
   margin: 0;
   font-size: 18px;
-  font: caption;
+  font-family: "Inter", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   line-height: 28px;
   display: flex;
   width: 100%;
@@ -94,7 +95,7 @@ p {
   position: fixed;
   left: 0;
   top: 0;
-  width: 270px;
+  width: 210px;
   overflow: auto;
   box-shadow: 0 2px 1px -1px rgba(0,0,0,0.2), 0 1px 1px 0 rgba(0,0,0,0.14), 0 1px 3px 0 rgba(0,0,0,0.12);
   z-index: 100;
@@ -380,7 +381,6 @@ p {
   color: #fff;
   padding: 10px 25px;
   border: 0 none;
-  border-radius: 30px;
   font-weight: normal;
   text-decoration: none;
   -webkit-transition: all 0.2s ease;
@@ -698,16 +698,22 @@ a {
   user-select: none;
 
   section {
+    .nav-section {
     margin: 15px 0;
   }
+}
 
   .menu {
-    a {
+    button {
       color: var(--text-color);
+      border: none;
+      background-color: transparent;
+      width: 100%;
+      text-align: start;
     }
   }
 
-  a, .channel {
+  button, a, .channel {
     color: var(--text-color);
     padding: 5px 0 5px 20px;
     display: block;
@@ -719,13 +725,13 @@ a {
     text-decoration: none;
   }
 
-  a:hover {
+  button:hover, a:hover {
     color: var(--primary-color);
     background-color: var(--list-background-color);
   }
 }
 
-nav {
+#nav {
   h3 {
     color: rgba(var(--nav-h3-color), var(--nav-h3-color), var(--nav-h3-color), 0.45);
     margin: 0 0 0 20px;

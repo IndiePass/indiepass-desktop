@@ -10,29 +10,29 @@
     <link rel="stylesheet" href="css/jquery-ui.structure.css" />
     <link rel="stylesheet" href="css/jquery-ui.theme.min.css" />
     <link rel="stylesheet" href="dist/styles.css" />
-    <title>Indigenous</title>
+    <title>IndiePass</title>
   </head>
   <body>
 
   <div id="main">
 
-    <sidebar id="sidebar">
+    <aside id="sidebar">
         <nav id="nav">
-            <section class="menu">
+            <div class="menu nav-section">
                 <h3>Menu</h3>
-                <a tabindex="0" href="#" class="reader" title="Load reader">Reader</a>
-                <a tabindex="0" href="#" class="post" title="Create a post">Post</a>
-                <a tabindex="0" href="#" class="media" title="Upload media">Media</a>
-                <a tabindex="0" href="#" class="settings" title="Settings">Settings</a>
-                <a tabindex="0" href="#" class="about" title="Settings">About</a>
+                <button tabindex="0" class="reader" title="Load reader">Reader</button>
+                <button tabindex="0" class="post" title="Create a post">Post</button>
+                <button tabindex="0" class="media" title="Upload media">Media</button>
+                <button tabindex="0" class="settings" title="Settings">Settings</button>
+                <button tabindex="0" class="about" title="Settings">About</button>
             </section>
             <hr />
-            <section>
+            <div class="nav-section">
                 <h3>Channels</h3>
                 <div class="channel-wrapper"></div>
-            </section>
+            </div>
         </nav>
-    </sidebar>
+    </aside>
 
     <div id="views">
 
@@ -55,7 +55,8 @@
         </div>
 
         <div id="settings-container">
-            <h3>Reader</h3>
+            <h1>Settings</h1>
+            <h2>Reader</h2>
             <div>
                 <label for="like-direct">Like without confirmation</label>
                 <input type="checkbox" name="like_direct" id="like-direct" class="checkbox" />
@@ -111,7 +112,7 @@
                 <select name="post_move_default" id="post-move-default"><option value="">No default</option></select>
                 <div class="description">Set a default channel when moving posts.</div>
             </div>
-            <h3>General</h3>
+            <h2>General</h2>
             <div>
                 <label for="dark-theme">Dark theme</label>
                 <input type="checkbox" name="dark_theme" id="dark-theme" class="checkbox" />
@@ -122,7 +123,7 @@
                 <input type="checkbox" name="debug_message" id="debug-message" class="checkbox" />
                 <div class="description">Renders the response of requests in the console</div>
             </div>
-            <h3>Account</h3>
+            <h2>Account</h2>
             <div>
                 <label for="micropub-endpoint">Post endpoint</label><br />
                 <input type="text" name="micropub_endpoint" id="micropub-endpoint" class="text" />
@@ -148,7 +149,7 @@
         </div>
 
         <div id="posts-container">
-            <h3>Create a post</h3>
+            <h1>Create a post</h1>
             <div class="title">
                 <label for="title">Title</label><br />
                 <input type="text" name="title" id="title" class="text" />
@@ -188,7 +189,7 @@
         </div>
 
         <div id="media-container">
-            <h3>Media</h3>
+            <h1>Media</h1>
             <p>Upload a file to your media endpoint. On success, the URL will be printed underneath.</p>
           <div class="media-url"></div>
           <div>
@@ -201,10 +202,10 @@
       </div>
 
         <div id="about-container">
-          <h3>About</h3>
-            <p>Indigenous allows you to engage with the internet as you do on social media sites, but posts it all on your website. Use the built-in reader to read and respond to posts across the internet. Indigenous doesn't track or store any of your information. You choose a service you trust or host it yourself.<br /><br />Development happens on <a href="https://github.com/marksuth/indigenous-desktop" target="_blank">GitHub</a></p>
+          <h1>About</h1>
+            <p>IndiePass allows you to engage with the internet as you do on social media sites, but posts it all on your website. Use the built-in reader to read and respond to posts across the internet. IndiePass doesn't track or store any of your information. You choose a service you trust or host it yourself.<br /><br />Development happens on <a href="https://github.com/marksuth/indigenous-desktop" target="_blank">GitHub</a></p>
 
-          <h3>Keyboard shortcuts</h3>
+          <h2>Keyboard shortcuts</h2>
           <ul>
               <li>Reader
                   <ul>
@@ -216,7 +217,7 @@
               </li>
           </ul>
 
-          <p>Found a bug? Don't hesitate to submit an issue at <a href="https://github.com/marksuth/indigenous-desktop" class="external-link">https://github.com/marksuth/indigenous-desktop</a></p>
+          <p>Found a bug? Don't hesitate to submit an issue at <a href="https://github.com/indiepass/indigenous-desktop" class="external-link">https://github.com/indiepass/indigenous-desktop</a></p>
       </div>
     </div>
   </div>

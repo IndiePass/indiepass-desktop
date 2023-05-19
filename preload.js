@@ -6,7 +6,7 @@ window.addEventListener('DOMContentLoaded', () => {
         require('is-in-viewport');
         require('magnific-popup');
         require('pace-js');
-        require('./js/indigenous.js');
+        require('./js/app.js');
         require('./js/jquery-ui.min.js')
     }
 });
